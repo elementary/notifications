@@ -14,7 +14,7 @@ css_gresource = gnome.compile_resources(
 executable(
     meson.project_name(),
     'src/Application.vala',
-    'src/MainWindow.vala',
+    'src/Notification.vala',
     css_gresource,
     dependencies: [
         dependency ('glib-2.0'),

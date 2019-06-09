@@ -18,13 +18,12 @@
 *
 */
 
-public class Notifications.MainWindow : Gtk.Window {
+public class Notifications.Notification : Gtk.Window {
     public string description { get; construct set; }
 
-    public MainWindow () {
+    public Notification () {
         Object (
             icon_name: "io.elementary.notifications",
-            type_hint: Gdk.WindowTypeHint.NOTIFICATION,
             title: "Notification Title",
             description: "Notification body that contains a description that could be long and need wrapping or truncating"
         );
@@ -76,6 +75,7 @@ public class Notifications.MainWindow : Gtk.Window {
         style_context.add_class ("notification");
 
         default_width = 300;
+        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         add (grid);
 
         GLib.Timeout.add (2500, () => {

@@ -37,7 +37,7 @@ public class Notifications.Application : Gtk.Application {
     }
 
     private void send_test_notification () {
-        var main_window = new MainWindow ();
+        var main_window = new Notifications.Notification ();
         main_window.show_all ();
 
         GLib.Timeout.add (2000, () => {
