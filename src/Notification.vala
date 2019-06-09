@@ -22,8 +22,6 @@ public class Notifications.Notification : Gtk.Window {
     public string body { get; construct set; }
     public GLib.Icon gicon { get; set; }
 
-    unowned Canberra.Context? ca_context = null;
-
     public Notification (string title, string body) {
         Object (
             title: title,
@@ -85,21 +83,6 @@ public class Notifications.Notification : Gtk.Window {
             destroy ();
             return false;
         });
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, "dialog-information");
-
-        ca_context = CanberraGtk.context_get ();
-        ca_context.change_props (
-            Canberra.PROP_APPLICATION_NAME, "Notifications",
-            Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
-            null
-        );
-        ca_context.open ();
-        ca_context.play_full (0, props);
     }
 }
 

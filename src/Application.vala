@@ -19,6 +19,8 @@
 */
 
 public class Notifications.Application : Gtk.Application {
+    unowned Canberra.Context? ca_context = null;
+
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
@@ -43,6 +45,22 @@ public class Notifications.Application : Gtk.Application {
         );
         notification.gicon = new ThemedIcon ("application-default-icon");
         notification.show_all ();
+
+
+        Canberra.Proplist props;
+        Canberra.Proplist.create (out props);
+
+        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+        props.sets (Canberra.PROP_EVENT_ID, "dialog-information");
+
+        ca_context = CanberraGtk.context_get ();
+        ca_context.change_props (
+            Canberra.PROP_APPLICATION_NAME, "Notifications",
+            Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
+            null
+        );
+        ca_context.open ();
+        ca_context.play_full (0, props);
 
         GLib.Timeout.add (2000, () => {
             send_test_notification ();
