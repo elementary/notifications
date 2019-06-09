@@ -25,7 +25,7 @@ public class Notifications.MainWindow : Gtk.ApplicationWindow {
         Object (
             application: application,
             icon_name: "io.elementary.notifications",
-            hint_type: Gdk.WindowTypeHint.NOTIFICATION,
+            type_hint: Gdk.WindowTypeHint.NOTIFICATION,
             title: "Notification Title",
             description: "Notification body that contains a description that could be long and need wrapping or truncating"
         );
@@ -78,6 +78,11 @@ public class Notifications.MainWindow : Gtk.ApplicationWindow {
 
         default_width = 300;
         add (grid);
+
+        GLib.Timeout.add (2500, () => {
+            destroy ();
+            return false;
+        });
     }
 }
 
