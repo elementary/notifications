@@ -4,6 +4,8 @@ a Gtk notification server for Pantheon
 ## Building, Testing, and Installation
 
 You'll need the following dependencies:
+* libcanberra
+* libcanberra-gtk3
 * libgranite-dev (>=5)
 * libgtk-3-dev
 * meson
