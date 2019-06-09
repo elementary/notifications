@@ -13,10 +13,14 @@ decoration {
         linear-gradient(
             to bottom,
             @bg_color,
-            @bg_color 80%,
+            @bg_color calc(100% - 12px),
             shade (
                 @bg_color,
                 0.94
             )
         );
+}
+
+.titlebar {
+    min-height: 6px;
 }

@@ -25,14 +25,24 @@ public class Notifications.MainWindow : Gtk.ApplicationWindow {
         Object (
             application: application,
             icon_name: "io.elementary.notifications",
-            type_hint: Gdk.WindowTypeHint.NOTIFICATION,
+            hint_type: Gdk.WindowTypeHint.NOTIFICATION,
             title: "Notification Title",
-            description: "Notification body that contains a description"
+            description: "Notification body that contains a description that could be long and need wrapping or truncating"
         );
     }
 
     construct {
+        var headerbar = new Gtk.HeaderBar ();
+        headerbar.custom_title = new Gtk.Grid ();
+
+        var headerbar_style_context = headerbar.get_style_context ();
+        headerbar_style_context.add_class ("default-decoration");
+        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
+
+        set_titlebar (headerbar);
+
         var image = new Gtk.Image.from_icon_name ("application-default-icon", Gtk.IconSize.DIALOG);
+        image.valign = Gtk.Align.START;
         image.pixel_size = 48;
 
         var markup_attribute = new Pango.AttrList ();
@@ -46,7 +56,9 @@ public class Notifications.MainWindow : Gtk.ApplicationWindow {
 
         var description_label = new Gtk.Label (null);
         description_label.ellipsize = Pango.EllipsizeMode.END;
+        description_label.lines = 2;
         description_label.valign = Gtk.Align.START;
+        description_label.wrap = true;
         description_label.xalign = 0;
 
         bind_property ("title", title_label, "label");
@@ -55,21 +67,17 @@ public class Notifications.MainWindow : Gtk.ApplicationWindow {
         var grid = new Gtk.Grid ();
         grid.column_spacing = 6;
         grid.margin = 6;
+        grid.margin_top = 0;
         grid.attach (image, 0, 0, 1, 2);
         grid.attach (title_label, 1, 0);
         grid.attach (description_label, 1, 1);
 
-        get_style_context ().add_class ("rounded");
-        get_style_context ().add_class ("notification");
+        var style_context = get_style_context ();
+        style_context.add_class ("rounded");
+        style_context.add_class ("notification");
+
+        default_width = 300;
         add (grid);
-
-        var headerbar = new Gtk.HeaderBar ();
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
     }
 }
 

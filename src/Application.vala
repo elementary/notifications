@@ -19,8 +19,6 @@
 */
 
 public class Notifications.Application : Gtk.Application {
-    private MainWindow main_window;
-
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
@@ -29,18 +27,12 @@ public class Notifications.Application : Gtk.Application {
     }
 
     protected override void activate () {
-        if (get_windows ().length () > 0) {
-            get_windows ().data.present ();
-            return;
-        }
-
-        main_window = new MainWindow (this);
-        main_window.stick ();
-        main_window.show_all ();
-
         var css_provider = new Gtk.CssProvider ();
         css_provider.load_from_resource ("/io/elementary/notifications/application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+        var main_window = new MainWindow (this);
+        main_window.show_all ();
     }
 
     public static int main (string[] args) {
