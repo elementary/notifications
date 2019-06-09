@@ -46,14 +46,11 @@ public class Notifications.Notification : Gtk.Window {
         image.valign = Gtk.Align.START;
         image.pixel_size = 48;
 
-        var markup_attribute = new Pango.AttrList ();
-        markup_attribute.insert (Pango.attr_weight_new (Pango.Weight.BOLD));
-
         var title_label = new Gtk.Label (null);
-        title_label.attributes = markup_attribute;
         title_label.ellipsize = Pango.EllipsizeMode.END;
         title_label.valign = Gtk.Align.END;
         title_label.xalign = 0;
+        title_label.get_style_context ().add_class ("title");
 
         var body_label = new Gtk.Label (null);
         body_label.ellipsize = Pango.EllipsizeMode.END;

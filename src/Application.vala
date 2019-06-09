@@ -46,7 +46,6 @@ public class Notifications.Application : Gtk.Application {
         notification.gicon = new ThemedIcon ("application-default-icon");
         notification.show_all ();
 
-
         Canberra.Proplist props;
         Canberra.Proplist.create (out props);
 

@@ -21,6 +21,10 @@ decoration {
         );
 }
 
+.notification label.title {
+    font-weight: 700;
+}
+
 .titlebar {
     min-height: 6px;
 }
