@@ -19,14 +19,14 @@
 */
 
 public class Notifications.Notification : Gtk.Window {
-    public string description { get; construct set; }
+    public string body { get; construct set; }
     public GLib.Icon gicon { get; construct set; }
 
-    public Notification (GLib.Icon gicon, string title, string description) {
+    public Notification (GLib.Icon gicon, string title, string body) {
         Object (
             gicon: gicon,
             title: title,
-            description: description
+            body: body
         );
     }
 
@@ -53,16 +53,16 @@ public class Notifications.Notification : Gtk.Window {
         title_label.valign = Gtk.Align.END;
         title_label.xalign = 0;
 
-        var description_label = new Gtk.Label (null);
-        description_label.ellipsize = Pango.EllipsizeMode.END;
-        description_label.lines = 2;
-        description_label.valign = Gtk.Align.START;
-        description_label.wrap = true;
-        description_label.xalign = 0;
+        var body_label = new Gtk.Label (null);
+        body_label.ellipsize = Pango.EllipsizeMode.END;
+        body_label.lines = 2;
+        body_label.valign = Gtk.Align.START;
+        body_label.wrap = true;
+        body_label.xalign = 0;
 
         bind_property ("gicon", image, "gicon");
         bind_property ("title", title_label, "label");
-        bind_property ("description", description_label, "label");
+        bind_property ("body", body_label, "label");
 
         var grid = new Gtk.Grid ();
         grid.column_spacing = 6;
@@ -70,7 +70,7 @@ public class Notifications.Notification : Gtk.Window {
         grid.margin_top = 0;
         grid.attach (image, 0, 0, 1, 2);
         grid.attach (title_label, 1, 0);
-        grid.attach (description_label, 1, 1);
+        grid.attach (body_label, 1, 1);
 
         var style_context = get_style_context ();
         style_context.add_class ("rounded");
