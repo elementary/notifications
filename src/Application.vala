@@ -37,12 +37,12 @@ public class Notifications.Application : Gtk.Application {
     }
 
     private void send_test_notification () {
-        var main_window = new Notifications.Notification (
-            new ThemedIcon ("application-default-icon"),
+        var notification = new Notifications.Notification (
             "Notification Title",
             "Notification body that contains a description that could be long and need wrapping or truncating"
         );
-        main_window.show_all ();
+        notification.gicon = new ThemedIcon ("application-default-icon");
+        notification.show_all ();
 
         GLib.Timeout.add (2000, () => {
             send_test_notification ();

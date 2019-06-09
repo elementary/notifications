@@ -20,11 +20,10 @@
 
 public class Notifications.Notification : Gtk.Window {
     public string body { get; construct set; }
-    public GLib.Icon gicon { get; construct set; }
+    public GLib.Icon gicon { get; set; }
 
-    public Notification (GLib.Icon gicon, string title, string body) {
+    public Notification (string title, string body) {
         Object (
-            gicon: gicon,
             title: title,
             body: body
         );
@@ -40,7 +39,7 @@ public class Notifications.Notification : Gtk.Window {
 
         set_titlebar (headerbar);
 
-        var image = new Gtk.Image ();
+        var image = new Gtk.Image.from_icon_name ("dialog-information", Gtk.IconSize.DIALOG);
         image.valign = Gtk.Align.START;
         image.pixel_size = 48;
 
