@@ -21,6 +21,9 @@
 public class Notifications.Notification : Gtk.Window {
     public string body { get; construct set; }
     public GLib.Icon gicon { get; set; }
+    public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
+
+    private uint timeout_id;
 
     public Notification (string title, string body) {
         Object (
@@ -79,9 +82,19 @@ public class Notifications.Notification : Gtk.Window {
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         add (grid);
 
-        GLib.Timeout.add (2500, () => {
+        timeout_id = GLib.Timeout.add (2500, () => {
+            timeout_id = 0;
             destroy ();
             return false;
+        });
+
+        notify["priority"].connect (() => {
+            if (priority == GLib.NotificationPriority.URGENT) {
+                if (timeout_id != 0) {
+                    Source.remove (timeout_id);
+                    timeout_id = 0;
+                }
+            }
         });
     }
 }
