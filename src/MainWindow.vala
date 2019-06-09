@@ -18,12 +18,11 @@
 *
 */
 
-public class Notifications.MainWindow : Gtk.ApplicationWindow {
+public class Notifications.MainWindow : Gtk.Window {
     public string description { get; construct set; }
 
-    public MainWindow (Gtk.Application application) {
+    public MainWindow () {
         Object (
-            application: application,
             icon_name: "io.elementary.notifications",
             type_hint: Gdk.WindowTypeHint.NOTIFICATION,
             title: "Notification Title",

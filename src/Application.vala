@@ -31,8 +31,19 @@ public class Notifications.Application : Gtk.Application {
         css_provider.load_from_resource ("/io/elementary/notifications/application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-        var main_window = new MainWindow (this);
+        send_test_notification ();
+
+        hold ();
+    }
+
+    private void send_test_notification () {
+        var main_window = new MainWindow ();
         main_window.show_all ();
+
+        GLib.Timeout.add (2000, () => {
+            send_test_notification ();
+            return false;
+        });
     }
 
     public static int main (string[] args) {
