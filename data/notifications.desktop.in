@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Notifications
+Comment=See notification bubbles
+GenericName=Notification Server
+Exec=io.elementary.notifications
+Icon=io.elementary.notifications
+Keywords=notify;
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=System;
+NoDisplay=true
