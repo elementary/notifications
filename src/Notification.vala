@@ -20,12 +20,13 @@
 
 public class Notifications.Notification : Gtk.Window {
     public string description { get; construct set; }
+    public GLib.Icon gicon { get; construct set; }
 
-    public Notification () {
+    public Notification (GLib.Icon gicon, string title, string description) {
         Object (
-            icon_name: "io.elementary.notifications",
-            title: "Notification Title",
-            description: "Notification body that contains a description that could be long and need wrapping or truncating"
+            gicon: gicon,
+            title: title,
+            description: description
         );
     }
 
@@ -39,7 +40,7 @@ public class Notifications.Notification : Gtk.Window {
 
         set_titlebar (headerbar);
 
-        var image = new Gtk.Image.from_icon_name ("application-default-icon", Gtk.IconSize.DIALOG);
+        var image = new Gtk.Image ();
         image.valign = Gtk.Align.START;
         image.pixel_size = 48;
 
@@ -59,6 +60,7 @@ public class Notifications.Notification : Gtk.Window {
         description_label.wrap = true;
         description_label.xalign = 0;
 
+        bind_property ("gicon", image, "gicon");
         bind_property ("title", title_label, "label");
         bind_property ("description", description_label, "label");
 
