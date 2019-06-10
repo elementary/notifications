@@ -21,12 +21,16 @@ decoration {
         );
 }
 
-.notification label.title {
-    font-weight: 700;
+.notification image {
+    -gtk-icon-effect: none;
 }
 
-.titlebar {
-    min-height: 6px;
+.notification label {
+    color: @text_color;
+}
+
+.notification label.title {
+    font-weight: 700;
 }
 
 .notification.urgent image {

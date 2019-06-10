@@ -33,15 +33,6 @@ public class Notifications.Notification : Gtk.Window {
     }
 
     construct {
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.custom_title = new Gtk.Grid ();
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
-
         var image = new Gtk.Image.from_icon_name ("dialog-information", Gtk.IconSize.DIALOG);
         image.valign = Gtk.Align.START;
         image.pixel_size = 48;
@@ -66,7 +57,7 @@ public class Notifications.Notification : Gtk.Window {
         var grid = new Gtk.Grid ();
         grid.column_spacing = 6;
         grid.margin = 6;
-        grid.margin_top = 0;
+        grid.margin_start =  grid.margin_end = 4;
         grid.attach (image, 0, 0, 1, 2);
         grid.attach (title_label, 1, 0);
         grid.attach (body_label, 1, 1);
@@ -75,9 +66,22 @@ public class Notifications.Notification : Gtk.Window {
         style_context.add_class ("rounded");
         style_context.add_class ("notification");
 
+        var headerbar = new Gtk.HeaderBar ();
+        headerbar.custom_title = grid;
+
+        var headerbar_style_context = headerbar.get_style_context ();
+        headerbar_style_context.add_class ("default-decoration");
+        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
+
+        set_titlebar (headerbar);
+
+        var spacer = new Gtk.Grid ();
+        spacer.height_request = 3;
+
         default_width = 300;
+        default_height = 0;
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (grid);
+        add (spacer);
 
         timeout_id = GLib.Timeout.add (2500, () => {
             timeout_id = 0;

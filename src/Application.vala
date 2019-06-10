@@ -62,10 +62,10 @@ public class Notifications.Application : Gtk.Application {
         ca_context.open ();
         ca_context.play_full (0, props);
 
-        GLib.Timeout.add (2000, () => {
-            send_test_notification ();
-            return false;
-        });
+        // GLib.Timeout.add (2000, () => {
+        //     send_test_notification ();
+        //     return false;
+        // });
     }
 
     public static int main (string[] args) {
