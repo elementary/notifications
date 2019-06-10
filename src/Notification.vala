@@ -87,6 +87,7 @@ public class Notifications.Notification : Gtk.Window {
 
         notify["priority"].connect (() => {
             if (priority == GLib.NotificationPriority.URGENT) {
+                get_style_context ().add_class ("urgent");
                 if (timeout_id != 0) {
                     Source.remove (timeout_id);
                     timeout_id = 0;

@@ -44,6 +44,7 @@ public class Notifications.Application : Gtk.Application {
             "Notification body that contains a description that could be long and need wrapping or truncating"
         );
         notification.gicon = new ThemedIcon ("application-default-icon");
+        notification.priority = GLib.NotificationPriority.URGENT;
         notification.show_all ();
 
         Canberra.Proplist props;
