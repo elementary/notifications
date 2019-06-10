@@ -34,17 +34,22 @@ decoration {
 }
 
 .notification.urgent image {
-    animation: urgent 1s ease-in-out;
+    animation: urgent 6s ease-in-out infinite;
+}
+
+.notification.urgent label.title {
+    color: @error_color;
 }
 
 @keyframes urgent {
-    0% { -gtk-icon-transform: scale(0) rotate(0deg); }
-    20% { -gtk-icon-transform: scale(0) rotate(30deg); }
-    40% { -gtk-icon-transform: scale(1.2) rotate(-30deg); }
-    50% { -gtk-icon-transform: scale(1.6) rotate(30deg); }
-    60% { -gtk-icon-transform: scale(1.6) rotate(-20deg); }
-    70% { -gtk-icon-transform: scale(1.6) rotate(10deg); }
-    80% { -gtk-icon-transform: scale(1.6) rotate(-5deg); }
-    90% { -gtk-icon-transform: scale(1.2) rotate(2deg); }
+    0% { -gtk-icon-transform: scale(1) rotate(0deg); }
+    1% { -gtk-icon-transform: scale(0.8) rotate(30deg); }
+    2% { -gtk-icon-transform: scale(1.2) rotate(-30deg); }
+    3% { -gtk-icon-transform: scale(1.6) rotate(30deg); }
+    4% { -gtk-icon-transform: scale(1.6) rotate(-20deg); }
+    5% { -gtk-icon-transform: scale(1.6) rotate(10deg); }
+    6% { -gtk-icon-transform: scale(1.6) rotate(-5deg); }
+    7% { -gtk-icon-transform: scale(1.2) rotate(2deg); }
+    8% { -gtk-icon-transform: scale(1) rotate(0deg); }
     100% { -gtk-icon-transform: scale(1) rotate(0deg); }
 }
