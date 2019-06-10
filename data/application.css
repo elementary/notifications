@@ -38,31 +38,13 @@ decoration {
 }
 
 @keyframes urgent {
-    0% {
-        -gtk-icon-transform: scale(0) rotate(0deg);
-    }
-    20% {
-        -gtk-icon-transform: scale(0) rotate(30deg);
-    }
-    40% {
-        -gtk-icon-transform: scale(1.2) rotate(-30deg);
-    }
-    50% {
-        -gtk-icon-transform: scale(1.6) rotate(30deg);
-    }
-    60% {
-        -gtk-icon-transform: scale(1.6) rotate(-20deg);
-    }
-    70% {
-        -gtk-icon-transform: scale(1.6) rotate(10deg);
-    }
-    80% {
-        -gtk-icon-transform: scale(1.6) rotate(-5deg);
-    }
-    90% {
-        -gtk-icon-transform: scale(1.2) rotate(2deg);
-    }
-    100% {
-        -gtk-icon-transform: scale(1) rotate(0deg);
-    }
+    0% { -gtk-icon-transform: scale(0) rotate(0deg); }
+    20% { -gtk-icon-transform: scale(0) rotate(30deg); }
+    40% { -gtk-icon-transform: scale(1.2) rotate(-30deg); }
+    50% { -gtk-icon-transform: scale(1.6) rotate(30deg); }
+    60% { -gtk-icon-transform: scale(1.6) rotate(-20deg); }
+    70% { -gtk-icon-transform: scale(1.6) rotate(10deg); }
+    80% { -gtk-icon-transform: scale(1.6) rotate(-5deg); }
+    90% { -gtk-icon-transform: scale(1.2) rotate(2deg); }
+    100% { -gtk-icon-transform: scale(1) rotate(0deg); }
 }
