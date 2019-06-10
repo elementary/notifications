@@ -34,7 +34,7 @@ decoration {
 }
 
 .notification.urgent image {
-    animation: urgent 6s ease-in-out infinite;
+    animation: urgent 4.5s ease-in-out infinite;
 }
 
 .notification.urgent label.title {
