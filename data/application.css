@@ -21,10 +21,35 @@ decoration {
         );
 }
 
+.notification image {
+    -gtk-icon-effect: none;
+}
+
+.notification label {
+    color: @text_color;
+}
+
 .notification label.title {
     font-weight: 700;
 }
 
-.titlebar {
-    min-height: 6px;
+.notification.urgent image {
+    animation: urgent 1.25s ease-in-out;
+}
+
+.notification.urgent label.title {
+    color: @error_color;
+}
+
+@keyframes urgent {
+    0% { -gtk-icon-transform: scale(1) rotate(0deg); }
+    10% { -gtk-icon-transform: scale(0.8) rotate(30deg); }
+    20% { -gtk-icon-transform: scale(1.2) rotate(-30deg); }
+    30% { -gtk-icon-transform: scale(1.6) rotate(30deg); }
+    40% { -gtk-icon-transform: scale(1.6) rotate(-20deg); }
+    50% { -gtk-icon-transform: scale(1.6) rotate(10deg); }
+    60% { -gtk-icon-transform: scale(1.6) rotate(-5deg); }
+    70% { -gtk-icon-transform: scale(1.2) rotate(2deg); }
+    80% { -gtk-icon-transform: scale(1) rotate(0deg); }
+    100% { -gtk-icon-transform: scale(1) rotate(0deg); }
 }

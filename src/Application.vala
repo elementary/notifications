@@ -40,10 +40,11 @@ public class Notifications.Application : Gtk.Application {
 
     private void send_test_notification () {
         var notification = new Notifications.Notification (
-            "Notification Title",
-            "Notification body that contains a description that could be long and need wrapping or truncating"
+            "Battery Critically Low",
+            "Yoga will hibernate soon unless plugged into a power source."
         );
-        notification.gicon = new ThemedIcon ("application-default-icon");
+        notification.gicon = new ThemedIcon ("battery-empty");
+        notification.priority = GLib.NotificationPriority.URGENT;
         notification.show_all ();
 
         Canberra.Proplist props;
