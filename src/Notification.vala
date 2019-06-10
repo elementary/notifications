@@ -56,8 +56,9 @@ public class Notifications.Notification : Gtk.Window {
 
         var grid = new Gtk.Grid ();
         grid.column_spacing = 6;
-        grid.margin = 6;
-        grid.margin_start =  grid.margin_end = 4;
+        grid.hexpand = true;
+        grid.margin = 4;
+        grid.margin_top = 6;
         grid.attach (image, 0, 0, 1, 2);
         grid.attach (title_label, 1, 0);
         grid.attach (body_label, 1, 1);
