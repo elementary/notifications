@@ -83,12 +83,12 @@ public class Notifications.Server : Object {
         );
         notification.show_all ();
 
-        handle_sounds (hints);
+        send_sound (hints);
 
         return 0;
     }
 
-    private void handle_sounds (HashTable<string,Variant> hints) {
+    private void send_sound (HashTable<string,Variant> hints) {
         Variant? variant = null;
 
         variant = hints.lookup ("category");
