@@ -64,12 +64,29 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
-        if (app_icon == "") {
-            app_icon = "dialog-information";
+        string icon = app_icon;
+        if (icon == "") {
+            unowned Variant? variant = hints.lookup ("desktop-entry");
+            AppInfo? app_info = null;
+
+            if (variant != null && variant.is_of_type (VariantType.STRING)) {
+                string desktop_id = variant.get_string ();
+                if (!desktop_id.has_suffix (".desktop")) {
+                    desktop_id += ".desktop";
+                }
+
+                app_info = new DesktopAppInfo (desktop_id);
+            }
+
+			if (app_info != null) {
+                icon = app_info.get_icon ().to_string ();
+            } else {
+                icon = "dialog-information";
+            }
         }
 
         var notification = new Notifications.Notification (
-            app_icon,
+            icon,
             summary,
             body
         );
