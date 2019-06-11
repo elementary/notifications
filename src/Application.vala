@@ -19,8 +19,6 @@
 */
 
 public class Notifications.Application : Gtk.Application {
-    unowned Canberra.Context? ca_context = null;
-
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
@@ -33,39 +31,23 @@ public class Notifications.Application : Gtk.Application {
         css_provider.load_from_resource ("/io/elementary/notifications/application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-        send_test_notification ();
+        var server = new Notifications.Server ();
+
+        Bus.own_name (BusType.SESSION, "org.freedesktop.Notifications", BusNameOwnerFlags.NONE, (connection) => {
+            try {
+                connection.register_object ("/org/freedesktop/Notifications", server);
+            } catch (Error e) {
+                warning ("Registring notification server failed: %s", e.message);
+                quit ();
+            }
+        },
+        () => {},
+        (con, name) => {
+            warning ("Could not aquire bus %s", name);
+            quit ();
+        });
 
         hold ();
-    }
-
-    private void send_test_notification () {
-        var notification = new Notifications.Notification (
-            "Battery Critically Low",
-            "Yoga will hibernate soon unless plugged into a power source."
-        );
-        notification.gicon = new ThemedIcon ("battery-empty");
-        notification.priority = GLib.NotificationPriority.URGENT;
-        notification.show_all ();
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, "dialog-information");
-
-        ca_context = CanberraGtk.context_get ();
-        ca_context.change_props (
-            Canberra.PROP_APPLICATION_NAME, "Notifications",
-            Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
-            null
-        );
-        ca_context.open ();
-        ca_context.play_full (0, props);
-
-        GLib.Timeout.add (2000, () => {
-            send_test_notification ();
-            return false;
-        });
     }
 
     public static int main (string[] args) {
