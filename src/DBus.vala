@@ -64,6 +64,10 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
+        if (app_icon == "") {
+            app_icon = "dialog-information";
+        }
+
         var notification = new Notifications.Notification (
             app_icon,
             summary,
