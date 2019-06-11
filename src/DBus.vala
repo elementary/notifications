@@ -65,10 +65,10 @@ public class Notifications.Server : Object {
         BusName sender
     ) throws DBusError, IOError {
         var notification = new Notifications.Notification (
+            app_icon,
             summary,
             body
         );
-        notification.gicon = new ThemedIcon (app_icon);
         notification.show_all ();
 
         Canberra.Proplist props;

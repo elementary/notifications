@@ -19,40 +19,38 @@
 */
 
 public class Notifications.Notification : Gtk.Window {
-    public string body { get; construct set; }
-    public GLib.Icon gicon { get; set; }
+    public string app_icon { get; construct; }
+    public string body { get; construct; }
+    public new string title { get; construct; }
     public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
 
     private uint timeout_id;
 
-    public Notification (string title, string body) {
+    public Notification (string app_icon, string title, string body) {
         Object (
             title: title,
-            body: body
+            body: body,
+            app_icon: app_icon
         );
     }
 
     construct {
-        var image = new Gtk.Image.from_icon_name ("dialog-information", Gtk.IconSize.DIALOG);
+        var image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
         image.valign = Gtk.Align.START;
         image.pixel_size = 48;
 
-        var title_label = new Gtk.Label (null);
+        var title_label = new Gtk.Label (title);
         title_label.ellipsize = Pango.EllipsizeMode.END;
         title_label.valign = Gtk.Align.END;
         title_label.xalign = 0;
         title_label.get_style_context ().add_class ("title");
 
-        var body_label = new Gtk.Label (null);
+        var body_label = new Gtk.Label (body);
         body_label.ellipsize = Pango.EllipsizeMode.END;
         body_label.lines = 2;
         body_label.valign = Gtk.Align.START;
         body_label.wrap = true;
         body_label.xalign = 0;
-
-        bind_property ("gicon", image, "gicon");
-        bind_property ("title", title_label, "label");
-        bind_property ("body", body_label, "label");
 
         var grid = new Gtk.Grid ();
         grid.column_spacing = 6;
