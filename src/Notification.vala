@@ -22,15 +22,16 @@ public class Notifications.Notification : Gtk.Window {
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
-    public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
+    public GLib.NotificationPriority priority { get; construct; }
 
     private uint timeout_id;
 
-    public Notification (string app_icon, string title, string body) {
+    public Notification (string app_icon, string title, string body, GLib.NotificationPriority priority) {
         Object (
             title: title,
             body: body,
-            app_icon: app_icon
+            app_icon: app_icon,
+            priority: priority
         );
     }
 
@@ -82,21 +83,19 @@ public class Notifications.Notification : Gtk.Window {
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         add (spacer);
 
-        timeout_id = GLib.Timeout.add (2500, () => {
-            timeout_id = 0;
-            destroy ();
-            return false;
-        });
-
-        notify["priority"].connect (() => {
-            if (priority == GLib.NotificationPriority.URGENT) {
+        switch (priority) {
+            case GLib.NotificationPriority.HIGH:
+            case GLib.NotificationPriority.URGENT:
                 get_style_context ().add_class ("urgent");
-                if (timeout_id != 0) {
-                    Source.remove (timeout_id);
+                break;
+            default:
+                timeout_id = GLib.Timeout.add (4000, () => {
                     timeout_id = 0;
-                }
-            }
-        });
+                    destroy ();
+                    return false;
+                });
+                break;
+        }
     }
 }
 

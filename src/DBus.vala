@@ -64,14 +64,22 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
+        unowned Variant? variant = null;
+
         if (app_icon == "") {
             app_icon = "dialog-information";
+        }
+
+        var priority = GLib.NotificationPriority.NORMAL;
+        if ((variant = hints.lookup ("urgency")) != null) {
+            priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
         var notification = new Notifications.Notification (
             app_icon,
             summary,
-            body
+            body,
+            priority
         );
         notification.show_all ();
 
