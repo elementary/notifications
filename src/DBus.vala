@@ -91,6 +91,11 @@ public class Notifications.Server : Object {
             app_info = new DesktopAppInfo (desktop_id);
         }
 
+        var priority = GLib.NotificationPriority.NORMAL;
+        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
+            priority = (GLib.NotificationPriority) variant.get_byte ();
+        }
+
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         var notification = new Notifications.Notification (
@@ -98,6 +103,7 @@ public class Notifications.Server : Object {
             app_icon,
             summary,
             body,
+            priority,
             id
         );
         notification.show_all ();
