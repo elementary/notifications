@@ -25,7 +25,7 @@ public class Notifications.Notification : Gtk.Window {
     public string body { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
-    public unowned GLib.AppInfo? app_info { get; construct; }
+    public GLib.AppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
 
     private Gtk.Grid action_area;
@@ -130,6 +130,7 @@ public class Notifications.Notification : Gtk.Window {
         button.clicked.connect (() => {
             ((GLib.DesktopAppInfo) app_info).launch_action (action_key, new GLib.AppLaunchContext ());
             action_invoked (action_key);
+            destroy ();
         });
 
         action_area.add (button);

@@ -110,9 +110,12 @@ public class Notifications.Server : Object {
             id
         );
 
-        foreach (unowned string action in actions) {
-            critical (action);
-            // notification.add_action (action, action);
+        for (int i = 0; i < actions.length; i++) {
+            if (actions[i] != "default") {
+                notification.add_action (actions[i], actions[i++]);
+            } else {
+                i++;
+            }
         }
 
         notification.show_all ();
