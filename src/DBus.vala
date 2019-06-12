@@ -74,15 +74,21 @@ public class Notifications.Server : Object {
         BusName sender
     ) throws DBusError, IOError {
         unowned Variant? variant = null;
+        AppInfo? app_info = null;
 
-        if (app_icon == "") {
-            app_icon = "dialog-information";
-        }
-        
         /*Only summary is required by GLib, so try to set a title when body is empty*/
         if (body == "") {
             body = summary;
             summary = app_name;
+        }
+
+        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
+            string desktop_id = variant.get_string ();
+            if (!desktop_id.has_suffix (".desktop")) {
+                desktop_id += ".desktop";
+            }
+
+            app_info = new DesktopAppInfo (desktop_id);
         }
 
         var priority = GLib.NotificationPriority.NORMAL;
@@ -93,6 +99,7 @@ public class Notifications.Server : Object {
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         var notification = new Notifications.Notification (
+            app_info,
             app_icon,
             summary,
             body,
