@@ -76,6 +76,12 @@ public class Notifications.Server : Object {
         unowned Variant? variant = null;
         AppInfo? app_info = null;
 
+        /*Only summary is required by GLib, so try to set a title when body is empty*/
+        if (body == "") {
+            body = summary;
+            summary = app_name;
+        }
+
         if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
             string desktop_id = variant.get_string ();
             if (!desktop_id.has_suffix (".desktop")) {
@@ -85,10 +91,9 @@ public class Notifications.Server : Object {
             app_info = new DesktopAppInfo (desktop_id);
         }
 
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "") {
-            body = summary;
-            summary = app_name;
+        var priority = GLib.NotificationPriority.NORMAL;
+        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
+            priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
@@ -98,6 +103,7 @@ public class Notifications.Server : Object {
             app_icon,
             summary,
             body,
+            priority,
             id
         );
         notification.show_all ();
