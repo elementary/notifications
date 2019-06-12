@@ -130,10 +130,7 @@ public class Notifications.Server : Object {
         notification.show_all ();
     }
 
-    private void send_confirmation (
-        string icon_name,
-        HashTable<string, Variant> hints
-    ) {
+    private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
         double progress_value;
         if (hints.contains ("value")) {
             progress_value = hints.@get ("value").get_int32 ().clamp (0, 100) / 100.0;
@@ -153,7 +150,6 @@ public class Notifications.Server : Object {
             confirmation.icon_name = icon_name;
             confirmation.progress = progress_value;
         }
-
 
         confirmation.show_all ();
     }
