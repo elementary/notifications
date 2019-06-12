@@ -26,6 +26,9 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
+    public signal void action_invoked (uint32 id, string action_key);
+
+    private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
 
@@ -40,8 +43,9 @@ public class Notifications.Server : Object {
 
     public string [] get_capabilities () throws DBusError, IOError {
         return {
+            "actions",
             "body",
-            "body-markup"
+            "body-markup",
         };
     }
 
@@ -68,12 +72,25 @@ public class Notifications.Server : Object {
             app_icon = "dialog-information";
         }
 
+		var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+
         var notification = new Notifications.Notification (
             app_icon,
             summary,
-            body
+            body,
+            id
         );
+
+        foreach (unowned string action in actions) {
+            critical (action);
+            // notification.add_action (action, action);
+        }
+
         notification.show_all ();
+
+        notification.action_invoked.connect ((action_key) => {
+            action_invoked (notification.id, action_key);
+        });
 
         Canberra.Proplist props;
         Canberra.Proplist.create (out props);
@@ -90,6 +107,6 @@ public class Notifications.Server : Object {
         ca_context.open ();
         ca_context.play_full (0, props);
 
-        return 0;
+        return id;
     }
 }

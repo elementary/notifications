@@ -19,20 +19,24 @@
 */
 
 public class Notifications.Notification : Gtk.Window {
+	public signal void action_invoked (string action_key);
+
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
+    public uint32 id { get; construct; }
     public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
 
     private Gtk.Grid action_area;
     private Gtk.SizeGroup size_group;
     private uint timeout_id;
 
-    public Notification (string app_icon, string title, string body) {
+    public Notification (string app_icon, string title, string body, uint32 id) {
         Object (
             title: title,
             body: body,
-            app_icon: app_icon
+            app_icon: app_icon,
+            id: id
         );
     }
 
@@ -110,9 +114,13 @@ public class Notifications.Notification : Gtk.Window {
         });
     }
 
-    public void add_action (string label, string action) {
+    public void add_action (string label, string action_key) {
         var button = new Gtk.Button.with_label (label);
         button.vexpand = true;
+
+        button.clicked.connect (() => {
+            action_invoked (action_key);
+        });
 
         action_area.add (button);
         size_group.add_widget (button);
