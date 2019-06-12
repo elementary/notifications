@@ -53,7 +53,7 @@ public class Notifications.Server : Object {
         return {
             "actions",
             "body",
-            "body-markup",
+            "body-markup"
         };
     }
 
