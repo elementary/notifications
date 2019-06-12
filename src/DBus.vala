@@ -77,7 +77,7 @@ public class Notifications.Server : Object {
         BusName sender
     ) throws DBusError, IOError {
         unowned Variant? variant = null;
-        AppInfo? app_info = null;
+        GLib.DesktopAppInfo? app_info = null;
 
         /*Only summary is required by GLib, so try to set a title when body is empty*/
         if (body == "") {

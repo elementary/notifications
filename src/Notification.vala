@@ -25,14 +25,14 @@ public class Notifications.Notification : Gtk.Window {
     public string body { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
-    public GLib.AppInfo? app_info { get; construct; }
+    public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
 
     private Gtk.Grid action_area;
     private Gtk.SizeGroup size_group;
     private uint timeout_id;
 
-    public Notification (GLib.AppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
+    public Notification (GLib.DesktopAppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
         Object (
             app_info: app_info,
             title: title,
@@ -128,7 +128,7 @@ public class Notifications.Notification : Gtk.Window {
         button.vexpand = true;
 
         button.clicked.connect (() => {
-            ((GLib.DesktopAppInfo) app_info).launch_action (action_key, new GLib.AppLaunchContext ());
+            app_info.launch_action (action_key, new GLib.AppLaunchContext ());
             action_invoked (action_key);
             destroy ();
         });
