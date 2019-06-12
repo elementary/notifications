@@ -61,6 +61,7 @@ public class Notifications.Notification : Gtk.Window {
         var body_label = new Gtk.Label (body);
         body_label.ellipsize = Pango.EllipsizeMode.END;
         body_label.lines = 2;
+        body_label.use_markup = true;
         body_label.valign = Gtk.Align.START;
         body_label.wrap = true;
         body_label.xalign = 0;
