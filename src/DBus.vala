@@ -72,7 +72,7 @@ public class Notifications.Server : Object {
         }
 
         var priority = GLib.NotificationPriority.NORMAL;
-        if ((variant = hints.lookup ("urgency")) != null) {
+        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
