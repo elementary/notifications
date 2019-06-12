@@ -73,8 +73,16 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
-        if (app_icon == "") {
-            app_icon = "dialog-information";
+        unowned Variant? variant = null;
+        AppInfo? app_info = null;
+
+        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
+            string desktop_id = variant.get_string ();
+            if (!desktop_id.has_suffix (".desktop")) {
+                desktop_id += ".desktop";
+            }
+
+            app_info = new DesktopAppInfo (desktop_id);
         }
 
         /*Only summary is required by GLib, so try to set a title when body is empty*/
@@ -86,6 +94,7 @@ public class Notifications.Server : Object {
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         var notification = new Notifications.Notification (
+            app_info,
             app_icon,
             summary,
             body,

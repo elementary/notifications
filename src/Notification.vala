@@ -23,12 +23,14 @@ public class Notifications.Notification : Gtk.Window {
     public string body { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
+    public unowned GLib.AppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
 
     private uint timeout_id;
 
-    public Notification (string app_icon, string title, string body, uint32 id) {
+    public Notification (GLib.AppInfo? app_info, string app_icon, string title, string body, uint32 id) {
         Object (
+            app_info: app_info,
             title: title,
             body: body,
             app_icon: app_icon,
@@ -37,6 +39,14 @@ public class Notifications.Notification : Gtk.Window {
     }
 
     construct {
+        if (app_icon == "") {
+			if (app_info != null) {
+                app_icon = app_info.get_icon ().to_string ();
+            } else {
+                app_icon = "dialog-information";
+            }
+        }
+
         var image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
         image.valign = Gtk.Align.START;
         image.pixel_size = 48;
