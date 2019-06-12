@@ -45,7 +45,7 @@ public class Notifications.Notification : Gtk.Window {
 
     construct {
         if (app_icon == "") {
-			if (app_info != null) {
+            if (app_info != null) {
                 app_icon = app_info.get_icon ().to_string ();
             } else {
                 app_icon = "dialog-information";
@@ -128,6 +128,7 @@ public class Notifications.Notification : Gtk.Window {
         button.vexpand = true;
 
         button.clicked.connect (() => {
+            ((GLib.DesktopAppInfo) app_info).launch_action (action_key, new GLib.AppLaunchContext ());
             action_invoked (action_key);
         });
 
