@@ -26,6 +26,7 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
+    private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
 
@@ -76,11 +77,14 @@ public class Notifications.Server : Object {
             app_info = new DesktopAppInfo (desktop_id);
         }
 
+        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+
         var notification = new Notifications.Notification (
             app_info,
             app_icon,
             summary,
-            body
+            body,
+            id
         );
         notification.show_all ();
 
@@ -99,6 +103,6 @@ public class Notifications.Server : Object {
         ca_context.open ();
         ca_context.play_full (0, props);
 
-        return 0;
+        return id;
     }
 }
