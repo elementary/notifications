@@ -18,7 +18,7 @@
 *
 */
 
-public class Notifications.Notification : Gtk.Window {
+public class Notifications.Bubble : Gtk.Window {
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
@@ -28,7 +28,7 @@ public class Notifications.Notification : Gtk.Window {
 
     private uint timeout_id;
 
-    public Notification (GLib.AppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
+    public Bubble (GLib.AppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
         Object (
             app_info: app_info,
             title: title,
