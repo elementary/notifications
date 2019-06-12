@@ -86,7 +86,7 @@ public class Notifications.Notification : Gtk.Window {
 
         timeout_id = GLib.Timeout.add (2500, () => {
             timeout_id = 0;
-            // destroy ();
+            destroy ();
             return false;
         });
 
