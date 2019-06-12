@@ -24,6 +24,8 @@ public class Notifications.Notification : Gtk.Window {
     public new string title { get; construct; }
     public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
 
+    private Gtk.Grid action_area;
+    private Gtk.SizeGroup size_group;
     private uint timeout_id;
 
     public Notification (string app_icon, string title, string body) {
@@ -52,14 +54,23 @@ public class Notifications.Notification : Gtk.Window {
         body_label.wrap = true;
         body_label.xalign = 0;
 
+        action_area = new Gtk.Grid ();
+        action_area.orientation = Gtk.Orientation.VERTICAL;
+        action_area.margin_start = 2;
+        action_area.row_spacing = 4;
+
+        size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
+
         var grid = new Gtk.Grid ();
         grid.column_spacing = 6;
         grid.hexpand = true;
         grid.margin = 4;
         grid.margin_top = 6;
+        grid.margin_end = 2;
         grid.attach (image, 0, 0, 1, 2);
         grid.attach (title_label, 1, 0);
         grid.attach (body_label, 1, 1);
+        grid.attach (action_area, 2, 0, 1, 2);
 
         var style_context = get_style_context ();
         style_context.add_class ("rounded");
@@ -97,6 +108,14 @@ public class Notifications.Notification : Gtk.Window {
                 }
             }
         });
+    }
+
+    public void add_action (string label, string action) {
+        var button = new Gtk.Button.with_label (label);
+        button.vexpand = true;
+
+        action_area.add (button);
+        size_group.add_widget (button);
     }
 }
 
