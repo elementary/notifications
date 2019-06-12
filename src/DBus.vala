@@ -27,7 +27,6 @@ private interface Notifications.DBus : Object {
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
     const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
-    const string X_CANONICAL_PRIVATE_ICON_ONLY = "x-canonical-private-icon-only";
 
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
@@ -80,7 +79,7 @@ public class Notifications.Server : Object {
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
-            send_confirmation (app_icon, hints, id);
+            send_confirmation (app_icon, hints);
         } else {
             send_bubble (app_name, app_icon, summary, body, hints, id);
             send_sound (hints);
@@ -133,8 +132,7 @@ public class Notifications.Server : Object {
 
     private void send_confirmation (
         string icon_name,
-        HashTable<string, Variant> hints,
-        uint32 id
+        HashTable<string, Variant> hints
     ) {
         double progress_value;
         if (hints.contains ("value")) {

@@ -20,7 +20,6 @@
 
 public class Notifications.Confirmation : Gtk.Window {
     public new string icon_name { get; construct set; }
-    public string confirmation_type { get; construct; }
     public double progress { get; construct set; }
 
     private uint timeout_id;
