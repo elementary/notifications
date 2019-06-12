@@ -101,13 +101,27 @@ public class Notifications.Notification : Gtk.Window {
                 get_style_context ().add_class ("urgent");
                 break;
             default:
-                timeout_id = GLib.Timeout.add (4000, () => {
-                    timeout_id = 0;
-                    destroy ();
-                    return false;
-                });
+                self_destruct ();
                 break;
         }
+
+        enter_notify_event.connect (() => {
+            if (timeout_id != 0) {
+                Source.remove (timeout_id);
+            }
+        });
+
+        leave_notify_event.connect (() => {
+            self_destruct ();
+        });
+    }
+
+    private void self_destruct () {
+        timeout_id = GLib.Timeout.add (4000, () => {
+            timeout_id = 0;
+            destroy ();
+            return false;
+        });
     }
 }
 
