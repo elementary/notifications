@@ -93,9 +93,7 @@ public class Notifications.Server : Object {
     }
 
     private void send_sound (HashTable<string,Variant> hints) {
-        Variant? variant = null;
-
-        variant = hints.lookup ("category");
+        Variant? variant = hints.lookup ("category");
         unowned string? sound_name = "dialog-information";
 
         if (variant != null) {
