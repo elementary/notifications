@@ -39,6 +39,14 @@ public class Notifications.Server : Object {
             critical (e.message);
             bus_proxy = null;
         }
+
+        ca_context = CanberraGtk.context_get ();
+        ca_context.change_props (
+            Canberra.PROP_APPLICATION_NAME, "Notifications",
+            Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
+            null
+        );
+        ca_context.open ();
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -68,16 +76,37 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
-        if (app_icon == "") {
-            app_icon = "dialog-information";
+        unowned Variant? variant = null;
+        AppInfo? app_info = null;
+
+        /*Only summary is required by GLib, so try to set a title when body is empty*/
+        if (body == "") {
+            body = summary;
+            summary = app_name;
         }
 
-		var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
+            string desktop_id = variant.get_string ();
+            if (!desktop_id.has_suffix (".desktop")) {
+                desktop_id += ".desktop";
+            }
+
+            app_info = new DesktopAppInfo (desktop_id);
+        }
+
+        var priority = GLib.NotificationPriority.NORMAL;
+        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
+            priority = (GLib.NotificationPriority) variant.get_byte ();
+        }
+
+        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         var notification = new Notifications.Notification (
+            app_info,
             app_icon,
             summary,
             body,
+            priority,
             id
         );
 
@@ -91,22 +120,81 @@ public class Notifications.Server : Object {
         notification.action_invoked.connect ((action_key) => {
             action_invoked (notification.id, action_key);
         });
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, "dialog-information");
-
-        ca_context = CanberraGtk.context_get ();
-        ca_context.change_props (
-            Canberra.PROP_APPLICATION_NAME, "Notifications",
-            Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
-            null
-        );
-        ca_context.open ();
-        ca_context.play_full (0, props);
+        send_sound (hints);
 
         return id;
+    }
+
+    private void send_sound (HashTable<string,Variant> hints) {
+        Variant? variant = hints.lookup ("category");
+        unowned string? sound_name = "dialog-information";
+
+        if (variant != null) {
+            sound_name = category_to_sound_name (variant.get_string ());
+        }
+
+        if (sound_name != null) {
+            Canberra.Proplist props;
+            Canberra.Proplist.create (out props);
+
+            props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+            props.sets (Canberra.PROP_EVENT_ID, sound_name);
+
+            ca_context.play_full (0, props);
+        }
+    }
+
+    static unowned string? category_to_sound_name (string category) {
+        unowned string? sound = null;
+        switch (category) {
+            case "device.added":
+                sound = "device-added";
+                break;
+            case "device.removed":
+                sound = "device-removed";
+                break;
+            case "im":
+                sound = "message";
+                break;
+            case "im.received":
+                sound = "message-new-instant";
+                break;
+            case "network.connected":
+                sound = "network-connectivity-established";
+                break;
+            case "network.disconnected":
+                sound = "network-connectivity-lost";
+                break;
+            case "presence.online":
+                sound = "service-login";
+                break;
+            case "presence.offline":
+                sound = "service-logout";
+                break;
+            // no sound at all
+            case "x-gnome.music":
+                sound = null;
+                break;
+            // generic errors
+            case "device.error":
+            case "email.bounced":
+            case "im.error":
+            case "network.error":
+            case "transfer.error":
+                sound = "dialog-error";
+                break;
+            // use generic default
+            case "network":
+            case "email":
+            case "email.arrived":
+            case "presence":
+            case "transfer":
+            case "transfer.complete":
+            default:
+                sound = "dialog-information";
+                break;
+        }
+
+        return sound;
     }
 }
