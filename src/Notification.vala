@@ -22,12 +22,14 @@ public class Notifications.Notification : Gtk.Window {
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
+    public GLib.AppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
 
     private uint timeout_id;
 
-    public Notification (string app_icon, string title, string body) {
+    public Notification (GLib.AppInfo? app_info, string app_icon, string title, string body) {
         Object (
+            app_info: app_info,
             title: title,
             body: body,
             app_icon: app_icon
@@ -84,7 +86,7 @@ public class Notifications.Notification : Gtk.Window {
 
         timeout_id = GLib.Timeout.add (2500, () => {
             timeout_id = 0;
-            destroy ();
+            // destroy ();
             return false;
         });
 
@@ -96,6 +98,15 @@ public class Notifications.Notification : Gtk.Window {
                     timeout_id = 0;
                 }
             }
+        });
+
+        button_press_event.connect ((event) => {
+            try {
+                app_info.launch (null, null);
+            } catch (Error e) {
+                critical ("Unable to launch app: %s", e.message);
+            }
+            return Gdk.EVENT_STOP;
         });
     }
 }
