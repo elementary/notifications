@@ -22,12 +22,12 @@ public class Notifications.Notification : Gtk.Window {
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
-    public GLib.AppInfo app_info { get; construct; }
+    public GLib.AppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; set; default = GLib.NotificationPriority.NORMAL; }
 
     private uint timeout_id;
 
-    public Notification (GLib.AppInfo app_info, string app_icon, string title, string body) {
+    public Notification (GLib.AppInfo? app_info, string app_icon, string title, string body) {
         Object (
             app_info: app_info,
             title: title,
