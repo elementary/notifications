@@ -69,6 +69,12 @@ public class Notifications.Server : Object {
             app_icon = "dialog-information";
         }
 
+        /*Only summary is required by GLib, so try to set a title when body is empty*/
+        if (body == "") {
+            body = summary;
+            summary = app_name;
+        }
+
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         var notification = new Notifications.Notification (
