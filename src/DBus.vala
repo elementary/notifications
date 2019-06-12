@@ -65,29 +65,20 @@ public class Notifications.Server : Object {
         BusName sender
     ) throws DBusError, IOError {
         unowned Variant? variant = null;
+        AppInfo? app_info = null;
 
-        string icon = app_icon;
-        if (icon == "") {
-            AppInfo? app_info = null;
-
-            if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
-                string desktop_id = variant.get_string ();
-                if (!desktop_id.has_suffix (".desktop")) {
-                    desktop_id += ".desktop";
-                }
-
-                app_info = new DesktopAppInfo (desktop_id);
+        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
+            string desktop_id = variant.get_string ();
+            if (!desktop_id.has_suffix (".desktop")) {
+                desktop_id += ".desktop";
             }
 
-			if (app_info != null) {
-                icon = app_info.get_icon ().to_string ();
-            } else {
-                icon = "dialog-information";
-            }
+            app_info = new DesktopAppInfo (desktop_id);
         }
 
         var notification = new Notifications.Notification (
-            icon,
+            app_info,
+            app_icon,
             summary,
             body
         );
