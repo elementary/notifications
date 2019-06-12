@@ -23,6 +23,7 @@ decoration {
 
 .notification image {
     -gtk-icon-effect: none;
+    -gtk-icon-style: regular;
 }
 
 .notification label {
