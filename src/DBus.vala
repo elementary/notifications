@@ -55,8 +55,7 @@ public class Notifications.Server : Object {
         return {
             "body",
             "body-markup",
-            X_CANONICAL_PRIVATE_SYNCHRONOUS,
-            X_CANONICAL_PRIVATE_ICON_ONLY
+            X_CANONICAL_PRIVATE_SYNCHRONOUS
         };
     }
 
