@@ -16,6 +16,7 @@ executable(
     meson.project_name(),
     'src/Application.vala',
     'src/Bubble.vala',
+    'src/Confirmation.vala',
     'src/DBus.vala',
     css_gresource,
     dependencies: [
