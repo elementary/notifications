@@ -132,10 +132,11 @@ public class Notifications.Server : Object {
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
         double progress_value;
-        if (hints.contains ("value")) {
-            progress_value = hints.lookup ("value").get_int32 ().clamp (0, 100) / 100.0;
+        Variant? val = hints.lookup ("value");
+        if (val != null) {
+	        progress_value = val.get_int32 ().clamp (0, 100) / 100.0;
         } else {
-            progress_value = -1;
+	        progress_value = -1;
         }
 
         // the sound indicator is an exception here, it won't emit a sound at all, even though for
