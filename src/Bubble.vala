@@ -21,6 +21,7 @@
 public class Notifications.Bubble : Gtk.Window {
     public string app_icon { get; construct; }
     public string body { get; construct; }
+    public string? image_path { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
     public GLib.AppInfo? app_info { get; construct; }
@@ -28,29 +29,43 @@ public class Notifications.Bubble : Gtk.Window {
 
     private uint timeout_id;
 
-    public Bubble (GLib.AppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
+    public Bubble (
+        GLib.AppInfo? app_info,
+        string app_icon,
+        string title,
+        string body,
+        GLib.NotificationPriority priority,
+        string? image_path,
+        uint32 id
+    ) {
         Object (
             app_info: app_info,
             title: title,
             body: body,
             app_icon: app_icon,
             priority: priority,
+            image_path: image_path,
             id: id
         );
     }
 
     construct {
-        if (app_icon == "") {
-            if (app_info != null) {
-                app_icon = app_info.get_icon ().to_string ();
-            } else {
-                app_icon = "dialog-information";
+        Gtk.Widget image;
+        if (image_path != null) {
+            image = new Notifications.MaskedImage (image_path);
+        } else {
+            if (app_icon == "") {
+                if (app_info != null) {
+                    app_icon = app_info.get_icon ().to_string ();
+                } else {
+                    app_icon = "dialog-information";
+                }
             }
-        }
 
-        var image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
+            image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
+            ((Gtk.Image) image).pixel_size = 48;
+        }
         image.valign = Gtk.Align.START;
-        image.pixel_size = 48;
 
         var title_label = new Gtk.Label (title);
         title_label.ellipsize = Pango.EllipsizeMode.END;

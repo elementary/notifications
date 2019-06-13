@@ -17,6 +17,7 @@ executable(
     'src/Application.vala',
     'src/Bubble.vala',
     'src/DBus.vala',
+    'src/Widgets/MaskedImage.vala',
     css_gresource,
     dependencies: [
         dependency ('libcanberra'),

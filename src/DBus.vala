@@ -91,6 +91,11 @@ public class Notifications.Server : Object {
             app_info = new DesktopAppInfo (desktop_id);
         }
 
+        string? image_path = null;
+        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
+            image_path = variant.get_string ();
+        }
+
         var priority = GLib.NotificationPriority.NORMAL;
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
             priority = (GLib.NotificationPriority) variant.get_byte ();
@@ -104,6 +109,7 @@ public class Notifications.Server : Object {
             summary,
             body,
             priority,
+            image_path,
             id
         );
         bubble.show_all ();
