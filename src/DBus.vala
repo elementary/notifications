@@ -98,7 +98,7 @@ public class Notifications.Server : Object {
 
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
-        var notification = new Notifications.Notification (
+        var bubble = new Notifications.Bubble (
             app_info,
             app_icon,
             summary,
@@ -106,7 +106,7 @@ public class Notifications.Server : Object {
             priority,
             id
         );
-        notification.show_all ();
+        bubble.show_all ();
 
         send_sound (hints);
 
