@@ -50,22 +50,32 @@ public class Notifications.Bubble : Gtk.Window {
     }
 
     construct {
-        Gtk.Widget image;
-        if (image_path != null) {
-            image = new Notifications.MaskedImage (image_path);
-        } else {
-            if (app_icon == "") {
-                if (app_info != null) {
-                    app_icon = app_info.get_icon ().to_string ();
-                } else {
-                    app_icon = "dialog-information";
-                }
+        if (app_icon == "") {
+            if (app_info != null) {
+                app_icon = app_info.get_icon ().to_string ();
+            } else {
+                app_icon = "dialog-information";
             }
-
-            image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
-            ((Gtk.Image) image).pixel_size = 48;
         }
-        image.valign = Gtk.Align.START;
+
+        var app_image = new Gtk.Image ();
+        app_image.icon_name = app_icon;
+
+        var image_overlay = new Gtk.Overlay ();
+        image_overlay.valign = Gtk.Align.START;
+
+        if (image_path != null) {
+            var masked_image = new Notifications.MaskedImage (image_path);
+
+            app_image.pixel_size = 24;
+            app_image.halign = app_image.valign = Gtk.Align.END;
+
+            image_overlay.add (masked_image);
+            image_overlay.add_overlay (app_image);
+        } else {
+            app_image.pixel_size = 48;
+            image_overlay.add (app_image);
+        }
 
         var title_label = new Gtk.Label (title);
         title_label.ellipsize = Pango.EllipsizeMode.END;
@@ -86,7 +96,7 @@ public class Notifications.Bubble : Gtk.Window {
         grid.hexpand = true;
         grid.margin = 4;
         grid.margin_top = 6;
-        grid.attach (image, 0, 0, 1, 2);
+        grid.attach (image_overlay, 0, 0, 1, 2);
         grid.attach (title_label, 1, 0);
         grid.attach (body_label, 1, 1);
 

@@ -94,6 +94,10 @@ public class Notifications.Server : Object {
         string? image_path = null;
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
             image_path = variant.get_string ();
+
+            if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
+                image_path = null;
+            }
         }
 
         var priority = GLib.NotificationPriority.NORMAL;
