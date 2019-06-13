@@ -26,6 +26,10 @@ decoration {
     color: @SILVER_900;
 }
 
+.notification:not(.confirmation) image {
+    -gtk-icon-style: regular;
+}
+
 .notification label {
     color: @text_color;
 }
