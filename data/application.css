@@ -23,6 +23,10 @@ decoration {
 
 .notification image {
     -gtk-icon-effect: none;
+    color: @SILVER_900;
+}
+
+.notification:not(.confirmation) image {
     -gtk-icon-style: regular;
 }
 
@@ -32,6 +36,22 @@ decoration {
 
 .notification label.title {
     font-weight: 700;
+}
+
+.notification progressbar progress,
+.notification progressbar trough {
+    box-shadow: none;
+    border: none;
+    border-radius: 6px;
+    margin: 0;
+}
+
+.notification progressbar progress {
+    background: @SILVER_900;
+}
+
+.notification progressbar trough {
+    background: @SILVER_300;
 }
 
 .notification.urgent image {

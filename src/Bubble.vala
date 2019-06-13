@@ -18,17 +18,17 @@
 *
 */
 
-public class Notifications.Notification : Gtk.Window {
+public class Notifications.Bubble : Gtk.Window {
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
-    public unowned GLib.AppInfo? app_info { get; construct; }
+    public GLib.AppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
 
     private uint timeout_id;
 
-    public Notification (GLib.AppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
+    public Bubble (GLib.AppInfo? app_info, string app_icon, string title, string body, GLib.NotificationPriority priority, uint32 id) {
         Object (
             app_info: app_info,
             title: title,
@@ -41,7 +41,7 @@ public class Notifications.Notification : Gtk.Window {
 
     construct {
         if (app_icon == "") {
-			if (app_info != null) {
+            if (app_info != null) {
                 app_icon = app_info.get_icon ().to_string ();
             } else {
                 app_icon = "dialog-information";
@@ -61,6 +61,7 @@ public class Notifications.Notification : Gtk.Window {
         var body_label = new Gtk.Label (body);
         body_label.ellipsize = Pango.EllipsizeMode.END;
         body_label.lines = 2;
+        body_label.use_markup = true;
         body_label.valign = Gtk.Align.START;
         body_label.wrap = true;
         body_label.xalign = 0;
@@ -101,13 +102,43 @@ public class Notifications.Notification : Gtk.Window {
                 get_style_context ().add_class ("urgent");
                 break;
             default:
-                timeout_id = GLib.Timeout.add (4000, () => {
-                    timeout_id = 0;
-                    destroy ();
-                    return false;
-                });
+                self_destruct ();
                 break;
         }
+
+        if (app_info != null) {
+            button_press_event.connect ((event) => {
+                try {
+                    app_info.launch (null, null);
+                } catch (Error e) {
+                    critical ("Unable to launch app: %s", e.message);
+                }
+                return Gdk.EVENT_STOP;
+            });
+        }
+
+        enter_notify_event.connect (() => {
+            if (timeout_id != 0) {
+                Source.remove (timeout_id);
+                timeout_id = 0;
+            }
+        });
+
+        leave_notify_event.connect (() => {
+            self_destruct ();
+        });
+    }
+
+    private void self_destruct () {
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+        }
+
+        timeout_id = GLib.Timeout.add (4000, () => {
+            timeout_id = 0;
+            destroy ();
+            return false;
+        });
     }
 }
 
