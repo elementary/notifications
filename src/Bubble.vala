@@ -58,7 +58,7 @@ public class Notifications.Bubble : Gtk.Window {
         title_label.xalign = 0;
         title_label.get_style_context ().add_class ("title");
 
-        var body_label = new Gtk.Label (body);
+        var body_label = new Gtk.Label (Markup.escape_text (body));
         body_label.ellipsize = Pango.EllipsizeMode.END;
         body_label.lines = 2;
         body_label.use_markup = true;
