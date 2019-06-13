@@ -117,6 +117,10 @@ public class Notifications.Notification : Gtk.Window {
     }
 
     private void self_destruct () {
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+        }
+
         timeout_id = GLib.Timeout.add (4000, () => {
             timeout_id = 0;
             destroy ();
