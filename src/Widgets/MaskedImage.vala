@@ -31,7 +31,6 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         mask.pixel_size = ICON_SIZE;
 
         var image = new Gtk.Image ();
-        image.valign = Gtk.Align.START;
         image.pixel_size = ICON_SIZE;
 
         try {
