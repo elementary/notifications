@@ -50,6 +50,7 @@ public class Notifications.Confirmation : Gtk.Window {
         grid.attach (progressbar, 1, 0);
 
         var style_context = get_style_context ();
+        style_context.add_class ("confirmation");
         style_context.add_class ("rounded");
         style_context.add_class ("notification");
 
