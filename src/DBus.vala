@@ -138,6 +138,13 @@ public class Notifications.Server : Object {
             progress_value = -1;
         }
 
+        // the sound indicator is an exception here, it won't emit a sound at all, even though for
+        // consistency it should. So we make it emit the default one.
+        var confirmation_type = hints.lookup (X_CANONICAL_PRIVATE_SYNCHRONOUS).get_string ();
+        if (confirmation_type == "indicator-sound") {
+            send_sound (hints, "audio-volume-change");
+        }
+
         if (confirmation == null) {
             confirmation = new Notifications.Confirmation (
                 icon_name,
@@ -154,12 +161,12 @@ public class Notifications.Server : Object {
         confirmation.show_all ();
     }
 
-    private void send_sound (HashTable<string,Variant> hints) {
-        Variant? variant = hints.lookup ("category");
-        unowned string? sound_name = "dialog-information";
-
-        if (variant != null) {
-            sound_name = category_to_sound_name (variant.get_string ());
+    private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {
+        if (sound_name == "dialog-information") {
+            Variant? variant = hints.lookup ("category");
+            if (variant != null) {
+                sound_name = category_to_sound_name (variant.get_string ());
+            }
         }
 
         if (sound_name != null) {
