@@ -102,11 +102,7 @@ public class Notifications.Bubble : Gtk.Window {
                 get_style_context ().add_class ("urgent");
                 break;
             default:
-                timeout_id = GLib.Timeout.add (4000, () => {
-                    timeout_id = 0;
-                    destroy ();
-                    return false;
-                });
+                self_destruct ();
                 break;
         }
 
@@ -120,6 +116,29 @@ public class Notifications.Bubble : Gtk.Window {
                 return Gdk.EVENT_STOP;
             });
         }
+
+        enter_notify_event.connect (() => {
+            if (timeout_id != 0) {
+                Source.remove (timeout_id);
+                timeout_id = 0;
+            }
+        });
+
+        leave_notify_event.connect (() => {
+            self_destruct ();
+        });
+    }
+
+    private void self_destruct () {
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+        }
+
+        timeout_id = GLib.Timeout.add (4000, () => {
+            timeout_id = 0;
+            destroy ();
+            return false;
+        });
     }
 }
 
