@@ -23,7 +23,7 @@ public class Notifications.Notification : Gtk.Window {
     public string body { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
-    public unowned GLib.AppInfo? app_info { get; construct; }
+    public GLib.AppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
 
     private uint timeout_id;
@@ -41,7 +41,7 @@ public class Notifications.Notification : Gtk.Window {
 
     construct {
         if (app_icon == "") {
-			if (app_info != null) {
+            if (app_info != null) {
                 app_icon = app_info.get_icon ().to_string ();
             } else {
                 app_icon = "dialog-information";
@@ -108,6 +108,17 @@ public class Notifications.Notification : Gtk.Window {
                     return false;
                 });
                 break;
+        }
+
+        if (app_info != null) {
+            button_press_event.connect ((event) => {
+                try {
+                    app_info.launch (null, null);
+                } catch (Error e) {
+                    critical ("Unable to launch app: %s", e.message);
+                }
+                return Gdk.EVENT_STOP;
+            });
         }
     }
 }
