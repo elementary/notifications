@@ -31,7 +31,7 @@ public class Notifications.Server : Object {
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
-    private Notifications.Confirmation confirmation = null;
+    private Notifications.Confirmation? confirmation = null;
 
     construct {
         try {
@@ -133,7 +133,7 @@ public class Notifications.Server : Object {
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
         double progress_value;
         if (hints.contains ("value")) {
-            progress_value = hints.@get ("value").get_int32 ().clamp (0, 100) / 100.0;
+            progress_value = hints.lookup ("value").get_int32 ().clamp (0, 100) / 100.0;
         } else {
             progress_value = -1;
         }
