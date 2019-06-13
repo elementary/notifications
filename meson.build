@@ -15,8 +15,8 @@ css_gresource = gnome.compile_resources(
 executable(
     meson.project_name(),
     'src/Application.vala',
+    'src/Bubble.vala',
     'src/DBus.vala',
-    'src/Notification.vala',
     css_gresource,
     dependencies: [
         dependency ('libcanberra'),
