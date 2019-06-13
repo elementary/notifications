@@ -119,7 +119,7 @@ public class Notifications.Server : Object {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
-        var notification = new Notifications.Notification (
+        var bubble = new Notifications.Bubble (
             app_info,
             app_icon,
             summary,
@@ -127,7 +127,7 @@ public class Notifications.Server : Object {
             priority,
             id
         );
-        notification.show_all ();
+        bubble.show_all ();
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
