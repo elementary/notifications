@@ -26,7 +26,7 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
-    const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
+    private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
 
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
