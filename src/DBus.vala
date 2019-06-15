@@ -28,9 +28,12 @@ private interface Notifications.DBus : Object {
 public class Notifications.Server : Object {
     public signal void action_invoked (uint32 id, string action_key);
 
+    private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
+
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
+    private Notifications.Confirmation? confirmation = null;
 
     construct {
         try {
@@ -53,7 +56,8 @@ public class Notifications.Server : Object {
         return {
             "actions",
             "body",
-            "body-markup"
+            "body-markup",
+            X_CANONICAL_PRIVATE_SYNCHRONOUS
         };
     }
 
@@ -71,11 +75,31 @@ public class Notifications.Server : Object {
         string summary,
         string body,
         string[] actions,
-        HashTable<string,
-        Variant> hints,
+        HashTable<string, Variant> hints,
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
+        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+
+        if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
+            send_confirmation (app_icon, hints);
+        } else {
+            send_bubble (app_name, app_icon, summary, body, actions, hints, id);
+            send_sound (hints);
+        }
+
+        return id;
+    }
+
+    private void send_bubble (
+        string app_name,
+        string app_icon,
+        string summary,
+        string body,
+        string[] actions,
+        HashTable<string, Variant> hints,
+        uint32 id
+    ) {
         unowned Variant? variant = null;
         GLib.DesktopAppInfo? app_info = null;
 
@@ -99,9 +123,7 @@ public class Notifications.Server : Object {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
-        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
-
-        var notification = new Notifications.Notification (
+        var bubble = new Notifications.Bubble (
             app_info,
             app_icon,
             summary,
@@ -112,28 +134,60 @@ public class Notifications.Server : Object {
 
         for (int i = 0; i < actions.length; i++) {
             if (actions[i] != "default") {
-                notification.add_action (actions[i], actions[i++]);
+                bubble.add_action (actions[i], actions[i++]);
             } else {
                 i++;
             }
         }
 
-        notification.show_all ();
+        bubble.show_all ();
 
-        notification.action_invoked.connect ((action_key) => {
-            action_invoked (notification.id, action_key);
+        bubble.action_invoked.connect ((action_key) => {
+            action_invoked (bubble.id, action_key);
         });
         send_sound (hints);
 
-        return id;
+        bubble.show_all ();
     }
 
-    private void send_sound (HashTable<string,Variant> hints) {
-        Variant? variant = hints.lookup ("category");
-        unowned string? sound_name = "dialog-information";
+    private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
+        double progress_value;
+        Variant? val = hints.lookup ("value");
+        if (val != null) {
+	        progress_value = val.get_int32 ().clamp (0, 100) / 100.0;
+        } else {
+	        progress_value = -1;
+        }
 
-        if (variant != null) {
-            sound_name = category_to_sound_name (variant.get_string ());
+        // the sound indicator is an exception here, it won't emit a sound at all, even though for
+        // consistency it should. So we make it emit the default one.
+        var confirmation_type = hints.lookup (X_CANONICAL_PRIVATE_SYNCHRONOUS).get_string ();
+        if (confirmation_type == "indicator-sound") {
+            send_sound (hints, "audio-volume-change");
+        }
+
+        if (confirmation == null) {
+            confirmation = new Notifications.Confirmation (
+                icon_name,
+                progress_value
+            );
+            confirmation.destroy.connect (() => {
+                confirmation = null;
+            });
+        } else {
+            confirmation.icon_name = icon_name;
+            confirmation.progress = progress_value;
+        }
+
+        confirmation.show_all ();
+    }
+
+    private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {
+        if (sound_name == "dialog-information") {
+            Variant? variant = hints.lookup ("category");
+            if (variant != null) {
+                sound_name = category_to_sound_name (variant.get_string ());
+            }
         }
 
         if (sound_name != null) {
