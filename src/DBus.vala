@@ -138,9 +138,6 @@ public class Notifications.Server : Object {
         bubble.action_invoked.connect ((action_key) => {
             action_invoked (bubble.id, action_key);
         });
-        send_sound (hints);
-
-        bubble.show_all ();
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
