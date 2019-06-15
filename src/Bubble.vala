@@ -21,6 +21,7 @@
 public class Notifications.Bubble : Gtk.Window {
     public signal void action_invoked (string action_key);
 
+    public string[] actions { get; construct; }
     public string app_icon { get; construct; }
     public string body { get; construct; }
     public new string title { get; construct; }
@@ -37,6 +38,7 @@ public class Notifications.Bubble : Gtk.Window {
         string app_icon,
         string title,
         string body,
+        string[] actions,
         GLib.NotificationPriority priority,
         uint32 id
     ) {
@@ -44,6 +46,7 @@ public class Notifications.Bubble : Gtk.Window {
             app_info: app_info,
             title: title,
             body: body,
+            actions: actions,
             app_icon: app_icon,
             priority: priority,
             id: id
@@ -65,6 +68,7 @@ public class Notifications.Bubble : Gtk.Window {
 
         var title_label = new Gtk.Label (title);
         title_label.ellipsize = Pango.EllipsizeMode.END;
+        title_label.hexpand = true;
         title_label.valign = Gtk.Align.END;
         title_label.xalign = 0;
         title_label.get_style_context ().add_class ("title");
@@ -127,11 +131,26 @@ public class Notifications.Bubble : Gtk.Window {
         }
 
         if (app_info != null) {
+            bool default_action = false;
+
+            for (int i = 0; i < actions.length; i += 2) {
+                if (actions[i] != "default") {
+                    add_action (actions[i], actions[i + 1]);
+                } else {
+                    default_action = true;
+                    i += 2;
+                }
+            }
+
             button_press_event.connect ((event) => {
-                try {
-                    app_info.launch (null, null);
-                } catch (Error e) {
-                    critical ("Unable to launch app: %s", e.message);
+                if (default_action) {
+                    launch_action ("default");
+                } else {
+                    try {
+                        app_info.launch (null, null);
+                    } catch (Error e) {
+                        critical ("Unable to launch app: %s", e.message);
+                    }
                 }
                 return Gdk.EVENT_STOP;
             });
@@ -161,18 +180,22 @@ public class Notifications.Bubble : Gtk.Window {
         });
     }
 
-    public void add_action (string label, string action_key) {
+    private void add_action (string action_key, string label) {
         var button = new Gtk.Button.with_label (label);
         button.vexpand = true;
 
         button.clicked.connect (() => {
-            app_info.launch_action (action_key, new GLib.AppLaunchContext ());
-            action_invoked (action_key);
-            destroy ();
+            launch_action (action_key);
         });
 
         action_area.add (button);
         size_group.add_widget (button);
+    }
+
+    private void launch_action (string action_key) {
+        app_info.launch_action (action_key, new GLib.AppLaunchContext ());
+        action_invoked (action_key);
+        destroy ();
     }
 }
 

@@ -104,7 +104,7 @@ public class Notifications.Server : Object {
         GLib.DesktopAppInfo? app_info = null;
 
         /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "") {
+        if (body == "" && app_name != "") {
             body = summary;
             summary = app_name;
         }
@@ -128,17 +128,10 @@ public class Notifications.Server : Object {
             app_icon,
             summary,
             body,
+            actions,
             priority,
             id
         );
-
-        for (int i = 0; i < actions.length; i++) {
-            if (actions[i] != "default") {
-                bubble.add_action (actions[i], actions[i++]);
-            } else {
-                i++;
-            }
-        }
 
         bubble.show_all ();
 
