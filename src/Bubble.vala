@@ -148,6 +148,7 @@ public class Notifications.Bubble : Gtk.Window {
                 } else {
                     try {
                         app_info.launch (null, null);
+                        destroy ();
                     } catch (Error e) {
                         critical ("Unable to launch app: %s", e.message);
                     }
