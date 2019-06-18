@@ -125,7 +125,9 @@ public class Notifications.Bubble : Gtk.Window {
         });
 
         leave_notify_event.connect (() => {
-            self_destruct ();
+            if (priority == GLib.NotificationPriority.HIGH || priority == GLib.NotificationPriority.URGENT) {
+                self_destruct ();
+            }
         });
     }
 
