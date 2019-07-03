@@ -26,6 +26,8 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
+    public signal void action_invoked (uint32 id, string action_key);
+
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
 
     private uint32 id_counter = 0;
@@ -52,6 +54,7 @@ public class Notifications.Server : Object {
 
     public string [] get_capabilities () throws DBusError, IOError {
         return {
+            "actions",
             "body",
             "body-markup",
             X_CANONICAL_PRIVATE_SYNCHRONOUS
@@ -81,7 +84,7 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            send_bubble (app_name, app_icon, summary, body, hints, id);
+            send_bubble (app_name, app_icon, summary, body, actions, hints, id);
             send_sound (hints);
         }
 
@@ -93,11 +96,12 @@ public class Notifications.Server : Object {
         string app_icon,
         string summary,
         string body,
+        string[] actions,
         HashTable<string, Variant> hints,
         uint32 id
     ) {
         unowned Variant? variant = null;
-        AppInfo? app_info = null;
+        GLib.DesktopAppInfo? app_info = null;
 
         /*Only summary is required by GLib, so try to set a title when body is empty*/
         if (body == "") {
@@ -133,11 +137,16 @@ public class Notifications.Server : Object {
             app_icon,
             summary,
             body,
+            actions,
             priority,
             image_path,
             id
         );
         bubble.show_all ();
+
+        bubble.action_invoked.connect ((action_key) => {
+            action_invoked (bubble.id, action_key);
+        });
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
