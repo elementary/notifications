@@ -73,7 +73,7 @@ public class Notifications.Bubble : Gtk.Window {
         title_label.xalign = 0;
         title_label.get_style_context ().add_class ("title");
 
-        var body_label = new Gtk.Label (Markup.escape_text (body));
+        var body_label = new Gtk.Label (body);
         body_label.ellipsize = Pango.EllipsizeMode.END;
         body_label.lines = 2;
         body_label.use_markup = true;
@@ -165,6 +165,9 @@ public class Notifications.Bubble : Gtk.Window {
         });
 
         leave_notify_event.connect (() => {
+            if (priority == GLib.NotificationPriority.HIGH || priority == GLib.NotificationPriority.URGENT) {
+                return Gdk.EVENT_PROPAGATE;
+            }
             self_destruct ();
         });
     }
