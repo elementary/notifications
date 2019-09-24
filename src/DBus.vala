@@ -153,9 +153,9 @@ public class Notifications.Server : Object {
         double progress_value;
         Variant? val = hints.lookup ("value");
         if (val != null) {
-	        progress_value = val.get_int32 ().clamp (0, 100) / 100.0;
+            progress_value = val.get_int32 ().clamp (0, 100) / 100.0;
         } else {
-	        progress_value = -1;
+            progress_value = -1;
         }
 
         // the sound indicator is an exception here, it won't emit a sound at all, even though for

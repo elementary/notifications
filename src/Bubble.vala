@@ -194,4 +194,3 @@ public class Notifications.Bubble : Gtk.Window {
         destroy ();
     }
 }
-

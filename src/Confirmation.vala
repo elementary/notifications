@@ -90,4 +90,3 @@ public class Notifications.Confirmation : Gtk.Window {
         });
     }
 }
-
