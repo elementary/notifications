@@ -18,7 +18,7 @@
 *
 */
 
-public class Notifications.Bubble : Gtk.Window {
+public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
     public string[] actions { get; construct; }
@@ -29,8 +29,6 @@ public class Notifications.Bubble : Gtk.Window {
     public uint32 id { get; construct; }
     public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
-
-    private uint timeout_id;
 
     public Bubble (
         GLib.DesktopAppInfo? app_info,
@@ -106,35 +104,9 @@ public class Notifications.Bubble : Gtk.Window {
         body_label.wrap = true;
         body_label.xalign = 0;
 
-        var grid = new Gtk.Grid ();
-        grid.column_spacing = 6;
-        grid.hexpand = true;
-        grid.margin = 4;
-        grid.margin_top = 6;
-        grid.attach (image_overlay, 0, 0, 1, 2);
-        grid.attach (title_label, 1, 0);
-        grid.attach (body_label, 1, 1);
-
-        var style_context = get_style_context ();
-        style_context.add_class ("rounded");
-        style_context.add_class ("notification");
-
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.custom_title = grid;
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
-
-        var spacer = new Gtk.Grid ();
-        spacer.height_request = 3;
-
-        default_width = 300;
-        default_height = 0;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (spacer);
+        content_area.attach (image_overlay, 0, 0, 1, 2);
+        content_area.attach (title_label, 1, 0);
+        content_area.attach (body_label, 1, 1);
 
         switch (priority) {
             case GLib.NotificationPriority.HIGH:
@@ -142,7 +114,7 @@ public class Notifications.Bubble : Gtk.Window {
                 get_style_context ().add_class ("urgent");
                 break;
             default:
-                self_destruct ();
+                start_timeout (4000);
                 break;
         }
 
@@ -172,29 +144,14 @@ public class Notifications.Bubble : Gtk.Window {
         }
 
         enter_notify_event.connect (() => {
-            if (timeout_id != 0) {
-                Source.remove (timeout_id);
-                timeout_id = 0;
-            }
+            stop_timeout ();
         });
 
         leave_notify_event.connect (() => {
             if (priority == GLib.NotificationPriority.HIGH || priority == GLib.NotificationPriority.URGENT) {
                 return Gdk.EVENT_PROPAGATE;
             }
-            self_destruct ();
-        });
-    }
-
-    private void self_destruct () {
-        if (timeout_id != 0) {
-            Source.remove (timeout_id);
-        }
-
-        timeout_id = GLib.Timeout.add (4000, () => {
-            timeout_id = 0;
-            destroy ();
-            return false;
+            start_timeout (4000);
         });
     }
 
