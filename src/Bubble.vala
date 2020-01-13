@@ -18,7 +18,7 @@
 *
 */
 
-public class Notifications.Bubble : Gtk.Window {
+public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
     public string[] actions { get; construct; }
@@ -87,26 +87,7 @@ public class Notifications.Bubble : Gtk.Window {
         grid.attach (title_label, 1, 0);
         grid.attach (body_label, 1, 1);
 
-        var style_context = get_style_context ();
-        style_context.add_class ("rounded");
-        style_context.add_class ("notification");
-
-        var headerbar = new Gtk.HeaderBar ();
         headerbar.custom_title = grid;
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
-
-        var spacer = new Gtk.Grid ();
-        spacer.height_request = 3;
-
-        default_width = 300;
-        default_height = 0;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (spacer);
 
         switch (priority) {
             case GLib.NotificationPriority.HIGH:

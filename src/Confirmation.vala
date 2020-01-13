@@ -18,7 +18,7 @@
 *
 */
 
-public class Notifications.Confirmation : Gtk.Window {
+public class Notifications.Confirmation : AbstractBubble {
     public new string icon_name { get; construct set; }
     public double progress { get; construct set; }
 
@@ -49,27 +49,10 @@ public class Notifications.Confirmation : Gtk.Window {
         grid.attach (image, 0, 0);
         grid.attach (progressbar, 1, 0);
 
-        var style_context = get_style_context ();
+        unowned Gtk.StyleContext style_context = get_style_context ();
         style_context.add_class ("confirmation");
-        style_context.add_class ("rounded");
-        style_context.add_class ("notification");
 
-        var headerbar = new Gtk.HeaderBar ();
         headerbar.custom_title = grid;
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
-
-        var spacer = new Gtk.Grid ();
-        spacer.height_request = 3;
-
-        default_width = 300;
-        default_height = 0;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (spacer);
 
         bind_property ("icon-name", image, "icon-name");
         bind_property ("progress", progressbar, "fraction");

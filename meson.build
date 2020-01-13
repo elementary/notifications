@@ -14,6 +14,7 @@ css_gresource = gnome.compile_resources(
 
 executable(
     meson.project_name(),
+    'src/AbstractBubble.vala',
     'src/Application.vala',
     'src/Bubble.vala',
     'src/Confirmation.vala',
