@@ -1,14 +1,13 @@
 [Desktop Entry]
 Name=Notifications
 Comment=See notification bubbles
-GenericName=Notification Server
 Exec=io.elementary.notifications
 Icon=preferences-system-notifications
-Keywords=notify;
 Terminal=false
 Type=Application
-NoDisplay=true
-OnlyShowIn=Pantheon;
-StartupNotify=true
 Categories=System;
+NoDisplay=true
+X-GNOME-Autostart-Notify=false
 X-GNOME-AutoRestart=true
+X-GNOME-Autostart-enabled=true
+OnlyShowIn=Pantheon;
