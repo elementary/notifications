@@ -39,7 +39,7 @@ public class Notifications.MaskedImage : Gtk.Overlay {
 
             image.gicon = mask_pixbuf (pbuf, scale);
         } catch (Error e) {
-            critical ("Unable to mask image: %s",e.message);
+            critical ("Unable to mask image: %s", e.message);
         }
 
         add (image);
