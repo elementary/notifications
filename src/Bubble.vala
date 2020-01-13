@@ -70,13 +70,23 @@ public class Notifications.Bubble : Gtk.Window {
         image_overlay.valign = Gtk.Align.START;
 
         if (image_path != null) {
-            var masked_image = new Notifications.MaskedImage (image_path);
+            try {
+                var scale = get_style_context ().get_scale ();
+                var pixbuf = new Gdk.Pixbuf.from_file_at_size (image_path, 48 * scale, 48 * scale);
 
-            app_image.pixel_size = 24;
-            app_image.halign = app_image.valign = Gtk.Align.END;
+                var masked_image = new Notifications.MaskedImage (pixbuf);
 
-            image_overlay.add (masked_image);
-            image_overlay.add_overlay (app_image);
+                app_image.pixel_size = 24;
+                app_image.halign = app_image.valign = Gtk.Align.END;
+
+                image_overlay.add (masked_image);
+                image_overlay.add_overlay (app_image);
+            } catch (Error e) {
+                critical ("Unable to mask image: %s", e.message);
+
+                app_image.pixel_size = 48;
+                image_overlay.add (app_image);
+            }
         } else {
             app_image.pixel_size = 48;
             image_overlay.add (app_image);

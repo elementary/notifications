@@ -20,27 +20,22 @@
 
 public class Notifications.MaskedImage : Gtk.Overlay {
     private const int ICON_SIZE = 48;
-    public string image_path { get; construct; }
 
-    public MaskedImage (string image_path) {
-        Object (image_path: image_path);
+    public Gdk.Pixbuf pixbuf { get; construct; }
+
+    public MaskedImage (Gdk.Pixbuf pixbuf) {
+        Object (pixbuf: pixbuf);
     }
 
     construct {
         var mask = new Gtk.Image.from_resource ("/io/elementary/notifications/image-mask.svg");
         mask.pixel_size = ICON_SIZE;
 
+        var scale = get_style_context ().get_scale ();
+
         var image = new Gtk.Image ();
+        image.gicon = mask_pixbuf (pixbuf, scale);
         image.pixel_size = ICON_SIZE;
-
-        try {
-            var scale = get_style_context ().get_scale ();
-            var pbuf = new Gdk.Pixbuf.from_file_at_size (image_path, ICON_SIZE * scale, ICON_SIZE * scale);
-
-            image.gicon = mask_pixbuf (pbuf, scale);
-        } catch (Error e) {
-            critical ("Unable to mask image: %s", e.message);
-        }
 
         add (image);
         add_overlay (mask);
