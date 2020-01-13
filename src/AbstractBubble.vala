@@ -19,10 +19,18 @@
 */
 
 public class Notifications.AbstractBubble : Gtk.Window {
+    protected Gtk.Grid content_area;
     protected Gtk.HeaderBar headerbar;
 
     construct {
+        content_area = new Gtk.Grid ();
+        content_area.column_spacing = 6;
+        content_area.hexpand = true;
+        content_area.margin = 4;
+        content_area.margin_top = 6;
+
         headerbar = new Gtk.HeaderBar ();
+        headerbar.custom_title = content_area;
 
         unowned Gtk.StyleContext headerbar_style_context = headerbar.get_style_context ();
         headerbar_style_context.add_class ("default-decoration");
