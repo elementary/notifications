@@ -28,28 +28,44 @@ public class Notifications.AbstractBubble : Gtk.Window {
         content_area = new Gtk.Grid ();
         content_area.column_spacing = 6;
         content_area.hexpand = true;
-        content_area.margin = 4;
-        content_area.margin_top = 6;
+        content_area.margin = 16;
+        content_area.margin_bottom = 0;
+        content_area.get_style_context ().add_class ("notification");
 
-        headerbar = new Gtk.HeaderBar ();
-        headerbar.custom_title = content_area;
+        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
+        close_button.halign = close_button.valign = Gtk.Align.START;
+        close_button.get_style_context ().add_class ("close");
 
-        unowned Gtk.StyleContext headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
+        var revealer = new Gtk.Revealer ();
+        revealer.reveal_child = false;
+        revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
+        revealer.add (close_button);
 
-        var spacer = new Gtk.Grid ();
-        spacer.height_request = 3;
+        var overlay = new Gtk.Overlay ();
+        overlay.add (content_area);
+        overlay.add_overlay (revealer);
 
-        unowned Gtk.StyleContext style_context = get_style_context ();
-        style_context.add_class ("rounded");
-        style_context.add_class ("notification");
+        var label = new Gtk.Grid ();
 
-        default_width = 300;
         default_height = 0;
+        default_width = 332;
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (spacer);
-        set_titlebar (headerbar);
+        add (overlay);
+        set_titlebar (label);
+
+        close_button.clicked.connect (() => {
+            destroy ();
+        });
+
+        enter_notify_event.connect (() => {
+            revealer.reveal_child = true;
+            return Gdk.EVENT_PROPAGATE;
+        });
+
+        leave_notify_event.connect (() => {
+            revealer.reveal_child = false;
+            return Gdk.EVENT_PROPAGATE;
+        });
     }
 
     protected void stop_timeout () {
