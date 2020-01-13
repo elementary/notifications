@@ -29,8 +29,6 @@ public class Notifications.Bubble : AbstractBubble {
     public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
 
-    private uint timeout_id;
-
     public Bubble (
         GLib.DesktopAppInfo? app_info,
         string app_icon,
@@ -88,7 +86,7 @@ public class Notifications.Bubble : AbstractBubble {
                 get_style_context ().add_class ("urgent");
                 break;
             default:
-                self_destruct ();
+                start_timeout (4000);
                 break;
         }
 
@@ -118,29 +116,14 @@ public class Notifications.Bubble : AbstractBubble {
         }
 
         enter_notify_event.connect (() => {
-            if (timeout_id != 0) {
-                Source.remove (timeout_id);
-                timeout_id = 0;
-            }
+            stop_timeout ();
         });
 
         leave_notify_event.connect (() => {
             if (priority == GLib.NotificationPriority.HIGH || priority == GLib.NotificationPriority.URGENT) {
                 return Gdk.EVENT_PROPAGATE;
             }
-            self_destruct ();
-        });
-    }
-
-    private void self_destruct () {
-        if (timeout_id != 0) {
-            Source.remove (timeout_id);
-        }
-
-        timeout_id = GLib.Timeout.add (4000, () => {
-            timeout_id = 0;
-            destroy ();
-            return false;
+            start_timeout (4000);
         });
     }
 

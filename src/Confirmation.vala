@@ -22,8 +22,6 @@ public class Notifications.Confirmation : AbstractBubble {
     public new string icon_name { get; construct set; }
     public double progress { get; construct set; }
 
-    private uint timeout_id;
-
     public Confirmation (string icon_name, double progress) {
         Object (
             icon_name: icon_name,
@@ -51,18 +49,8 @@ public class Notifications.Confirmation : AbstractBubble {
         bind_property ("progress", progressbar, "fraction");
 
         notify["progress"].connect (() => {
-            if (timeout_id != 0) {
-                Source.remove (timeout_id);
-            }
-            self_destruct ();
-        });
-    }
-
-    private void self_destruct () {
-        timeout_id = GLib.Timeout.add (2000, () => {
-            timeout_id = 0;
-            destroy ();
-            return false;
+            stop_timeout ();
+            start_timeout (2000);
         });
     }
 }

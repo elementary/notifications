@@ -22,6 +22,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
     protected Gtk.Grid content_area;
     protected Gtk.HeaderBar headerbar;
 
+    private uint timeout_id;
+
     construct {
         content_area = new Gtk.Grid ();
         content_area.column_spacing = 6;
@@ -48,5 +50,24 @@ public class Notifications.AbstractBubble : Gtk.Window {
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         add (spacer);
         set_titlebar (headerbar);
+    }
+
+    protected void stop_timeout () {
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+            timeout_id = 0;
+        }
+    }
+
+    protected void start_timeout (uint timeout) {
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+        }
+
+        timeout_id = GLib.Timeout.add (timeout, () => {
+            timeout_id = 0;
+            destroy ();
+            return false;
+        });
     }
 }
