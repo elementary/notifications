@@ -63,10 +63,6 @@ window,
     -gtk-icon-style: regular;
 }
 
-.notification label {
-    color: @text_color;
-}
-
 .notification label.title {
     font-weight: 700;
 }
