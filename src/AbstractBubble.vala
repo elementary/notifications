@@ -59,6 +59,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         enter_notify_event.connect (() => {
             revealer.reveal_child = true;
+            stop_timeout ();
             return Gdk.EVENT_PROPAGATE;
         });
 
