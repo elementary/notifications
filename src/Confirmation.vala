@@ -52,5 +52,10 @@ public class Notifications.Confirmation : AbstractBubble {
             stop_timeout ();
             start_timeout (2000);
         });
+
+        leave_notify_event.connect (() => {
+            start_timeout (2000);
+            return Gdk.EVENT_PROPAGATE;
+        });
     }
 }
