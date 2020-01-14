@@ -22,6 +22,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     protected Gtk.Grid content_area;
     protected Gtk.HeaderBar headerbar;
 
+    private Gtk.Revealer revealer;
     private uint timeout_id;
 
     construct {
@@ -29,42 +30,47 @@ public class Notifications.AbstractBubble : Gtk.Window {
         content_area.column_spacing = 6;
         content_area.hexpand = true;
         content_area.margin = 16;
-        content_area.margin_bottom = 0;
         content_area.get_style_context ().add_class ("notification");
 
         var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
         close_button.halign = close_button.valign = Gtk.Align.START;
         close_button.get_style_context ().add_class ("close");
 
-        var revealer = new Gtk.Revealer ();
-        revealer.reveal_child = false;
-        revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
-        revealer.add (close_button);
+        var close_revealer = new Gtk.Revealer ();
+        close_revealer.reveal_child = false;
+        close_revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
+        close_revealer.add (close_button);
 
         var overlay = new Gtk.Overlay ();
         overlay.add (content_area);
-        overlay.add_overlay (revealer);
+        overlay.add_overlay (close_revealer);
+
+        revealer = new Gtk.Revealer ();
+        revealer.reveal_child = true;
+        revealer.transition_duration = 195;
+        revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
+        revealer.add (overlay);
 
         var label = new Gtk.Grid ();
 
         default_height = 0;
         default_width = 332;
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (overlay);
+        add (revealer);
         set_titlebar (label);
 
         close_button.clicked.connect (() => {
-            destroy ();
+            dismiss ();
         });
 
         enter_notify_event.connect (() => {
-            revealer.reveal_child = true;
+            close_revealer.reveal_child = true;
             stop_timeout ();
             return Gdk.EVENT_PROPAGATE;
         });
 
         leave_notify_event.connect (() => {
-            revealer.reveal_child = false;
+            close_revealer.reveal_child = false;
             return Gdk.EVENT_PROPAGATE;
         });
     }
@@ -83,6 +89,14 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         timeout_id = GLib.Timeout.add (timeout, () => {
             timeout_id = 0;
+            dismiss ();
+            return false;
+        });
+    }
+
+    protected void dismiss () {
+        revealer.reveal_child = false;
+        GLib.Timeout.add (revealer.transition_duration, () => {
             destroy ();
             return false;
         });

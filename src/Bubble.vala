@@ -134,7 +134,7 @@ public class Notifications.Bubble : AbstractBubble {
                 } else {
                     try {
                         app_info.launch (null, null);
-                        destroy ();
+                        dismiss ();
                     } catch (Error e) {
                         critical ("Unable to launch app: %s", e.message);
                     }
@@ -154,6 +154,6 @@ public class Notifications.Bubble : AbstractBubble {
     private void launch_action (string action_key) {
         app_info.launch_action (action_key, new GLib.AppLaunchContext ());
         action_invoked (action_key);
-        destroy ();
+        dismiss ();
     }
 }
