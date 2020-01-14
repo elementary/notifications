@@ -24,6 +24,7 @@ public class Notifications.Bubble : AbstractBubble {
     public string[] actions { get; construct; }
     public string app_icon { get; construct; }
     public string body { get; construct; }
+    public string? image_path { get; construct; }
     public new string title { get; construct; }
     public uint32 id { get; construct; }
     public GLib.DesktopAppInfo? app_info { get; construct; }
@@ -36,6 +37,7 @@ public class Notifications.Bubble : AbstractBubble {
         string body,
         string[] actions,
         GLib.NotificationPriority priority,
+        string? image_path,
         uint32 id
     ) {
         Object (
@@ -45,6 +47,7 @@ public class Notifications.Bubble : AbstractBubble {
             actions: actions,
             app_icon: app_icon,
             priority: priority,
+            image_path: image_path,
             id: id
         );
     }
@@ -58,9 +61,34 @@ public class Notifications.Bubble : AbstractBubble {
             }
         }
 
-        var image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
-        image.valign = Gtk.Align.START;
-        image.pixel_size = 48;
+        var app_image = new Gtk.Image ();
+        app_image.icon_name = app_icon;
+
+        var image_overlay = new Gtk.Overlay ();
+        image_overlay.valign = Gtk.Align.START;
+
+        if (image_path != null) {
+            try {
+                var scale = get_style_context ().get_scale ();
+                var pixbuf = new Gdk.Pixbuf.from_file_at_size (image_path, 48 * scale, 48 * scale);
+
+                var masked_image = new Notifications.MaskedImage (pixbuf);
+
+                app_image.pixel_size = 24;
+                app_image.halign = app_image.valign = Gtk.Align.END;
+
+                image_overlay.add (masked_image);
+                image_overlay.add_overlay (app_image);
+            } catch (Error e) {
+                critical ("Unable to mask image: %s", e.message);
+
+                app_image.pixel_size = 48;
+                image_overlay.add (app_image);
+            }
+        } else {
+            app_image.pixel_size = 48;
+            image_overlay.add (app_image);
+        }
 
         var title_label = new Gtk.Label (title);
         title_label.ellipsize = Pango.EllipsizeMode.END;
@@ -76,7 +104,7 @@ public class Notifications.Bubble : AbstractBubble {
         body_label.wrap = true;
         body_label.xalign = 0;
 
-        content_area.attach (image, 0, 0, 1, 2);
+        content_area.attach (image_overlay, 0, 0, 1, 2);
         content_area.attach (title_label, 1, 0);
         content_area.attach (body_label, 1, 1);
 
