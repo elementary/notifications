@@ -50,6 +50,11 @@ public class Notifications.AbstractBubble : Gtk.Window {
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         add (spacer);
         set_titlebar (headerbar);
+
+        enter_notify_event.connect (() => {
+            stop_timeout ();
+            return Gdk.EVENT_PROPAGATE;
+        });
     }
 
     protected void stop_timeout () {
