@@ -33,5 +33,5 @@ executable(
 )
 
 subdir('data')
-# subdir('po')
+subdir('po')
 
