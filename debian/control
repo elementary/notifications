@@ -1,0 +1,17 @@
+Source: io.elementary.notifications
+Section: x11
+Priority: extra
+Maintainer: elementary, Inc. <builds@elementary.io>
+Build-Depends: debhelper (>= 10.5.1),
+               libcanberra,
+               libcanberra-gtk3,
+               libgranite-dev,
+               libgtk-3-dev,
+               meson,
+               valac
+Standards-Version: 4.1.1
+
+Package: io.elementary.notifications
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: a Gtk notification server for Pantheon
