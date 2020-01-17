@@ -41,9 +41,7 @@ public class Notifications.Confirmation : AbstractBubble {
 
         content_area.attach (image, 0, 0);
         content_area.attach (progressbar, 1, 0);
-
-        unowned Gtk.StyleContext style_context = get_style_context ();
-        style_context.add_class ("confirmation");
+        content_area.get_style_context ().add_class ("confirmation");
 
         bind_property ("icon-name", image, "icon-name");
         bind_property ("progress", progressbar, "fraction");
