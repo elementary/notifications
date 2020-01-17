@@ -1,4 +1,6 @@
 # Notifications
+[![Translation status](https://l10n.elementary.io/widgets/desktop/-/notifications-extra/svg-badge.svg)](https://l10n.elementary.io/engage/desktop/?utm_source=widget)
+
 a Gtk notification server for Pantheon
 
 ## Building, Testing, and Installation
