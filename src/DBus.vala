@@ -35,6 +35,8 @@ public class Notifications.Server : Object {
     private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
 
+    private GLib.Settings settings;
+
     construct {
         try {
             bus_proxy = Bus.get_proxy_sync (BusType.SESSION, "org.freedesktop.DBus", "/");
@@ -50,6 +52,8 @@ public class Notifications.Server : Object {
             null
         );
         ca_context.open ();
+
+        settings = new GLib.Settings ("io.elementary.notifications");
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -84,8 +88,10 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            send_bubble (app_name, app_icon, summary, body, actions, hints, id);
-            send_sound (hints);
+            if (!settings.get_boolean ("do-not-disturb")) {
+                send_bubble (app_name, app_icon, summary, body, actions, hints, id);
+                send_sound (hints);
+            }
         }
 
         return id;
