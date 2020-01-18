@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/io/elementary/notifications/" id="io.elementary.notifications">
+    <key type="b" name="do-not-disturb">
+      <default>false</default>
+      <summary>Disable all notifications</summary>
+    </key>
+  </schema>
+</schemalist>

@@ -35,6 +35,8 @@ public class Notifications.Server : Object {
     private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
 
+    private GLib.Settings settings;
+
     construct {
         try {
             bus_proxy = Bus.get_proxy_sync (BusType.SESSION, "org.freedesktop.DBus", "/");
@@ -50,6 +52,8 @@ public class Notifications.Server : Object {
             null
         );
         ca_context.open ();
+
+        settings = new GLib.Settings ("io.elementary.notifications");
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -84,8 +88,17 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            send_bubble (app_name, app_icon, summary, body, actions, hints, id);
-            send_sound (hints);
+            unowned Variant? variant = null;
+
+            var priority = GLib.NotificationPriority.NORMAL;
+            if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
+                priority = (GLib.NotificationPriority) variant.get_byte ();
+            }
+
+            if (!settings.get_boolean ("do-not-disturb") || priority == GLib.NotificationPriority.URGENT) {
+                send_bubble (app_name, app_icon, summary, body, actions, priority, hints, id);
+                send_sound (hints);
+            }
         }
 
         return id;
@@ -97,6 +110,7 @@ public class Notifications.Server : Object {
         string summary,
         string body,
         string[] actions,
+        GLib.NotificationPriority priority,
         HashTable<string, Variant> hints,
         uint32 id
     ) {
@@ -125,11 +139,6 @@ public class Notifications.Server : Object {
             if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
                 image_path = null;
             }
-        }
-
-        var priority = GLib.NotificationPriority.NORMAL;
-        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
-            priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
         var bubble = new Notifications.Bubble (
