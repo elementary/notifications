@@ -95,7 +95,10 @@ public class Notifications.Server : Object {
                 priority = (GLib.NotificationPriority) variant.get_byte ();
             }
 
-            if (!settings.get_boolean ("do-not-disturb") || priority == GLib.NotificationPriority.URGENT) {
+            if (!settings.get_boolean ("do-not-disturb") ||
+                priority == GLib.NotificationPriority.HIGH ||
+                priority == GLib.NotificationPriority.URGENT
+            ) {
                 send_bubble (app_name, app_icon, summary, body, actions, priority, hints, id);
                 send_sound (hints);
             }
