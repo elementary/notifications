@@ -111,7 +111,7 @@ public class Notifications.Bubble : AbstractBubble {
         switch (priority) {
             case GLib.NotificationPriority.HIGH:
             case GLib.NotificationPriority.URGENT:
-                get_style_context ().add_class ("urgent");
+                content_area.get_style_context ().add_class ("urgent");
                 break;
             default:
                 start_timeout (4000);
