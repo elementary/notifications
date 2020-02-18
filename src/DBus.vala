@@ -29,6 +29,7 @@ public class Notifications.Server : Object {
     public signal void action_invoked (uint32 id, string action_key);
 
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
+    private const string OTHER_APP_ID = "gala-other";
 
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
@@ -96,8 +97,24 @@ public class Notifications.Server : Object {
             }
 
             if (!settings.get_boolean ("do-not-disturb") || priority == GLib.NotificationPriority.URGENT) {
-                send_bubble (app_name, app_icon, summary, body, actions, priority, hints, id);
-                send_sound (hints);
+                string app_id = OTHER_APP_ID;
+                if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
+                    app_id = variant.get_string ();
+                    app_id.replace (".desktop", "");
+                }
+
+                var app_settings = new GLib.Settings.full (
+                    SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
+                    null,
+                    "/io/elementary/notifications/applications/%s/".printf (app_id)
+                );
+
+                if (app_settings.get_boolean ("bubbles")) {
+                    send_bubble (app_id, app_name, app_icon, summary, body, actions, priority, hints, id);
+                }
+                if (app_settings.get_boolean ("sounds")) {
+                    send_sound (hints);
+                }
             }
         }
 
@@ -105,6 +122,7 @@ public class Notifications.Server : Object {
     }
 
     private void send_bubble (
+        string app_id,
         string app_name,
         string app_icon,
         string summary,
@@ -123,13 +141,8 @@ public class Notifications.Server : Object {
             summary = app_name;
         }
 
-        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
-            string desktop_id = variant.get_string ();
-            if (!desktop_id.has_suffix (".desktop")) {
-                desktop_id += ".desktop";
-            }
-
-            app_info = new DesktopAppInfo (desktop_id);
+        if (app_id != OTHER_APP_ID) {
+            app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
         }
 
         string? image_path = null;
