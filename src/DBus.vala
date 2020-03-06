@@ -26,7 +26,15 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
+    public enum CloseReason {
+        EXPIRED = 1,
+        DISMISSED = 2,
+        CLOSE_NOTIFICATION_CALL = 3,
+        UNDEFINED = 4
+    }
+
     public signal void action_invoked (uint32 id, string action_key);
+    public signal void notification_closed (uint32 id, uint32 reason);
 
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
     private const string OTHER_APP_ID = "gala-other";
@@ -37,6 +45,8 @@ public class Notifications.Server : Object {
     private Notifications.Confirmation? confirmation = null;
 
     private GLib.Settings settings;
+
+    private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
 
     construct {
         try {
@@ -55,6 +65,8 @@ public class Notifications.Server : Object {
         ca_context.open ();
 
         settings = new GLib.Settings ("io.elementary.notifications");
+
+        bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -110,7 +122,11 @@ public class Notifications.Server : Object {
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
-                    send_bubble (app_id, app_name, app_icon, summary, body, actions, priority, hints, id);
+                    if (bubbles.has_key (id) && bubbles[id] != null) {
+                        bubbles[id].replace (summary, body);
+                    } else {
+                        send_bubble (app_id, app_name, app_icon, summary, body, actions, priority, hints, id);
+                    }
                 }
                 if (app_settings.get_boolean ("sounds")) {
                     send_sound (hints);
@@ -154,7 +170,7 @@ public class Notifications.Server : Object {
             }
         }
 
-        var bubble = new Notifications.Bubble (
+        bubbles[id] = new Notifications.Bubble (
             app_info,
             app_icon,
             summary,
@@ -164,10 +180,15 @@ public class Notifications.Server : Object {
             image_path,
             id
         );
-        bubble.show_all ();
+        bubbles[id].show_all ();
 
-        bubble.action_invoked.connect ((action_key) => {
-            action_invoked (bubble.id, action_key);
+        bubbles[id].action_invoked.connect ((action_key) => {
+            action_invoked (id, action_key);
+        });
+
+        bubbles[id].closed.connect ((reason) => {
+            bubbles.unset (id);
+            notification_closed (id, reason);
         });
     }
 
