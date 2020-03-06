@@ -39,9 +39,14 @@ public class Notifications.Confirmation : AbstractBubble {
         progressbar.valign = Gtk.Align.CENTER;
         progressbar.margin_end = 6;
 
-        content_area.attach (image, 0, 0);
-        content_area.attach (progressbar, 1, 0);
-        content_area.get_style_context ().add_class ("confirmation");
+        var contents = new Gtk.Grid ();
+        contents.column_spacing = 6;
+        contents.attach (image, 0, 0);
+        contents.attach (progressbar, 1, 0);
+
+        content_area.add (contents);
+
+        draw_area.get_style_context ().add_class ("confirmation");
 
         bind_property ("icon-name", image, "icon-name");
         bind_property ("progress", progressbar, "fraction");

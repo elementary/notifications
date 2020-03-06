@@ -21,18 +21,23 @@
 public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (uint32 reason);
 
-    protected Gtk.Grid content_area;
+    protected Gtk.Stack content_area;
     protected Gtk.HeaderBar headerbar;
+    protected Gtk.Grid draw_area;
 
     private Gtk.Revealer revealer;
     private uint timeout_id;
 
     construct {
-        content_area = new Gtk.Grid ();
-        content_area.column_spacing = 6;
-        content_area.hexpand = true;
-        content_area.margin = 16;
-        content_area.get_style_context ().add_class ("notification");
+        content_area = new Gtk.Stack ();
+        content_area.transition_type = Gtk.StackTransitionType.SLIDE_DOWN;
+        content_area.vhomogeneous = false;
+
+        draw_area = new Gtk.Grid ();
+        draw_area.hexpand = true;
+        draw_area.margin = 16;
+        draw_area.get_style_context ().add_class ("notification");
+        draw_area.add (content_area);
 
         var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
         close_button.halign = close_button.valign = Gtk.Align.START;
@@ -44,7 +49,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         close_revealer.add (close_button);
 
         var overlay = new Gtk.Overlay ();
-        overlay.add (content_area);
+        overlay.add (draw_area);
         overlay.add_overlay (close_revealer);
 
         revealer = new Gtk.Revealer ();

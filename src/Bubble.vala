@@ -30,8 +30,6 @@ public class Notifications.Bubble : AbstractBubble {
     public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
 
-    private Gtk.Stack stack;
-
     public Bubble (
         GLib.DesktopAppInfo? app_info,
         string app_icon,
@@ -57,12 +55,7 @@ public class Notifications.Bubble : AbstractBubble {
     construct {
         var contents = new Contents (app_info, title, app_icon, body, image_path);
 
-        stack = new Gtk.Stack ();
-        stack.transition_type = Gtk.StackTransitionType.SLIDE_DOWN;
-        stack.vhomogeneous = false;
-        stack.add (contents);
-
-        content_area.add (stack);
+        content_area.add (contents);
 
         switch (priority) {
             case GLib.NotificationPriority.HIGH:
@@ -119,8 +112,8 @@ public class Notifications.Bubble : AbstractBubble {
         var new_contents = new Contents (app_info, new_summary, app_icon, new_body, image_path);
         new_contents.show_all ();
 
-        stack.add (new_contents);
-        stack.visible_child = new_contents;
+        content_area.add (new_contents);
+        content_area.visible_child = new_contents;
     }
 
     private class Contents : Gtk.Grid {
