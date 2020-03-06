@@ -39,7 +39,6 @@ public class Notifications.Server : Object {
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
     private const string OTHER_APP_ID = "gala-other";
 
-    private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
@@ -96,7 +95,7 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
-        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+        var id = (replaces_id != 0 ? replaces_id : app_name.hash ());
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
@@ -151,12 +150,6 @@ public class Notifications.Server : Object {
         unowned Variant? variant = null;
         GLib.DesktopAppInfo? app_info = null;
 
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "") {
-            body = summary;
-            summary = app_name;
-        }
-
         if (app_id != OTHER_APP_ID) {
             app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
         }
@@ -171,6 +164,7 @@ public class Notifications.Server : Object {
         }
 
         bubbles[id] = new Notifications.Bubble (
+            app_name,
             app_info,
             app_icon,
             summary,
