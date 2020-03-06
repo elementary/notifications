@@ -104,6 +104,17 @@ public class Notifications.Bubble : AbstractBubble {
         body_label.wrap = true;
         body_label.xalign = 0;
 
+        if ("\n" in body) {
+            string[] lines = body.split ("\n");
+            string stripped_body = lines[0] + "\n";
+            for (int i = 1; i < lines.length; i++) {
+                stripped_body += lines[i].strip () + "";
+            }
+
+            body_label.label = stripped_body.strip ();
+            body_label.lines = 1;
+        }
+
         content_area.attach (image_overlay, 0, 0, 1, 2);
         content_area.attach (title_label, 1, 0);
         content_area.attach (body_label, 1, 1);
