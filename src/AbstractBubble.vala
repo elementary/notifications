@@ -19,6 +19,8 @@
 */
 
 public class Notifications.AbstractBubble : Gtk.Window {
+    public signal void closed (uint32 reason);
+
     protected Gtk.Grid content_area;
     protected Gtk.HeaderBar headerbar;
 
@@ -60,6 +62,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         set_titlebar (label);
 
         close_button.clicked.connect (() => {
+            closed (Notifications.Server.CloseReason.DISMISSED);
             dismiss ();
         });
 
@@ -89,6 +92,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         timeout_id = GLib.Timeout.add (timeout, () => {
             timeout_id = 0;
+            closed (Notifications.Server.CloseReason.EXPIRED);
             dismiss ();
             return false;
         });
