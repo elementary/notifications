@@ -114,6 +114,8 @@ public class Notifications.Bubble : AbstractBubble {
     }
 
     public void replace (string new_summary, string new_body) {
+        start_timeout (4000);
+
         var new_contents = new Contents (app_info, new_summary, app_icon, new_body, image_path);
         new_contents.show_all ();
 
