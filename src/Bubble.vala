@@ -26,7 +26,7 @@ public class Notifications.Bubble : AbstractBubble {
     public string app_name { get; construct; }
     public string body { get; construct; }
     public string? image_path { get; construct; }
-    public new string summary { get; construct; }
+    public string summary { get; construct; }
     public uint32 id { get; construct; }
     public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
