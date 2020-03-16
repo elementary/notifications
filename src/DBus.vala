@@ -26,7 +26,15 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
+    public enum CloseReason {
+        EXPIRED = 1,
+        DISMISSED = 2,
+        CLOSE_NOTIFICATION_CALL = 3,
+        UNDEFINED = 4
+    }
+
     public signal void action_invoked (uint32 id, string action_key);
+    public signal void notification_closed (uint32 id, uint32 reason);
 
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
     private const string OTHER_APP_ID = "gala-other";
@@ -167,7 +175,11 @@ public class Notifications.Server : Object {
         bubble.show_all ();
 
         bubble.action_invoked.connect ((action_key) => {
-            action_invoked (bubble.id, action_key);
+            action_invoked (id, action_key);
+        });
+
+        bubble.closed.connect ((reason) => {
+            notification_closed (id, reason);
         });
     }
 
