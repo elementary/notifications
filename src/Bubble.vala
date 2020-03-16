@@ -23,9 +23,10 @@ public class Notifications.Bubble : AbstractBubble {
 
     public string[] actions { get; construct; }
     public string app_icon { get; construct; }
+    public string app_name { get; construct; }
     public string body { get; construct; }
     public string? image_path { get; construct; }
-    public new string title { get; construct; }
+    public new string summary { get; construct; }
     public uint32 id { get; construct; }
     public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
@@ -33,7 +34,8 @@ public class Notifications.Bubble : AbstractBubble {
     public Bubble (
         GLib.DesktopAppInfo? app_info,
         string app_icon,
-        string title,
+        string app_name,
+        string summary,
         string body,
         string[] actions,
         GLib.NotificationPriority priority,
@@ -42,7 +44,8 @@ public class Notifications.Bubble : AbstractBubble {
     ) {
         Object (
             app_info: app_info,
-            title: title,
+            app_name: app_name,
+            summary: summary,
             body: body,
             actions: actions,
             app_icon: app_icon,
@@ -90,7 +93,13 @@ public class Notifications.Bubble : AbstractBubble {
             image_overlay.add (app_image);
         }
 
-        var title_label = new Gtk.Label (title);
+        /*Only summary is required by GLib, so try to set a title when body is empty*/
+        if (body == "") {
+            body = summary;
+            summary = app_name;
+        }
+
+        var title_label = new Gtk.Label (summary);
         title_label.ellipsize = Pango.EllipsizeMode.END;
         title_label.valign = Gtk.Align.END;
         title_label.xalign = 0;

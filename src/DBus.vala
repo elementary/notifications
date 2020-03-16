@@ -143,12 +143,6 @@ public class Notifications.Server : Object {
         unowned Variant? variant = null;
         GLib.DesktopAppInfo? app_info = null;
 
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "") {
-            body = summary;
-            summary = app_name;
-        }
-
         if (app_id != OTHER_APP_ID) {
             app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
         }
@@ -165,6 +159,7 @@ public class Notifications.Server : Object {
         var bubble = new Notifications.Bubble (
             app_info,
             app_icon,
+            app_name,
             summary,
             body,
             actions,
