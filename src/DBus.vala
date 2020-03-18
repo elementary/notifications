@@ -164,9 +164,9 @@ public class Notifications.Server : Object {
         }
 
         bubbles[id] = new Notifications.Bubble (
-            app_name,
             app_info,
             app_icon,
+            app_name,
             summary,
             body,
             actions,

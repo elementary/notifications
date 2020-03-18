@@ -32,9 +32,9 @@ public class Notifications.Bubble : AbstractBubble {
     public uint32 id { get; construct; }
 
     public Bubble (
-        string app_name,
         GLib.DesktopAppInfo? app_info,
         string app_icon,
+        string app_name,
         string summary,
         string body,
         string[] actions,
