@@ -101,6 +101,8 @@ public class Notifications.Bubble : AbstractBubble {
 
         var title_label = new Gtk.Label (summary);
         title_label.ellipsize = Pango.EllipsizeMode.END;
+        title_label.max_width_chars = 33;
+        title_label.width_chars = 33;
         title_label.valign = Gtk.Align.END;
         title_label.xalign = 0;
         title_label.get_style_context ().add_class ("title");
@@ -108,6 +110,8 @@ public class Notifications.Bubble : AbstractBubble {
         var body_label = new Gtk.Label (body);
         body_label.ellipsize = Pango.EllipsizeMode.END;
         body_label.lines = 2;
+        body_label.max_width_chars = 33;
+        body_label.width_chars = 33;
         body_label.use_markup = true;
         body_label.valign = Gtk.Align.START;
         body_label.wrap = true;
