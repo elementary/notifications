@@ -39,6 +39,7 @@ public class Notifications.Server : Object {
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
     private const string OTHER_APP_ID = "gala-other";
 
+    private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
@@ -68,6 +69,18 @@ public class Notifications.Server : Object {
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
     }
 
+    public void close_notification (uint32 id) throws DBusError, IOError {
+        if (bubbles.has_key (id)) {
+            bubbles[id].dismiss ();
+            closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);
+            return;
+        }
+
+        // according to spec, an empty dbus error should be sent if the notification
+        // doesn't exist (anymore)
+        throw new DBusError.FAILED ("");
+    }
+
     public string [] get_capabilities () throws DBusError, IOError {
         return {
             "actions",
@@ -95,7 +108,7 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
-        var id = (replaces_id != 0 ? replaces_id : app_name.hash ());
+        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
@@ -181,9 +194,13 @@ public class Notifications.Server : Object {
         });
 
         bubbles[id].closed.connect ((reason) => {
-            bubbles.unset (id);
-            notification_closed (id, reason);
+            closed_callback (id, reason);
         });
+    }
+
+    private void closed_callback (uint32 id, uint32 reason) {
+        bubbles.unset (id);
+        notification_closed (id, reason);
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {

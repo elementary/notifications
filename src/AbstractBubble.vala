@@ -62,6 +62,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         default_height = 0;
         default_width = 332;
+        resizable = false;
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         add (revealer);
         set_titlebar (label);
@@ -77,7 +78,10 @@ public class Notifications.AbstractBubble : Gtk.Window {
             return Gdk.EVENT_PROPAGATE;
         });
 
-        leave_notify_event.connect (() => {
+        leave_notify_event.connect ((event) => {
+            if (event.detail == Gdk.NotifyType.INFERIOR) {
+                return Gdk.EVENT_STOP;
+            }
             close_revealer.reveal_child = false;
             return Gdk.EVENT_PROPAGATE;
         });
@@ -103,7 +107,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         });
     }
 
-    protected void dismiss () {
+    public void dismiss () {
         revealer.reveal_child = false;
         GLib.Timeout.add (revealer.transition_duration, () => {
             destroy ();
