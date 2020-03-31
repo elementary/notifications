@@ -46,6 +46,8 @@ public class Notifications.Server : Object {
 
     private GLib.Settings settings;
 
+    private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
+
     construct {
         try {
             bus_proxy = Bus.get_proxy_sync (BusType.SESSION, "org.freedesktop.DBus", "/");
@@ -63,6 +65,20 @@ public class Notifications.Server : Object {
         ca_context.open ();
 
         settings = new GLib.Settings ("io.elementary.notifications");
+
+        bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
+    }
+
+    public void close_notification (uint32 id) throws DBusError, IOError {
+        if (bubbles.has_key (id)) {
+            bubbles[id].dismiss ();
+            closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);
+            return;
+        }
+
+        // according to spec, an empty dbus error should be sent if the notification
+        // doesn't exist (anymore)
+        throw new DBusError.FAILED ("");
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -156,7 +172,7 @@ public class Notifications.Server : Object {
             }
         }
 
-        var bubble = new Notifications.Bubble (
+        bubbles[id] = new Notifications.Bubble (
             app_info,
             app_icon,
             app_name,
@@ -167,15 +183,20 @@ public class Notifications.Server : Object {
             image_path,
             id
         );
-        bubble.show_all ();
+        bubbles[id].show_all ();
 
-        bubble.action_invoked.connect ((action_key) => {
+        bubbles[id].action_invoked.connect ((action_key) => {
             action_invoked (id, action_key);
         });
 
-        bubble.closed.connect ((reason) => {
-            notification_closed (id, reason);
+        bubbles[id].closed.connect ((reason) => {
+            closed_callback (id, reason);
         });
+    }
+
+    private void closed_callback (uint32 id, uint32 reason) {
+        bubbles.unset (id);
+        notification_closed (id, reason);
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {

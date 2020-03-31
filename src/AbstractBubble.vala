@@ -102,7 +102,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         });
     }
 
-    protected void dismiss () {
+    public void dismiss () {
         revealer.reveal_child = false;
         GLib.Timeout.add (revealer.transition_duration, () => {
             destroy ();
