@@ -109,10 +109,10 @@ public class Notifications.Bubble : AbstractBubble {
         dismiss ();
     }
 
-    public void replace (string new_summary, string new_body) {
+    public void replace (string new_summary, string new_body, string? new_image_path) {
         start_timeout (4000);
 
-        var new_contents = new Contents (app_name, app_info, new_summary, app_icon, new_body, image_path);
+        var new_contents = new Contents (app_name, app_info, new_summary, app_icon, new_body, new_image_path);
         new_contents.show_all ();
 
         content_area.add (new_contents);
