@@ -51,6 +51,9 @@ window,
         0 0 0 1px alpha (#000, 0.2),
         0 3px 6px alpha (#000, 0.16),
         0 5px 5px -3px alpha (#000, 0.4);
+}
+
+.notification stack > grid {
     padding: 6px;
 }
 

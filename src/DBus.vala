@@ -134,7 +134,45 @@ public class Notifications.Server : Object {
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
-                    send_bubble (app_id, app_name, app_icon, summary, body, actions, priority, hints, id);
+                    string? image_path = null;
+                    if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
+                        image_path = variant.get_string ();
+
+                        if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
+                            image_path = null;
+                        }
+                    }
+
+                    if (bubbles.has_key (id) && bubbles[id] != null) {
+                        bubbles[id].replace (summary, body, image_path);
+                    } else {
+                        GLib.DesktopAppInfo? app_info = null;
+
+                        if (app_id != OTHER_APP_ID) {
+                            app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
+                        }
+
+                        bubbles[id] = new Notifications.Bubble (
+                            app_info,
+                            app_icon,
+                            app_name,
+                            summary,
+                            body,
+                            actions,
+                            priority,
+                            image_path,
+                            id
+                        );
+                        bubbles[id].show_all ();
+
+                        bubbles[id].action_invoked.connect ((action_key) => {
+                            action_invoked (id, action_key);
+                        });
+
+                        bubbles[id].closed.connect ((reason) => {
+                            closed_callback (id, reason);
+                        });
+                    }
                 }
                 if (app_settings.get_boolean ("sounds")) {
                     send_sound (hints);
@@ -143,55 +181,6 @@ public class Notifications.Server : Object {
         }
 
         return id;
-    }
-
-    private void send_bubble (
-        string app_id,
-        string app_name,
-        string app_icon,
-        string summary,
-        string body,
-        string[] actions,
-        GLib.NotificationPriority priority,
-        HashTable<string, Variant> hints,
-        uint32 id
-    ) {
-        unowned Variant? variant = null;
-        GLib.DesktopAppInfo? app_info = null;
-
-        if (app_id != OTHER_APP_ID) {
-            app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
-        }
-
-        string? image_path = null;
-        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
-            image_path = variant.get_string ();
-
-            if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
-                image_path = null;
-            }
-        }
-
-        bubbles[id] = new Notifications.Bubble (
-            app_info,
-            app_icon,
-            app_name,
-            summary,
-            body,
-            actions,
-            priority,
-            image_path,
-            id
-        );
-        bubbles[id].show_all ();
-
-        bubbles[id].action_invoked.connect ((action_key) => {
-            action_invoked (id, action_key);
-        });
-
-        bubbles[id].closed.connect ((reason) => {
-            closed_callback (id, reason);
-        });
     }
 
     private void closed_callback (uint32 id, uint32 reason) {
