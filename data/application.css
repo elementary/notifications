@@ -59,7 +59,7 @@ window,
 
 .notification image {
     -gtk-icon-effect: none;
-    color: @SILVER_900;
+    color: alpha (@text_color, 0.78);
 }
 
 .notification:not(.confirmation) image {
@@ -79,11 +79,11 @@ window,
 }
 
 .notification progressbar progress {
-    background: @SILVER_900;
+    background: alpha (@text_color, 0.78);
 }
 
 .notification progressbar trough {
-    background: @SILVER_300;
+    background: alpha (@text_color, 0.15);
 }
 
 .notification.urgent image {
