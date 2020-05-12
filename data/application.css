@@ -36,7 +36,7 @@ window,
     padding: 6px;
 }
 
-.notification:not(.confirmation) image {
+.notification:not(.confirmation) .draw-area image {
     -gtk-icon-style: regular;
 }
 
