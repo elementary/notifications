@@ -182,23 +182,25 @@ public class Notifications.Bubble : AbstractBubble {
                 image_overlay.add (app_image);
             }
 
-            var title_label = new Gtk.Label (summary);
-            title_label.ellipsize = Pango.EllipsizeMode.END;
-            title_label.max_width_chars = 33;
-            title_label.width_chars = 33;
-            title_label.valign = Gtk.Align.END;
-            title_label.xalign = 0;
+            var title_label = new Gtk.Label (summary) {
+                ellipsize = Pango.EllipsizeMode.END,
+                max_width_chars = 33,
+                valign = Gtk.Align.END,
+                width_chars = 33,
+                xalign = 0
+            };
             title_label.get_style_context ().add_class ("title");
 
-            var body_label = new Gtk.Label (body);
-            body_label.ellipsize = Pango.EllipsizeMode.END;
-            body_label.lines = 2;
-            body_label.max_width_chars = 33;
-            body_label.width_chars = 33;
-            body_label.use_markup = true;
-            body_label.valign = Gtk.Align.START;
-            body_label.wrap = true;
-            body_label.xalign = 0;
+            var body_label = new Gtk.Label (body) {
+                ellipsize = Pango.EllipsizeMode.END,
+                lines = 2,
+                max_width_chars = 33,
+                use_markup = true,
+                valign = Gtk.Align.START,
+                width_chars = 33,
+                wrap = true,
+                xalign = 0
+            };
 
             if ("\n" in body) {
                 string[] lines = body.split ("\n");
