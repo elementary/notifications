@@ -175,7 +175,11 @@ public class Notifications.Server : Object {
                     }
                 }
                 if (app_settings.get_boolean ("sounds")) {
-                    send_sound (hints);
+                    if (priority == GLib.NotificationPriority.URGENT) {
+                        send_sound (hints, "dialog-urgent");
+                    } else {
+                        send_sound (hints);
+                    }
                 }
             }
         }
