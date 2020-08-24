@@ -1,8 +1,7 @@
-# blank_issues_enabled: false
 contact_links:
   - name: Report an issue with Notifications Indicator
     url: https://github.com/elementary/wingpanel-indicator-notifications/issues/new/choose/
     about: If your issue is related to the Notifications Indicator in the top panel
   - name: Report an issue with Notifications Settings
     url: https://github.com/elementary/switchboard-plug-notifications/issues/new/choose/
-    about: If your issue is related to _System Settings_ → _Notifications_
+    about: If your issue is related to System Settings → Notifications
