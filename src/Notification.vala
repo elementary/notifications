@@ -22,15 +22,17 @@ public class Notifications.Notification : GLib.Object {
     public GLib.DesktopAppInfo? app_info { get; private set; default = null; }
     public GLib.NotificationPriority priority { get; private set; default = GLib.NotificationPriority.NORMAL; }
     public HashTable<string, Variant> hints { get; construct; }
+    public string app_icon { get; construct; }
     public string app_id { get; private set; default = "gala-other"; }
     public string app_name { get; construct; }
     public string body { get; construct set; }
     public string? image_path { get; private set; default = null; }
     public string summary { get; construct set; }
 
-    public Notification (string app_name, string summary, string body, HashTable<string, Variant> hints) {
+    public Notification (string app_name, string app_icon, string summary, string body, HashTable<string, Variant> hints) {
         Object (
             app_name: app_name,
+            app_icon: app_icon,
             summary: summary,
             body: body,
             hints: hints
@@ -62,6 +64,14 @@ public class Notifications.Notification : GLib.Object {
 
             if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
                 image_path = null;
+            }
+        }
+
+        if (app_icon == "") {
+            if (app_info != null) {
+                app_icon = app_info.get_icon ().to_string ();
+            } else {
+                app_icon = "dialog-information";
             }
         }
     }

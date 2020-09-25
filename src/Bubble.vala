@@ -23,25 +23,22 @@ public class Notifications.Bubble : AbstractBubble {
 
     public Notifications.Notification notification { get; construct; }
     public string[] actions { get; construct; }
-    public string app_icon { get; construct; }
     public uint32 id { get; construct; }
 
     public Bubble (
         Notifications.Notification notification,
-        string app_icon,
         string[] actions,
         uint32 id
     ) {
         Object (
             notification: notification,
             actions: actions,
-            app_icon: app_icon,
             id: id
         );
     }
 
     construct {
-        var contents = new Contents (notification.app_info, notification.summary, app_icon, notification.body, notification.image_path);
+        var contents = new Contents (notification);
 
         content_area.add (contents);
 
@@ -97,13 +94,7 @@ public class Notifications.Bubble : AbstractBubble {
     public void replace (Notifications.Notification new_notification) {
         start_timeout (4000);
 
-        var new_contents = new Contents (
-            new_notification.app_info,
-            new_notification.summary,
-            app_icon,
-            new_notification.body,
-            new_notification.image_path
-        );
+        var new_contents = new Contents (new_notification);
         new_contents.show_all ();
 
         content_area.add (new_contents);
@@ -111,41 +102,23 @@ public class Notifications.Bubble : AbstractBubble {
     }
 
     private class Contents : Gtk.Grid {
-        public GLib.DesktopAppInfo? app_info { get; construct; }
-        public string app_icon { get; construct; }
-        public string body { get; construct; }
-        public string? image_path { get; construct; }
-        public string summary { get; construct; }
+        public Notifications.Notification notification { get; construct; }
 
-        public Contents (GLib.DesktopAppInfo? app_info, string summary, string app_icon, string body, string? image_path) {
-            Object (
-                app_icon: app_icon,
-                app_info: app_info,
-                body: body,
-                image_path: image_path,
-                summary: summary
-            );
+        public Contents (Notifications.Notification notification) {
+            Object (notification: notification);
         }
 
         construct {
-            if (app_icon == "") {
-                if (app_info != null) {
-                    app_icon = app_info.get_icon ().to_string ();
-                } else {
-                    app_icon = "dialog-information";
-                }
-            }
-
             var app_image = new Gtk.Image ();
-            app_image.icon_name = app_icon;
+            app_image.icon_name = notification.app_icon;
 
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;
 
-            if (image_path != null) {
+            if (notification.image_path != null) {
                 try {
                     var scale = get_style_context ().get_scale ();
-                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (image_path, 48 * scale, 48 * scale);
+                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (notification.image_path, 48 * scale, 48 * scale);
 
                     var masked_image = new Notifications.MaskedImage (pixbuf);
 
@@ -165,7 +138,7 @@ public class Notifications.Bubble : AbstractBubble {
                 image_overlay.add (app_image);
             }
 
-            var title_label = new Gtk.Label (summary) {
+            var title_label = new Gtk.Label (notification.summary) {
                 ellipsize = Pango.EllipsizeMode.END,
                 max_width_chars = 33,
                 valign = Gtk.Align.END,
@@ -174,7 +147,7 @@ public class Notifications.Bubble : AbstractBubble {
             };
             title_label.get_style_context ().add_class ("title");
 
-            var body_label = new Gtk.Label (body) {
+            var body_label = new Gtk.Label (notification.body) {
                 ellipsize = Pango.EllipsizeMode.END,
                 lines = 2,
                 max_width_chars = 33,
@@ -185,8 +158,8 @@ public class Notifications.Bubble : AbstractBubble {
                 xalign = 0
             };
 
-            if ("\n" in body) {
-                string[] lines = body.split ("\n");
+            if ("\n" in notification.body) {
+                string[] lines = notification.body.split ("\n");
                 string stripped_body = lines[0] + "\n";
                 for (int i = 1; i < lines.length; i++) {
                     stripped_body += lines[i].strip () + "";
