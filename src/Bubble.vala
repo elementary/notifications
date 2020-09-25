@@ -1,5 +1,5 @@
 /*
-* Copyright 2019 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2020 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -25,11 +25,7 @@ public class Notifications.Bubble : AbstractBubble {
     public string[] actions { get; construct; }
     public uint32 id { get; construct; }
 
-    public Bubble (
-        Notifications.Notification notification,
-        string[] actions,
-        uint32 id
-    ) {
+    public Bubble (Notifications.Notification notification, string[] actions, uint32 id) {
         Object (
             notification: notification,
             actions: actions,
