@@ -18,115 +18,55 @@
 *
 */
 
-public class Notifications.Bubble : Gtk.Window {
+public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
-    public string[] actions { get; construct; }
-    public string app_icon { get; construct; }
-    public string body { get; construct; }
-    public new string title { get; construct; }
-    public uint32 id { get; construct; }
     public GLib.DesktopAppInfo? app_info { get; construct; }
     public GLib.NotificationPriority priority { get; construct; }
-
-    private Gtk.Grid action_area;
-    private Gtk.SizeGroup size_group;
-    private uint timeout_id;
+    public string[] actions { get; construct; }
+    public string app_icon { get; construct; }
+    public string app_name { get; construct; }
+    public string body { get; construct; }
+    public string? image_path { get; construct; }
+    public string summary { get; construct; }
+    public uint32 id { get; construct; }
 
     public Bubble (
         GLib.DesktopAppInfo? app_info,
         string app_icon,
-        string title,
+        string app_name,
+        string summary,
         string body,
         string[] actions,
         GLib.NotificationPriority priority,
+        string? image_path,
         uint32 id
     ) {
         Object (
             app_info: app_info,
-            title: title,
+            app_name: app_name,
+            summary: summary,
             body: body,
             actions: actions,
             app_icon: app_icon,
             priority: priority,
+            image_path: image_path,
             id: id
         );
     }
 
     construct {
-        if (app_icon == "") {
-            if (app_info != null) {
-                app_icon = app_info.get_icon ().to_string ();
-            } else {
-                app_icon = "dialog-information";
-            }
-        }
+        var contents = new Contents (app_name, app_info, summary, app_icon, body, actions, image_path);
 
-        var image = new Gtk.Image.from_icon_name (app_icon, Gtk.IconSize.DIALOG);
-        image.valign = Gtk.Align.START;
-        image.pixel_size = 48;
-
-        var title_label = new Gtk.Label (title);
-        title_label.ellipsize = Pango.EllipsizeMode.END;
-        title_label.hexpand = true;
-        title_label.valign = Gtk.Align.END;
-        title_label.xalign = 0;
-        title_label.get_style_context ().add_class ("title");
-
-        var body_label = new Gtk.Label (body);
-        body_label.ellipsize = Pango.EllipsizeMode.END;
-        body_label.lines = 2;
-        body_label.use_markup = true;
-        body_label.valign = Gtk.Align.START;
-        body_label.wrap = true;
-        body_label.xalign = 0;
-
-        action_area = new Gtk.Grid ();
-        action_area.orientation = Gtk.Orientation.VERTICAL;
-        action_area.margin_start = 2;
-        action_area.row_spacing = 4;
-
-        size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
-
-        var grid = new Gtk.Grid ();
-        grid.column_spacing = 6;
-        grid.hexpand = true;
-        grid.margin = 4;
-        grid.margin_top = 6;
-        grid.margin_end = 2;
-        grid.attach (image, 0, 0, 1, 2);
-        grid.attach (title_label, 1, 0);
-        grid.attach (body_label, 1, 1);
-        grid.attach (action_area, 2, 0, 1, 2);
-
-        var style_context = get_style_context ();
-        style_context.add_class ("rounded");
-        style_context.add_class ("notification");
-
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.custom_title = grid;
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
-
-        var spacer = new Gtk.Grid ();
-        spacer.height_request = 3;
-
-        default_width = 300;
-        default_height = 0;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (spacer);
+        content_area.add (contents);
 
         switch (priority) {
             case GLib.NotificationPriority.HIGH:
             case GLib.NotificationPriority.URGENT:
-                get_style_context ().add_class ("urgent");
+                content_area.get_style_context ().add_class ("urgent");
                 break;
             default:
-                self_destruct ();
+                start_timeout (4000);
                 break;
         }
 
@@ -135,20 +75,19 @@ public class Notifications.Bubble : Gtk.Window {
 
             for (int i = 0; i < actions.length; i += 2) {
                 if (actions[i] != "default") {
-                    add_action (actions[i], actions[i + 1]);
                 } else {
                     default_action = true;
                     i += 2;
                 }
             }
 
-            button_press_event.connect ((event) => {
+            button_release_event.connect ((event) => {
                 if (default_action) {
                     launch_action ("default");
                 } else {
                     try {
                         app_info.launch (null, null);
-                        destroy ();
+                        dismiss ();
                     } catch (Error e) {
                         critical ("Unable to launch app: %s", e.message);
                     }
@@ -157,48 +96,154 @@ public class Notifications.Bubble : Gtk.Window {
             });
         }
 
-        enter_notify_event.connect (() => {
-            if (timeout_id != 0) {
-                Source.remove (timeout_id);
-                timeout_id = 0;
-            }
-        });
-
         leave_notify_event.connect (() => {
             if (priority == GLib.NotificationPriority.HIGH || priority == GLib.NotificationPriority.URGENT) {
                 return Gdk.EVENT_PROPAGATE;
             }
-            self_destruct ();
+            start_timeout (4000);
         });
-    }
-
-    private void self_destruct () {
-        if (timeout_id != 0) {
-            Source.remove (timeout_id);
-        }
-
-        timeout_id = GLib.Timeout.add (4000, () => {
-            timeout_id = 0;
-            destroy ();
-            return false;
-        });
-    }
-
-    private void add_action (string action_key, string label) {
-        var button = new Gtk.Button.with_label (label);
-        button.vexpand = true;
-
-        button.clicked.connect (() => {
-            launch_action (action_key);
-        });
-
-        action_area.add (button);
-        size_group.add_widget (button);
     }
 
     private void launch_action (string action_key) {
         app_info.launch_action (action_key, new GLib.AppLaunchContext ());
         action_invoked (action_key);
-        destroy ();
+        dismiss ();
+    }
+
+    public void replace (string new_summary, string new_body, string[] new_actions, string? new_image_path) {
+        start_timeout (4000);
+
+        var new_contents = new Contents (app_name, app_info, new_summary, app_icon, new_body, new_actions, new_image_path);
+        new_contents.show_all ();
+
+        content_area.add (new_contents);
+        content_area.visible_child = new_contents;
+    }
+
+    private class Contents : Gtk.Grid {
+        public GLib.DesktopAppInfo? app_info { get; construct; }
+        public string app_icon { get; construct; }
+        public string app_name { get; construct; }
+        public string body { get; construct; }
+        public string[] actions { get; construct; }
+        public string? image_path { get; construct; }
+        public string summary { get; construct; }
+
+        private Gtk.ButtonBox action_area;
+
+        public Contents (string app_name, GLib.DesktopAppInfo? app_info, string summary, string app_icon, string body, string[] actions, string? image_path) {
+            Object (
+                app_icon: app_icon,
+                app_info: app_info,
+                app_name: app_name,
+                body: body,
+                actions: actions,
+                image_path: image_path,
+                summary: summary
+            );
+        }
+
+        construct {
+            /*Only summary is required by GLib, so try to set a title when body is empty*/
+            if (body == "") {
+                body = summary;
+                summary = app_name;
+            }
+
+            if (app_icon == "") {
+                if (app_info != null) {
+                    app_icon = app_info.get_icon ().to_string ();
+                } else {
+                    app_icon = "dialog-information";
+                }
+            }
+
+            var app_image = new Gtk.Image ();
+            app_image.icon_name = app_icon;
+
+            var image_overlay = new Gtk.Overlay ();
+            image_overlay.valign = Gtk.Align.START;
+
+            if (image_path != null) {
+                try {
+                    var scale = get_style_context ().get_scale ();
+                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (image_path, 48 * scale, 48 * scale);
+
+                    var masked_image = new Notifications.MaskedImage (pixbuf);
+
+                    app_image.pixel_size = 24;
+                    app_image.halign = app_image.valign = Gtk.Align.END;
+
+                    image_overlay.add (masked_image);
+                    image_overlay.add_overlay (app_image);
+                } catch (Error e) {
+                    critical ("Unable to mask image: %s", e.message);
+
+                    app_image.pixel_size = 48;
+                    image_overlay.add (app_image);
+                }
+            } else {
+                app_image.pixel_size = 48;
+                image_overlay.add (app_image);
+            }
+
+            var title_label = new Gtk.Label (summary) {
+                ellipsize = Pango.EllipsizeMode.END,
+                max_width_chars = 33,
+                valign = Gtk.Align.END,
+                width_chars = 33,
+                xalign = 0
+            };
+            title_label.get_style_context ().add_class ("title");
+
+            var body_label = new Gtk.Label (body) {
+                ellipsize = Pango.EllipsizeMode.END,
+                lines = 2,
+                max_width_chars = 33,
+                use_markup = true,
+                valign = Gtk.Align.START,
+                width_chars = 33,
+                wrap = true,
+                xalign = 0
+            };
+
+            if ("\n" in body) {
+                string[] lines = body.split ("\n");
+                string stripped_body = lines[0] + "\n";
+                for (int i = 1; i < lines.length; i++) {
+                    stripped_body += lines[i].strip () + "";
+                }
+
+                body_label.label = stripped_body.strip ();
+                body_label.lines = 1;
+            }
+
+            action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
+                halign = Gtk.Align.END,
+                layout_style = Gtk.ButtonBoxStyle.SPREAD
+            };
+
+            column_spacing = 6;
+            attach (image_overlay, 0, 0, 1, 2);
+            attach (title_label, 1, 0);
+            attach (body_label, 1, 1);
+            attach (action_area, 0, 2, 2, 1);
+
+            for (int i = 0; i < actions.length; i += 2) {
+                if (actions[i] != "default") {
+                    var button = new Gtk.Button.with_label (actions[i + 1]);
+
+                    button.clicked.connect (() => {
+                        app_info.launch_action (actions[i], new GLib.AppLaunchContext ());
+                        // action_invoked (action_key);
+                        // dismiss ();
+                    });
+
+                    action_area.pack_end (button);
+                } else {
+                    i += 2;
+                }
+            }
+        }
     }
 }

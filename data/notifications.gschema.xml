@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/io/elementary/notifications/" id="io.elementary.notifications">
+    <key type="b" name="do-not-disturb">
+      <default>false</default>
+      <summary>Disable all notifications</summary>
+    </key>
+    <child name="applications" schema="io.elementary.notifications.applications" />
+  </schema>
+  <schema id="io.elementary.notifications.applications">
+    <key type="b" name="ask">
+      <default>true</default>
+      <summary>Ask before allowing notifications</summary>
+    </key>
+    <key type="b" name="bubbles">
+      <default>true</default>
+      <summary>Enable bubbles</summary>
+    </key>
+    <key type="b" name="sounds">
+      <default>true</default>
+      <summary>Enable sounds</summary>
+    </key>
+    <key type="b" name="remember">
+      <default>true</default>
+      <summary>Show missed notifications in notification center</summary>
+    </key>
+  </schema>
+</schemalist>

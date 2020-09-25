@@ -1,65 +1,47 @@
-decoration {
-    box-shadow:
-        inset 0 0 0 1px alpha (@bg_highlight_color, 0.1),
-        inset 0 1px 0 0 alpha (@bg_highlight_color, 0.9),
-        inset 0 -1px 0 0 alpha (@bg_highlight_color, 0.3),
-        0 0 0 1px alpha (#000, 0.2),
-        0 3px 6px alpha (#000, 0.16),
-        0 5px 5px -3px alpha (#000, 0.4);
+decoration,
+window,
+.titlebar {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
 }
 
-.notification {
+.close {
+    padding: 3px;
+    border: none;
+    border-radius: 100%;
     background-image:
         linear-gradient(
             to bottom,
-            @bg_color,
-            @bg_color calc(100% - 12px),
-            shade (
-                @bg_color,
-                0.94
-            )
+            @BLACK_300,
+            @BLACK_500
         );
+    box-shadow:
+        inset 0 0 0 1px alpha (#fff, 0.02),
+        inset 0 1px 0 0 alpha (#fff, 0.07),
+        inset 0 -1px 0 0 alpha (#fff, 0.01),
+        0 0 0 1px alpha (#000, 0.7),
+        0 1px 2px alpha (#000, 0.16),
+        0 2px 3px alpha (#000, 0.23);
+    margin: 3px;
 }
 
-.notification image {
-    -gtk-icon-effect: none;
-    color: @SILVER_900;
+.close image {
+    color: #fff;
+    -gtk-icon-shadow: 0 1px 1px alpha (#000, 0.6);
 }
 
-.notification:not(.confirmation) image {
+.notification stack > grid {
+    padding: 6px;
+}
+
+.notification:not(.confirmation) .draw-area image {
     -gtk-icon-style: regular;
 }
 
-.notification label {
-    color: @text_color;
-}
-
-.notification label.title {
-    font-weight: 700;
-}
-
-.notification progressbar progress,
-.notification progressbar trough {
-    box-shadow: none;
-    border: none;
-    border-radius: 6px;
-    margin: 0;
-}
-
-.notification progressbar progress {
-    background: @SILVER_900;
-}
-
-.notification progressbar trough {
-    background: @SILVER_300;
-}
-
-.notification.urgent image {
+.urgent image {
     animation: urgent 1.25s ease-in-out;
-}
-
-.notification.urgent label.title {
-    color: @error_color;
 }
 
 @keyframes urgent {

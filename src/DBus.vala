@@ -26,14 +26,27 @@ private interface Notifications.DBus : Object {
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
+    public enum CloseReason {
+        EXPIRED = 1,
+        DISMISSED = 2,
+        CLOSE_NOTIFICATION_CALL = 3,
+        UNDEFINED = 4
+    }
+
     public signal void action_invoked (uint32 id, string action_key);
+    public signal void notification_closed (uint32 id, uint32 reason);
 
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
+    private const string OTHER_APP_ID = "gala-other";
 
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
+
+    private GLib.Settings settings;
+
+    private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
 
     construct {
         try {
@@ -50,6 +63,22 @@ public class Notifications.Server : Object {
             null
         );
         ca_context.open ();
+
+        settings = new GLib.Settings ("io.elementary.notifications");
+
+        bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
+    }
+
+    public void close_notification (uint32 id) throws DBusError, IOError {
+        if (bubbles.has_key (id)) {
+            bubbles[id].dismiss ();
+            closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);
+            return;
+        }
+
+        // according to spec, an empty dbus error should be sent if the notification
+        // doesn't exist (anymore)
+        throw new DBusError.FAILED ("");
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -84,60 +113,79 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            send_bubble (app_name, app_icon, summary, body, actions, hints, id);
-            send_sound (hints);
+            unowned Variant? variant = null;
+
+            var priority = GLib.NotificationPriority.NORMAL;
+            if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
+                priority = (GLib.NotificationPriority) variant.get_byte ();
+            }
+
+            if (!settings.get_boolean ("do-not-disturb") || priority == GLib.NotificationPriority.URGENT) {
+                string app_id = OTHER_APP_ID;
+                if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
+                    app_id = variant.get_string ();
+                    app_id.replace (".desktop", "");
+                }
+
+                var app_settings = new GLib.Settings.full (
+                    SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
+                    null,
+                    "/io/elementary/notifications/applications/%s/".printf (app_id)
+                );
+
+                if (app_settings.get_boolean ("bubbles")) {
+                    string? image_path = null;
+                    if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
+                        image_path = variant.get_string ();
+
+                        if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
+                            image_path = null;
+                        }
+                    }
+
+                    if (bubbles.has_key (id) && bubbles[id] != null) {
+                        bubbles[id].replace (summary, body, actions, image_path);
+                    } else {
+                        GLib.DesktopAppInfo? app_info = null;
+
+                        if (app_id != OTHER_APP_ID) {
+                            app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
+                        }
+
+                        bubbles[id] = new Notifications.Bubble (
+                            app_info,
+                            app_icon,
+                            app_name,
+                            summary,
+                            body,
+                            actions,
+                            priority,
+                            image_path,
+                            id
+                        );
+                        bubbles[id].show_all ();
+
+                        bubbles[id].action_invoked.connect ((action_key) => {
+                            action_invoked (id, action_key);
+                        });
+
+                        bubbles[id].closed.connect ((reason) => {
+                            closed_callback (id, reason);
+                        });
+                    }
+                }
+                if (app_settings.get_boolean ("sounds")) {
+                    send_sound (hints);
+                }
+            }
         }
 
         return id;
     }
 
-    private void send_bubble (
-        string app_name,
-        string app_icon,
-        string summary,
-        string body,
-        string[] actions,
-        HashTable<string, Variant> hints,
-        uint32 id
-    ) {
-        unowned Variant? variant = null;
-        GLib.DesktopAppInfo? app_info = null;
-
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "" && app_name != "") {
-            body = summary;
-            summary = app_name;
-        }
-
-        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
-            string desktop_id = variant.get_string ();
-            if (!desktop_id.has_suffix (".desktop")) {
-                desktop_id += ".desktop";
-            }
-
-            app_info = new DesktopAppInfo (desktop_id);
-        }
-
-        var priority = GLib.NotificationPriority.NORMAL;
-        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
-            priority = (GLib.NotificationPriority) variant.get_byte ();
-        }
-
-        var bubble = new Notifications.Bubble (
-            app_info,
-            app_icon,
-            summary,
-            body,
-            actions,
-            priority,
-            id
-        );
-
-        bubble.show_all ();
-
-        bubble.action_invoked.connect ((action_key) => {
-            action_invoked (bubble.id, action_key);
-        });
+    private void closed_callback (uint32 id, uint32 reason) {
+        bubbles.unset (id);
+        notification_closed (id, reason);
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {

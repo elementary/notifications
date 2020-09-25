@@ -14,22 +14,25 @@ css_gresource = gnome.compile_resources(
 
 executable(
     meson.project_name(),
+    'src/AbstractBubble.vala',
     'src/Application.vala',
     'src/Bubble.vala',
     'src/Confirmation.vala',
     'src/DBus.vala',
+    'src/Widgets/MaskedImage.vala',
     css_gresource,
     dependencies: [
         dependency ('libcanberra'),
         dependency ('libcanberra-gtk3'),
         dependency ('glib-2.0'),
         dependency ('gobject-2.0'),
-        dependency ('granite', version: '>=0.5'),
+        dependency ('granite', version: '>=5.4.0'),
         dependency ('gtk+-3.0'),
     ],
     install : true
 )
 
 subdir('data')
-# subdir('po')
+subdir('po')
 
+meson.add_install_script('meson/post_install.py')

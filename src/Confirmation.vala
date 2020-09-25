@@ -18,11 +18,9 @@
 *
 */
 
-public class Notifications.Confirmation : Gtk.Window {
+public class Notifications.Confirmation : AbstractBubble {
     public new string icon_name { get; construct set; }
     public double progress { get; construct set; }
-
-    private uint timeout_id;
 
     public Confirmation (string icon_name, double progress) {
         Object (
@@ -41,52 +39,26 @@ public class Notifications.Confirmation : Gtk.Window {
         progressbar.valign = Gtk.Align.CENTER;
         progressbar.margin_end = 6;
 
-        var grid = new Gtk.Grid ();
-        grid.column_spacing = 6;
-        grid.hexpand = true;
-        grid.margin = 4;
-        grid.margin_top = 6;
-        grid.attach (image, 0, 0);
-        grid.attach (progressbar, 1, 0);
+        var contents = new Gtk.Grid ();
+        contents.column_spacing = 6;
+        contents.attach (image, 0, 0);
+        contents.attach (progressbar, 1, 0);
 
-        var style_context = get_style_context ();
-        style_context.add_class ("confirmation");
-        style_context.add_class ("rounded");
-        style_context.add_class ("notification");
+        content_area.add (contents);
 
-        var headerbar = new Gtk.HeaderBar ();
-        headerbar.custom_title = grid;
-
-        var headerbar_style_context = headerbar.get_style_context ();
-        headerbar_style_context.add_class ("default-decoration");
-        headerbar_style_context.add_class (Gtk.STYLE_CLASS_FLAT);
-
-        set_titlebar (headerbar);
-
-        var spacer = new Gtk.Grid ();
-        spacer.height_request = 3;
-
-        default_width = 300;
-        default_height = 0;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (spacer);
+        get_style_context ().add_class ("confirmation");
 
         bind_property ("icon-name", image, "icon-name");
         bind_property ("progress", progressbar, "fraction");
 
         notify["progress"].connect (() => {
-            if (timeout_id != 0) {
-                Source.remove (timeout_id);
-            }
-            self_destruct ();
+            stop_timeout ();
+            start_timeout (2000);
         });
-    }
 
-    private void self_destruct () {
-        timeout_id = GLib.Timeout.add (2000, () => {
-            timeout_id = 0;
-            destroy ();
-            return false;
+        leave_notify_event.connect (() => {
+            start_timeout (2000);
+            return Gdk.EVENT_PROPAGATE;
         });
     }
 }
