@@ -74,12 +74,16 @@ public class Notifications.Bubble : AbstractBubble {
             bool default_action = false;
 
             for (int i = 0; i < actions.length; i += 2) {
-                if (actions[i] != "default") {
-                } else {
+                if (actions[i] == "default") {
                     default_action = true;
-                    i += 2;
+                    continue;
                 }
             }
+
+            contents.action_invoked.connect ((action_key) => {
+                action_invoked (action_key);
+                dismiss ();
+            });
 
             button_release_event.connect ((event) => {
                 if (default_action) {
@@ -116,11 +120,18 @@ public class Notifications.Bubble : AbstractBubble {
         var new_contents = new Contents (app_name, app_info, new_summary, app_icon, new_body, new_actions, new_image_path);
         new_contents.show_all ();
 
+        new_contents.action_invoked.connect ((action_key) => {
+            action_invoked (action_key);
+            dismiss ();
+        });
+
         content_area.add (new_contents);
         content_area.visible_child = new_contents;
     }
 
     private class Contents : Gtk.Grid {
+        public signal void action_invoked (string action_key);
+
         public GLib.DesktopAppInfo? app_info { get; construct; }
         public string app_icon { get; construct; }
         public string app_name { get; construct; }
@@ -128,8 +139,6 @@ public class Notifications.Bubble : AbstractBubble {
         public string[] actions { get; construct; }
         public string? image_path { get; construct; }
         public string summary { get; construct; }
-
-        private Gtk.ButtonBox action_area;
 
         public Contents (string app_name, GLib.DesktopAppInfo? app_info, string summary, string app_icon, string body, string[] actions, string? image_path) {
             Object (
@@ -218,7 +227,7 @@ public class Notifications.Bubble : AbstractBubble {
                 body_label.lines = 1;
             }
 
-            action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
+            var action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
                 halign = Gtk.Align.END,
                 layout_style = Gtk.ButtonBoxStyle.SPREAD
             };
@@ -235,8 +244,7 @@ public class Notifications.Bubble : AbstractBubble {
 
                     button.clicked.connect (() => {
                         app_info.launch_action (actions[i], new GLib.AppLaunchContext ());
-                        // action_invoked (action_key);
-                        // dismiss ();
+                        action_invoked (actions[i]);
                     });
 
                     action_area.pack_end (button);
