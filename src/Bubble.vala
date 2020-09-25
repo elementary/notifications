@@ -76,7 +76,7 @@ public class Notifications.Bubble : AbstractBubble {
             for (int i = 0; i < actions.length; i += 2) {
                 if (actions[i] == "default") {
                     default_action = true;
-                    continue;
+                    break;
                 }
             }
 
