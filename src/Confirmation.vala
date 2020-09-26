@@ -39,7 +39,7 @@ public class Notifications.Confirmation : AbstractBubble {
             hexpand = true,
             valign = Gtk.Align.CENTER,
             margin_end = 6,
-	        width_request = 228
+            width_request = 228
         };
 
         var contents = new Gtk.Grid () {
