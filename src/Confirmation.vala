@@ -38,6 +38,7 @@ public class Notifications.Confirmation : AbstractBubble {
         progressbar.hexpand = true;
         progressbar.valign = Gtk.Align.CENTER;
         progressbar.margin_end = 6;
+	progressbar.width_request = 228;
 
         var contents = new Gtk.Grid ();
         contents.column_spacing = 6;
