@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-16 16:30-0800\n"
-"PO-Revision-Date: 2020-04-05 22:10+0000\n"
+"PO-Revision-Date: 2020-08-29 20:13+0000\n"
 "Last-Translator: Mejans <farga@mejans.fr>\n"
 "Language-Team: Occitan <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/oc/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/notifications.appdata.xml.in:7
 msgid "Notifications"
-msgstr ""
+msgstr "Notificacions"
 
 #: data/notifications.appdata.xml.in:46
 msgid "elementary, Inc."
