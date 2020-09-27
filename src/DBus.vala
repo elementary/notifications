@@ -175,10 +175,14 @@ public class Notifications.Server : Object {
                     }
                 }
                 if (app_settings.get_boolean ("sounds")) {
-                    if (priority == GLib.NotificationPriority.URGENT) {
-                        send_sound (hints, "dialog-urgent");
-                    } else {
-                        send_sound (hints);
+                    switch (priority) {
+                        case GLib.NotificationPriority.HIGH:
+                        case GLib.NotificationPriority.URGENT:
+                            send_sound (hints, "dialog-urgent");
+                            break;
+                        default:
+                            send_sound (hints);
+                            break;
                     }
                 }
             }
