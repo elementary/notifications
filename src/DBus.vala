@@ -112,7 +112,7 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notifications.Notification (app_name, app_icon, summary, body, hints);
+            var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new GLib.Settings.full (
@@ -125,7 +125,7 @@ public class Notifications.Server : Object {
                     if (bubbles.has_key (id) && bubbles[id] != null) {
                         bubbles[id].replace (notification);
                     } else {
-                        bubbles[id] = new Notifications.Bubble (notification, actions, id);
+                        bubbles[id] = new Notifications.Bubble (notification, id);
                         bubbles[id].show_all ();
 
                         bubbles[id].action_invoked.connect ((action_key) => {

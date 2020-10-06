@@ -22,13 +22,11 @@ public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
     public Notifications.Notification notification { get; construct; }
-    public string[] actions { get; construct; }
     public uint32 id { get; construct; }
 
-    public Bubble (Notifications.Notification notification, string[] actions, uint32 id) {
+    public Bubble (Notifications.Notification notification, uint32 id) {
         Object (
             notification: notification,
-            actions: actions,
             id: id
         );
     }
@@ -48,30 +46,15 @@ public class Notifications.Bubble : AbstractBubble {
                 break;
         }
 
-        if (notification.app_info != null) {
-            bool default_action = false;
+        contents.action_invoked.connect ((action_key) => {
+            action_invoked (action_key);
+        });
 
-            for (int i = 0; i < actions.length; i += 2) {
-                if (actions[i] == "default") {
-                    default_action = true;
-                    break;
-                }
-            }
-
-            button_press_event.connect ((event) => {
-                if (default_action) {
-                    launch_action ("default");
-                } else {
-                    try {
-                        notification.app_info.launch (null, null);
-                        dismiss ();
-                    } catch (Error e) {
-                        critical ("Unable to launch app: %s", e.message);
-                    }
-                }
-                return Gdk.EVENT_STOP;
-            });
-        }
+        button_release_event.connect (() => {
+            ((Bubble.Contents) content_area.visible_child).launch_default_action ();
+            dismiss ();
+            return Gdk.EVENT_STOP;
+        });
 
         leave_notify_event.connect (() => {
             if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
@@ -79,12 +62,6 @@ public class Notifications.Bubble : AbstractBubble {
             }
             start_timeout (4000);
         });
-    }
-
-    private void launch_action (string action_key) {
-        notification.app_info.launch_action (action_key, new GLib.AppLaunchContext ());
-        action_invoked (action_key);
-        dismiss ();
     }
 
     public void replace (Notifications.Notification new_notification) {
@@ -95,13 +72,23 @@ public class Notifications.Bubble : AbstractBubble {
 
         content_area.add (new_contents);
         content_area.visible_child = new_contents;
+
+        new_contents.action_invoked.connect ((action_key) => {
+            action_invoked (action_key);
+        });
     }
 
     private class Contents : Gtk.Grid {
+        public signal void action_invoked (string action_key);
+
         public Notifications.Notification notification { get; construct; }
 
         public Contents (Notifications.Notification notification) {
             Object (notification: notification);
+        }
+
+        class construct {
+            set_css_name ("contents");
         }
 
         construct {
@@ -169,6 +156,29 @@ public class Notifications.Bubble : AbstractBubble {
             attach (image_overlay, 0, 0, 1, 2);
             attach (title_label, 1, 0);
             attach (body_label, 1, 1);
+        }
+
+        public void launch_default_action () {
+            if (notification.app_info != null) {
+                bool default_action = false;
+
+                for (int i = 0; i < notification.actions.length; i ++) {
+                    critical (notification.actions[i]);
+                    if (notification.actions[i] == "default") {
+                        default_action = true;
+                    }
+                }
+
+                if (default_action) {
+                    notification.app_info.launch_action ("default", new GLib.AppLaunchContext ());
+                } else {
+                    try {
+                        notification.app_info.launch (null, null);
+                    } catch (Error e) {
+                        critical ("Unable to launch app: %s", e.message);
+                    }
+                }
+            }
         }
     }
 }
