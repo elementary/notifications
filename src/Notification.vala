@@ -19,11 +19,13 @@
 */
 
 public class Notifications.Notification : GLib.Object {
+    private const string OTHER_APP_ID = "gala-other";
+
     public GLib.DesktopAppInfo? app_info { get; private set; default = null; }
     public GLib.NotificationPriority priority { get; private set; default = GLib.NotificationPriority.NORMAL; }
     public HashTable<string, Variant> hints { get; construct; }
     public string app_icon { get; construct; }
-    public string app_id { get; private set; default = "gala-other"; }
+    public string app_id { get; private set; default = OTHER_APP_ID; }
     public string app_name { get; construct; }
     public string body { get; construct set; }
     public string? image_path { get; private set; default = null; }

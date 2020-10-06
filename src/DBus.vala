@@ -37,7 +37,6 @@ public class Notifications.Server : Object {
     public signal void notification_closed (uint32 id, uint32 reason);
 
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
-    private const string OTHER_APP_ID = "gala-other";
 
     private uint32 id_counter = 0;
     private unowned Canberra.Context? ca_context = null;
