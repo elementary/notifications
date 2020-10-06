@@ -1,5 +1,5 @@
 /*
-* Copyright 2019 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2020 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -21,46 +21,22 @@
 public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
-    public GLib.DesktopAppInfo? app_info { get; construct; }
-    public GLib.NotificationPriority priority { get; construct; }
-    public string[] actions { get; construct; }
-    public string app_icon { get; construct; }
-    public string app_name { get; construct; }
-    public string body { get; construct; }
-    public string? image_path { get; construct; }
-    public string summary { get; construct; }
+    public Notifications.Notification notification { get; construct; }
     public uint32 id { get; construct; }
 
-    public Bubble (
-        GLib.DesktopAppInfo? app_info,
-        string app_icon,
-        string app_name,
-        string summary,
-        string body,
-        string[] actions,
-        GLib.NotificationPriority priority,
-        string? image_path,
-        uint32 id
-    ) {
+    public Bubble (Notifications.Notification notification, uint32 id) {
         Object (
-            app_info: app_info,
-            app_name: app_name,
-            summary: summary,
-            body: body,
-            actions: actions,
-            app_icon: app_icon,
-            priority: priority,
-            image_path: image_path,
+            notification: notification,
             id: id
         );
     }
 
     construct {
-        var contents = new Contents (app_name, app_info, summary, app_icon, body, actions, image_path);
+        var contents = new Contents (notification);
 
         content_area.add (contents);
 
-        switch (priority) {
+        switch (notification.priority) {
             case GLib.NotificationPriority.HIGH:
             case GLib.NotificationPriority.URGENT:
                 content_area.get_style_context ().add_class ("urgent");
@@ -70,11 +46,11 @@ public class Notifications.Bubble : AbstractBubble {
                 break;
         }
 
-        if (app_info != null) {
+        if (notification.app_info != null) {
             bool default_action = false;
 
-            for (int i = 0; i < actions.length; i += 2) {
-                if (actions[i] == "default") {
+            for (int i = 0; i < notification.actions.length; i += 2) {
+                if (notification.actions[i] == "default") {
                     default_action = true;
                     break;
                 }
@@ -87,10 +63,12 @@ public class Notifications.Bubble : AbstractBubble {
 
             button_release_event.connect ((event) => {
                 if (default_action) {
-                    launch_action ("default");
+                    notification.app_info.launch_action ("default", new GLib.AppLaunchContext ());
+                    action_invoked ("default");
+                    dismiss ();
                 } else {
                     try {
-                        app_info.launch (null, null);
+                        notification.app_info.launch (null, null);
                         dismiss ();
                     } catch (Error e) {
                         critical ("Unable to launch app: %s", e.message);
@@ -101,23 +79,17 @@ public class Notifications.Bubble : AbstractBubble {
         }
 
         leave_notify_event.connect (() => {
-            if (priority == GLib.NotificationPriority.HIGH || priority == GLib.NotificationPriority.URGENT) {
+            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
                 return Gdk.EVENT_PROPAGATE;
             }
             start_timeout (4000);
         });
     }
 
-    private void launch_action (string action_key) {
-        app_info.launch_action (action_key, new GLib.AppLaunchContext ());
-        action_invoked (action_key);
-        dismiss ();
-    }
-
-    public void replace (string new_summary, string new_body, string[] new_actions, string? new_image_path) {
+    public void replace (Notifications.Notification new_notification) {
         start_timeout (4000);
 
-        var new_contents = new Contents (app_name, app_info, new_summary, app_icon, new_body, new_actions, new_image_path);
+        var new_contents = new Contents (new_notification);
         new_contents.show_all ();
 
         new_contents.action_invoked.connect ((action_key) => {
@@ -132,51 +104,23 @@ public class Notifications.Bubble : AbstractBubble {
     private class Contents : Gtk.Grid {
         public signal void action_invoked (string action_key);
 
-        public GLib.DesktopAppInfo? app_info { get; construct; }
-        public string app_icon { get; construct; }
-        public string app_name { get; construct; }
-        public string body { get; construct; }
-        public string[] actions { get; construct; }
-        public string? image_path { get; construct; }
-        public string summary { get; construct; }
+        public Notifications.Notification notification { get; construct; }
 
-        public Contents (string app_name, GLib.DesktopAppInfo? app_info, string summary, string app_icon, string body, string[] actions, string? image_path) {
-            Object (
-                app_icon: app_icon,
-                app_info: app_info,
-                app_name: app_name,
-                body: body,
-                actions: actions,
-                image_path: image_path,
-                summary: summary
-            );
+        public Contents (Notifications.Notification notification) {
+            Object (notification: notification);
         }
 
         construct {
-            /*Only summary is required by GLib, so try to set a title when body is empty*/
-            if (body == "") {
-                body = summary;
-                summary = app_name;
-            }
-
-            if (app_icon == "") {
-                if (app_info != null) {
-                    app_icon = app_info.get_icon ().to_string ();
-                } else {
-                    app_icon = "dialog-information";
-                }
-            }
-
             var app_image = new Gtk.Image ();
-            app_image.icon_name = app_icon;
+            app_image.icon_name = notification.app_icon;
 
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;
 
-            if (image_path != null) {
+            if (notification.image_path != null) {
                 try {
                     var scale = get_style_context ().get_scale ();
-                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (image_path, 48 * scale, 48 * scale);
+                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (notification.image_path, 48 * scale, 48 * scale);
 
                     var masked_image = new Notifications.MaskedImage (pixbuf);
 
@@ -196,7 +140,7 @@ public class Notifications.Bubble : AbstractBubble {
                 image_overlay.add (app_image);
             }
 
-            var title_label = new Gtk.Label (summary) {
+            var title_label = new Gtk.Label (notification.summary) {
                 ellipsize = Pango.EllipsizeMode.END,
                 max_width_chars = 33,
                 valign = Gtk.Align.END,
@@ -205,7 +149,7 @@ public class Notifications.Bubble : AbstractBubble {
             };
             title_label.get_style_context ().add_class ("title");
 
-            var body_label = new Gtk.Label (body) {
+            var body_label = new Gtk.Label (notification.body) {
                 ellipsize = Pango.EllipsizeMode.END,
                 lines = 2,
                 max_width_chars = 33,
@@ -216,8 +160,8 @@ public class Notifications.Bubble : AbstractBubble {
                 xalign = 0
             };
 
-            if ("\n" in body) {
-                string[] lines = body.split ("\n");
+            if ("\n" in notification.body) {
+                string[] lines = notification.body.split ("\n");
                 string stripped_body = lines[0] + "\n";
                 for (int i = 1; i < lines.length; i++) {
                     stripped_body += lines[i].strip () + "";
@@ -238,13 +182,13 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
             attach (action_area, 0, 2, 2, 1);
 
-            for (int i = 0; i < actions.length; i += 2) {
-                if (actions[i] != "default") {
-                    var button = new Gtk.Button.with_label (actions[i + 1]);
+            for (int i = 0; i < notification.actions.length; i += 2) {
+                if (notification.actions[i] != "default") {
+                    var button = new Gtk.Button.with_label (notification.actions[i + 1]);
 
                     button.clicked.connect (() => {
-                        app_info.launch_action (actions[i], new GLib.AppLaunchContext ());
-                        action_invoked (actions[i]);
+                        notification.app_info.launch_action (notification.actions[i], new GLib.AppLaunchContext ());
+                        action_invoked (notification.actions[i]);
                     });
 
                     action_area.pack_end (button);
