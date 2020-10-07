@@ -22,13 +22,11 @@ public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
     public Notifications.Notification notification { get; construct; }
-    public string[] actions { get; construct; }
     public uint32 id { get; construct; }
 
     public Bubble (Notifications.Notification notification, string[] actions, uint32 id) {
         Object (
             notification: notification,
-            actions: actions,
             id: id
         );
     }
@@ -51,8 +49,8 @@ public class Notifications.Bubble : AbstractBubble {
         if (notification.app_info != null) {
             bool default_action = false;
 
-            for (int i = 0; i < actions.length; i += 2) {
-                if (actions[i] == "default") {
+            for (int i = 0; i < notification.actions.length; i += 2) {
+                if (notification.actions[i] == "default") {
                     default_action = true;
                     break;
                 }
