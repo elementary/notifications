@@ -138,7 +138,7 @@ public class Notifications.Server : Object {
                     }
                 }
                 if (app_settings.get_boolean ("sounds")) {
-                    switch (priority) {
+                    switch (notification.priority) {
                         case GLib.NotificationPriority.HIGH:
                         case GLib.NotificationPriority.URGENT:
                             send_sound (hints, "dialog-urgent");
