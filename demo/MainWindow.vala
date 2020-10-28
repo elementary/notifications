@@ -27,85 +27,83 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.ComboBoxText priority_combobox;
 
     public MainWindow (Gtk.Application application) {
-        this.application = application;
+        Object (application: application);
+    }
 
+    construct {
         title = "Notifications Demo";
-        set_default_size (400, 400);
-
-        var grid = new Gtk.Grid () {
-            orientation = Gtk.Orientation.VERTICAL,
-            halign = Gtk.Align.CENTER,
-            valign = Gtk.Align.CENTER,
-            row_spacing = 12
-        };
+        default_width = 400;
 
         title_entry = new Gtk.Entry () {
-            hexpand = true,
             placeholder_text = "Title",
             text = "Title"
         };
-        grid.add (title_entry);
 
         body_entry = new Gtk.Entry () {
-            hexpand = true,
             placeholder_text = "Body",
             text = "Body"
         };
-        grid.add (body_entry);
 
         id_entry = new Gtk.Entry () {
-            hexpand = true,
-            placeholder_text = "Id"
+            placeholder_text = "Replaces Id"
         };
-        grid.add (id_entry);
 
         var priority_label = new Gtk.Label ("Priority:");
 
         priority_combobox = new Gtk.ComboBoxText () {
             hexpand = true
         };
-        priority_combobox.append_text ("low");
-        priority_combobox.append_text ("normal");
-        priority_combobox.append_text ("high");
-        priority_combobox.append_text ("urgent");
+        priority_combobox.append_text ("Low");
+        priority_combobox.append_text ("Normal");
+        priority_combobox.append_text ("High");
+        priority_combobox.append_text ("Urgent");
         priority_combobox.set_active (1);
 
-        var priority_grid = new Gtk.Grid () {
-            column_spacing = 6,
-            margin = 6
+
+        var send_button = new Gtk.Button.with_label ("Send Notification") {
+            halign = Gtk.Align.END,
+            margin_top = 12
         };
-        priority_grid.add (priority_label);
-        priority_grid.add (priority_combobox);
-        grid.add (priority_grid);
+        send_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
 
-
-        var send_button = new Gtk.Button.with_label ("Send notification");
-        send_button.clicked.connect (send_notification);
-        grid.add (send_button);
+        var grid = new Gtk.Grid () {
+            valign = Gtk.Align.CENTER,
+            column_spacing = 12,
+            row_spacing = 12,
+            margin = 12
+        };
+        grid.attach (title_entry, 0, 0, 2);
+        grid.attach (body_entry, 0, 1, 2);
+        grid.attach (id_entry, 0, 2, 2);
+        grid.attach (priority_label, 0, 3);
+        grid.attach (priority_combobox, 1, 3);
+        grid.attach (send_button, 0, 4, 2);
 
         add (grid);
+
+        send_button.clicked.connect (send_notification);
     }
 
     private void send_notification () {
-        var notification = new Notification (title_entry.text);
-        notification.set_body (body_entry.text);
-
         NotificationPriority priority;
-        switch (priority_combobox.get_active_text ()) {
-        case "urgent":
+        switch (priority_combobox.active) {
+        case 3:
             priority = NotificationPriority.URGENT;
             break;
-        case "high":
+        case 2:
             priority = NotificationPriority.HIGH;
             break;
-        case "low":
+        case 1:
             priority = NotificationPriority.LOW;
             break;
-        case "normal":
+        case 0:
         default:
             priority = NotificationPriority.NORMAL;
             break;
         }
+
+        var notification = new Notification (title_entry.text);
+        notification.set_body (body_entry.text);
         notification.set_priority (priority);
 
         string? id = id_entry.text.length == 0 ? null : id_entry.text;
