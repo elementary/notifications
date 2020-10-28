@@ -21,8 +21,6 @@
  */
 
 public class Application : Gtk.Application {
-    private MainWindow window;
-
     public Application () {
         Object (
             application_id: "io.elementary.notifications.demo",
@@ -42,8 +40,7 @@ public class Application : Gtk.Application {
                 granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         });
 
-        window = new MainWindow (this);
-
+        var window = new MainWindow (this);
         window.show_all ();
     }
 
