@@ -35,16 +35,19 @@ public class MainWindow : Gtk.ApplicationWindow {
         default_width = 400;
 
         title_entry = new Gtk.Entry () {
+            activates_default = true,
             placeholder_text = "Title",
             text = "Title"
         };
 
         body_entry = new Gtk.Entry () {
+            activates_default = true,
             placeholder_text = "Body",
             text = "Body"
         };
 
         id_entry = new Gtk.Entry () {
+            activates_default = true,
             placeholder_text = "Replaces Id"
         };
 
@@ -61,6 +64,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
 
         var send_button = new Gtk.Button.with_label ("Send Notification") {
+            can_default = true,
             halign = Gtk.Align.END,
             margin_top = 12
         };
@@ -81,6 +85,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         add (grid);
 
+        send_button.has_default = true;
         send_button.clicked.connect (send_notification);
     }
 
