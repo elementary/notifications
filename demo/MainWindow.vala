@@ -93,10 +93,10 @@ public class MainWindow : Gtk.ApplicationWindow {
         case 2:
             priority = NotificationPriority.HIGH;
             break;
-        case 1:
+        case 0:
             priority = NotificationPriority.LOW;
             break;
-        case 0:
+        case 1:
         default:
             priority = NotificationPriority.NORMAL;
             break;
