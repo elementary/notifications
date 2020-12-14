@@ -41,6 +41,7 @@ public class Notifications.Confirmation : AbstractBubble {
             margin_end = 6,
             width_request = 228
         };
+        progressbar.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
         var contents = new Gtk.Grid () {
             column_spacing = 6
