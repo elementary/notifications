@@ -15,4 +15,6 @@ Standards-Version: 4.1.1
 Package: io.elementary.notifications
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Conflicts: switchboard-plug-notifications
+Replaces: switchboard-plug-notifications
 Description: a Gtk notification server for Pantheon
