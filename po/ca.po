@@ -1,0 +1,115 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2020-05-08 11:10+0000\n"
+"Last-Translator: David M <rbndavid@gmail.com>\n"
+"Language-Team: Catalan <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/ca/>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.9.1\n"
+"X-Launchpad-Export-Date: 2016-12-03 05:18+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "No hi ha res per fer aquí"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Les preferències de les notificacions serveixen per configurar quines "
+"aplicacions fan ús de les notificacions, per canviar com apareixen\n"
+"les notificacions d'una aplicació i per establir quan no voleu que les "
+"notificacions us molestin."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Quan les aplicacions que estan instal·lades tenen opcions de notificació, "
+"les notificacions apareixeran aquí automàticament."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Notificacions"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr ""
+"Configureu les bafarades de les notificacions, sons i el centre de "
+"notificacions."
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "No m'emprenyis!"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Centre de notificacions"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "So"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Bafarades"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Amb el mode «No m'emprenyis», les notificacions i les alertes s'amagaran i "
+"els sons de les notificacions se silenciaran."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Les notificacions del sistema, com ara el volum i la brillantor de la "
+"pantalla, no canviaran."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "L'elementary OS té el mode «No m'emprenyis» activat."
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Les bafarades apareixen al cantó de dalt a la dreta de la pantalla i "
+"desapareixen automàticament."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Sons"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Els sons es reproduiran un cop quan arribi una notificació."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Centre de notificacions"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr ""
+"Mostra les notificacions que se m'han escapat al centre de notificacions."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Inhabilitat"

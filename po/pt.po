@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2020-04-26 15:10+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"Language-Team: Portuguese <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/pt/>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.9.1\n"
+"X-Launchpad-Export-Date: 2016-07-01 06:02+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Nada a fazer aqui"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"As preferências de notificações são para configurar quais aplicações fazem "
+"uso de notificações, para alterar como as notificações de um aplicação "
+"aparecem,\n"
+"e para definir quando não quer ser incomodado por notificações."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Quando são instaladas aplicações que têm opções de notificação, elas "
+"aparecerão automaticamente aqui."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Notificações"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Configurar bolhas de notificação, sons e centro de notificações"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Não incomodar"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Centro de Notificações"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Som"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Bolhas"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"No modo Não incomodar, as notificações e alertas serão ocultados e os sons "
+"de notificação serão silenciados."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"As notificações do sistema, tais como volume e brilho do ecrã, não são "
+"afetadas."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "O elementary OS está no modo Não incomodar"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"As bolhas aparecem no canto superior direito do ecrã e desaparecem "
+"automaticamente."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Sons"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Os sons são reproduzidos uma vez quando uma notificação aparece."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Centro de Notificações"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Mostrar notificações perdidas no Centro de Notificações."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Desativado"

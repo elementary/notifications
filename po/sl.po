@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2017-05-31 22:03+0000\n"
+"Last-Translator: Jernej Virag <jernej@virag.si>\n"
+"Language-Team: Slovenian <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/sl/>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 2.14\n"
+"X-Launchpad-Export-Date: 2016-07-25 05:36+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Tu ni nič"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Nastavitve za obvestila so namenjene konfiguraciji dostopa aplikacij do "
+"obvestil ter oblike in časa prikaza obvestil."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr "Aplikacije z obvestili se bodo ob namestitvi prikazale tu."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Obvestila"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Nastavitve obvestil in zvokov za obveščanje"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Ne moti"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Središče za obvestila"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Zvok"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Mehurčki"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr "V tem načinu bodo obvestila skrita in njihovi zvoki izklopljeni."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Sistemska obvestila, kot npr. glasnost in svetlost, ne bodo spremenjena."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS je v načinu \"Ne moti\""
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Mehurčki se pojavijo v zgornjem desnem kotu zaslona in se samodejno skrijejo "
+"po nekaj časa."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Zvoki"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Zvoki se predvajajo ob novem obvestilu."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Središče za obvestila"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Prikaži zgrešena obvestila v središču za obvestila."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Onemogočeno"

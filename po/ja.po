@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2019-03-05 03:26+0000\n"
+"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
+"Language-Team: Japanese <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/ja/>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.4\n"
+"X-Launchpad-Export-Date: 2016-08-03 05:57+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "設定できるものがありません"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"通知設定では通知を使うアプリの設定やアプリの通知の表示方法の変更、\n"
+"一時的な通知のミュート設定を行います。"
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"通知設定があるアプリがインストールされると、自動的にここに表示されます。"
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "通知"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "バブル、サウンド、通知センターを設定します"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "非通知モード"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "通知センター"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "サウンド"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "バブル"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr "非通知モードの間、通知と警告は表示されず、通知サウンドも鳴りません。"
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr "音量設定やディスプレイの明るさなどのシステム通知は影響を受けません。"
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS は非通知モードです"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr "ディスプレイの右上に表示されて自動的に消えます。"
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "サウンド"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "新しい通知があったときにサウンドを鳴らします。"
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "通知センター"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "見逃した通知を通知センターに表示します。"
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "無効"

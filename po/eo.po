@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2019-07-15 10:28+0000\n"
+"Last-Translator: Shtonchjo <shtonchjo@gmail.com>\n"
+"Language-Team: Esperanto <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/eo/>\n"
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.6.1\n"
+"X-Launchpad-Export-Date: 2016-02-04 06:11+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Neniu farinda ĉi tie"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Avertaj agordoj celas alĝustigi la aplikaĵojn kiuj uzas avertadon, por ŝanĝi "
+"kiel aplikaĵo aperigas averton,\n"
+"kaj por elekti kiam vi ne deziras esti ĝenata de avertoj."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Post instalo de aplikaĵoj kun avertaj agordoj, ili aŭtomate aperos ĉi tie."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Avertoj"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Agordi avertajn bobelojn, sonojn, kaj la avertan centron"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Ne ĝeni"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Averta centro"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Sono"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Bobeloj"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Dum en Ne Ĝena reĝimo, avertoj kaj alarmoj estos kaŝitaj kaj avertaj sonoj "
+"estos silentigitaj."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr "Sistemaj avertoj, kiel laŭteco kaj ekrana brileco, restos netuŝitaj."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS estas agordita en Ne Ĝena reĝimo"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Bubeloj aperas ĉe la supra dekstra angulo de la ekrano kaj aŭtomate "
+"malaperas."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Sonoj"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Nova averto sonas ĉe apero."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Averta centro"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Montri maltrafitajn avertojn en la averta centro."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Malaktivigita"

@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2017-05-25 08:20+0000\n"
+"Last-Translator: Sergiu <sergiup26@gmail.com>\n"
+"Language-Team: Romanian <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/ro/>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 2.14\n"
+"X-Launchpad-Export-Date: 2016-02-04 06:12+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Nimic de făcut"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Preferinţele notificărilor sunt pentru configurarea aplicaţiilor care "
+"utilizează notificările, pentru a schimba modul în care o notificare a "
+"aplicaţiei apare,\n"
+"şi pentru a seta când nu vrei să fii deranjat de notificări."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Când vor fi instalate aplicaţii ce au opţiuni de notificări, acestea vor "
+"apărea automat aici."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Notificări"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Configuraţi bulele de notificare, sunetele şi centrul de notificări"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Nu Deranja"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Centrul de Notificări"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Sunet"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Bule"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"În timpul modului Nu Deranja, notificările şi alertele vor fi ascunse, iar "
+"sunetele de notificare vor fi dezactivate."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Notificările de sistem, precum nivelul volumului şi luminozitatea ecranului "
+"nu vor fi afectate."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS este în modul Nu Deranja"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr "Bulele apar în colţul drept de sus al ecranului şi dispar automat."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Sunete"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Sunetele vor fi redate odată ce va fi primită o notificare."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Centrul de Notificări"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Arată notificările pierdute în Centrul de Notificări."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Dezactivat"

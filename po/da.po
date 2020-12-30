@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2018-12-12 23:02+0000\n"
+"Last-Translator: Kaj Printz Madsen <kajprintz@gmail.com>\n"
+"Language-Team: Danish <https://weblate.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/da/>\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.0.1\n"
+"X-Launchpad-Export-Date: 2017-03-19 06:47+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Intet at gøre her"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Notifikationsindstillingerne angiver hvilke apps der gør brug af "
+"notifikationer, hvordan en app's notifikationer vises,\n"
+"og hvornår du ikke vil forstyrres af notifikationer."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Når apps med notifikationsindstillinger installeres, vil disse indstillinger "
+"automatisk blive tilføjet her."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Notifikationer"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Konfigurér notifikationsbobler, lyde og notifikationscenter"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Forstyr ikke"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Notifikationscenter"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Lyd"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Bobler"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Mens \"Forstyr ikke\"-tilstanden er aktiv, vil notifikationer og advarsler "
+"ikke blive vist, og der vil heller ikke blive afspillet lyde."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Systemnotifikationer, så som lydstyrke og skærmens lysstyrke, vil stadig "
+"blive vist."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS er i \"Forstyr ikke\"-tilstand"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Bobler vises i øverste højre hjørne af skærmen, og forsvinder automatisk."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Lyde"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Lyde afspilles når notifikationer opstår."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Notifikationscenter"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Vis oversete notifikationer i notifikationscentret."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Deaktiveret"

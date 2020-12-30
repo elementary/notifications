@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2019-05-15 17:14+0000\n"
+"Last-Translator: Moo <hazap@hotmail.com>\n"
+"Language-Team: Lithuanian <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/lt/>\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || n"
+"%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
+"X-Generator: Weblate 3.6.1\n"
+"X-Launchpad-Export-Date: 2016-08-16 06:20+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Čia nėra ką atlikti"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Pranešimų nuostatos yra skirtos konfigūruoti kurios programos naudos "
+"pranešimus, keisti kaip atsiras programos pranešimai,\n"
+"ir nustatyti kada nenorite būti trukdomi pranešimų."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Kai bus įdiegtos programos, turinčios pranešimų parinktis, jos automatiškai "
+"atsiras čia."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Pranešimai"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Konfigūruoti pranešimų burbulus, garsus bei pranešimų centrą"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Netrukdyti"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Pranešimų centras"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Garsas"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Burbulai"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Tol, kol yra įjungta netrukdymo veiksena, pranešimai ir signalai bus "
+"slepiami, o pranešimų garsai nutildyti."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Sistemos pranešimai, tokie kaip garsio ir ekrano ryškumo, išliks nepakitę."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS yra netrukdymo veiksenoje"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Burbulai pasirodo ekrano viršutiniame dešiniajame kampe ir automatiškai "
+"pranyksta."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Garsai"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Garsai atkuriami tuomet, kai pasirodo naujas pranešimas."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Pranešimų centras"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Rodyti praleistus pranešimus pranešimų centre."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Išjungta"

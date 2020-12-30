@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2019-05-13 15:14+0000\n"
+"Last-Translator: Prachi Joshi <josprachi@yahoo.com>\n"
+"Language-Team: Marathi <https://l10n.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/mr/>\n"
+"Language: mr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.6.1\n"
+"X-Launchpad-Export-Date: 2016-02-04 06:12+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "इथे करण्यासारखे काहीच नाहीये"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"सूचना प्राधान्ये कोणत्या अॅप्सच्या अधिसूचना कशा दिसतात ते बदलण्यासाठी, कोणत्या अॅप्स "
+"अधिसूचनांचा वापर करतात,\n"
+"आणि जेव्हा आपण अधिसूचनांद्वारे व्यत्यय आणू इच्छित नाही त्याचे सेटिंग कॉन्फिगर करण्यासाठी आहेत."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"जेव्हा अॅप्स इन्स्टॉल होतात ज्यात सूचना पर्याय असतात तेव्हा ते स्वयंचलितपणे येथे दिसतील."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "अधिसूचना"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "अधिसूचना बबल, ध्वनी आणि सूचना केंद्र कॉन्फिगर करा"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "व्यत्यय आणू नये"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "अधिसूचना केंद्र"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "ध्वनी"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "बबल"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"व्यत्यय आणू नका मोडमध्ये असताना, अधिसूचना आणि अलर्ट लपवल्या जातील आणि सूचना ध्वनी शांत "
+"केल्या जातील."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr "आवाज आणि डिस्प्ले ब्राइटनेस सारख्या सिस्टम सूचना अप्रभावित राहतील."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "एलिमेंटरी ओएस व्यत्यय आणू नका मोडमध्ये आहे"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr "डिस्प्लेच्या वरच्या उजव्या कोपऱ्यात बबल दिसतात आणि स्वयंचलितपणे अदृश्य होतात."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "ध्वनी"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "नवीन अधिसूचनेच्या वेळी ध्वनी वाजतात."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "अधिसूचना केंद्र"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "अधिसूचना केंद्रात दुर्लक्ष झालेल्या अधिसूचना दाखवा."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "अक्षम"

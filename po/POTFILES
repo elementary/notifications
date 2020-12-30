@@ -1,6 +1,14 @@
 src/AbstractBubble.vala
 src/Application.vala
+src/Backend/App.vala
+src/Backend/NotifyManager.vala
 src/Bubble.vala
 src/Confirmation.vala
 src/DBus.vala
+src/Plug.vala
+src/Widgets/AppEntry.vala
+src/Widgets/AppSettingsView.vala
+src/Widgets/MainView.vala
 src/Widgets/MaskedImage.vala
+src/Widgets/SettingsOption.vala
+src/Widgets/Sidebar.vala
