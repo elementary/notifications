@@ -82,6 +82,11 @@ public class Notifications.Notification : GLib.Object {
             image_path = variant.get_string ();
 
             if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
+                /* app_icon should be set to image_path here if the image_path parameter
+                isn't a path to a file. Should try to find a way to check if an icon
+                is actually valid so if the icon string doesn't exist, we'll fallback
+                to dialog-information. */
+                app_icon = image_path;
                 image_path = null;
             }
         }
