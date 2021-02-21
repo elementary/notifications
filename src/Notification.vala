@@ -20,6 +20,7 @@
 
 public class Notifications.Notification : GLib.Object {
     private const string OTHER_APP_ID = "gala-other";
+    private const int[] VALID_ICON_SIZES = {16, 24, 32, 48, 64, 128};
 
     public GLib.DesktopAppInfo? app_info { get; private set; default = null; }
     public GLib.NotificationPriority priority { get; private set; default = GLib.NotificationPriority.NORMAL; }
@@ -83,10 +84,11 @@ public class Notifications.Notification : GLib.Object {
 
             if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
                 /* app_icon should be set to image_path here if the image_path parameter
-                isn't a path to a file. Should try to find a way to check if an icon
-                is actually valid so if the icon string doesn't exist, we'll fallback
-                to dialog-information. */
-                app_icon = image_path;
+                isn't a path to a file. */
+                if (is_icon_exist (image_path)) {
+                    app_icon = image_path;
+                }
+
                 image_path = null;
             }
         }
@@ -114,5 +116,24 @@ public class Notifications.Notification : GLib.Object {
         }
 
         return text;
+    }
+
+    /**
+     * Check if an icon exists for all valid sizes.
+     */
+    private bool is_icon_exist (string icon_name) {
+        var icon_theme = Gtk.IconTheme.get_default ();
+        var icon = new ThemedIcon (icon_name);
+
+        Gtk.IconInfo? info;
+
+        foreach (var size in VALID_ICON_SIZES) {
+            info = icon_theme.lookup_by_gicon (icon, size, 0);
+
+            if (info == null)
+                return false;
+        }
+
+        return true;
     }
 }
