@@ -82,6 +82,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
         resizable = false;
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         get_style_context ().add_class ("notification");
+        // Prevent stealing focus when an app window is closed
+        set_accept_focus (false);
         set_titlebar (label);
         add (carousel);
 
