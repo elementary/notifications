@@ -96,7 +96,7 @@ public class Notifications.Bubble : AbstractBubble {
     }
 
     static bool is_uri (string? uri) {
-        return uri.contains("/");
+        return uri.contains ("/");
     }
 
     static Gtk.Image get_app_image (string? icon_name, int pixel_size, int scale) {
