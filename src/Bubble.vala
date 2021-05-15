@@ -95,28 +95,6 @@ public class Notifications.Bubble : AbstractBubble {
         content_area.visible_child = new_contents;
     }
 
-    static bool is_uri (string? uri) {
-        return uri.contains ("/");
-    }
-
-    static Gtk.Image get_app_image (string? icon_name, int pixel_size, int scale) {
-        Gtk.Image app_image = new Gtk.Image ();
-        if (is_uri (icon_name)) {
-            try {
-                var filename = GLib.Filename.from_uri (icon_name);
-                var pixbuf = new Gdk.Pixbuf.from_file_at_size (filename, pixel_size * scale, pixel_size * scale);
-                app_image.pixbuf = pixbuf;
-            } catch (Error e) {
-                critical ("Failed to generate app icon: %s", e.message);
-                app_image.icon_name = "image-missing";
-            }
-        } else {
-            app_image.icon_name = icon_name;
-        }
-        app_image.pixel_size = pixel_size;
-        return app_image;
-    }
-
     private class Contents : Gtk.Grid {
         public Notifications.Notification notification { get; construct; }
 
@@ -125,17 +103,30 @@ public class Notifications.Bubble : AbstractBubble {
         }
 
         construct {
+            var app_image = new Gtk.Image ();
+
+            if (notification.app_icon.contains ("/")) {
+                var file = File.new_for_uri (notification.app_icon);
+                if (file.query_exists ()) {
+                    app_image.gicon = new FileIcon (file);
+                } else {
+                    app_image.icon_name = "dialog-information";
+                }
+            } else {
+                app_image.icon_name = notification.app_icon;
+            }
+
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;
 
-            var scale = get_style_context ().get_scale ();
             if (notification.image_path != null) {
                 try {
+                    var scale = get_style_context ().get_scale ();
                     var pixbuf = new Gdk.Pixbuf.from_file_at_size (notification.image_path, 48 * scale, 48 * scale);
 
                     var masked_image = new Notifications.MaskedImage (pixbuf);
 
-                    var app_image = get_app_image (notification.app_icon, 24, scale);
+                    app_image.pixel_size = 24;
                     app_image.halign = app_image.valign = Gtk.Align.END;
 
                     image_overlay.add (masked_image);
@@ -143,11 +134,11 @@ public class Notifications.Bubble : AbstractBubble {
                 } catch (Error e) {
                     critical ("Unable to mask image: %s", e.message);
 
-                    var app_image = get_app_image (notification.app_icon, 48, scale);
+                    app_image.pixel_size = 48;
                     image_overlay.add (app_image);
                 }
             } else {
-                var app_image = get_app_image (notification.app_icon, 48, scale);
+                app_image.pixel_size = 48;
                 image_overlay.add (app_image);
             }
 
