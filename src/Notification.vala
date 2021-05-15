@@ -76,9 +76,6 @@ public class Notifications.Notification : GLib.Object {
             app_id.replace (".desktop", "");
 
             app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
-            if (app_info == null) {
-                app_info = new DesktopAppInfo.from_filename ("/etc/xdg/autostart/%s.desktop".printf (app_id));
-            }
         }
 
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
