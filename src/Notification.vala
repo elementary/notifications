@@ -30,6 +30,7 @@ public class Notifications.Notification : GLib.Object {
     public string app_name { get; construct; }
     public string body { get; construct set; }
     public string? image_path { get; private set; default = null; }
+    public Notifications.ImageData? image_data { get; private set; default = null; }
     public string summary { get; construct set; }
 
     private static Regex entity_regex;
@@ -66,6 +67,10 @@ public class Notifications.Notification : GLib.Object {
         }
 
         unowned Variant? variant = null;
+
+        if ((variant = hints.lookup ("image-data")) != null) {
+            image_data = ImageData.from_variant (variant);
+        }
 
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
             priority = (GLib.NotificationPriority) variant.get_byte ();
@@ -113,4 +118,5 @@ public class Notifications.Notification : GLib.Object {
 
         return text;
     }
+
 }
