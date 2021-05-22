@@ -30,15 +30,15 @@ public class Notifications.ImageData : GLib.Object {
     /**
      * Decode a raw image (iiibiiay) sent through 'hints'
      */
-    public ImageData.from_variant(Variant img) {
-        int v_width           = img.get_child_value(0).get_int32();
-        int v_height          = img.get_child_value(1).get_int32();
-        int v_rowstride       = img.get_child_value(2).get_int32();
-        bool v_has_alpha      = img.get_child_value(3).get_boolean();
-        int v_bits_per_sample = img.get_child_value(4).get_int32();
-        int v_n_channels      = img.get_child_value(5).get_int32();
+    public ImageData.from_variant (Variant img) {
+        int v_width = img.get_child_value (0).get_int32 ();
+        int v_height = img.get_child_value (1).get_int32 ();
+        int v_rowstride = img.get_child_value (2).get_int32 ();
+        bool v_has_alpha = img.get_child_value (3).get_boolean ();
+        int v_bits_per_sample = img.get_child_value (4).get_int32 ();
+        int v_n_channels = img.get_child_value (5).get_int32 ();
         // Storing a pointer to the uint8[] since Glib does not allow it as a property
-        void* v_raw           = img.get_child_value (6).get_data();
+        void* v_raw = img.get_child_value (6).get_data ();
 
         Object (
             width: v_width,
