@@ -119,28 +119,15 @@ public class Notifications.Bubble : AbstractBubble {
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;
 
-            if (notification.image_data != null) {
+            if (notification.image_data != null || notification.image_path != null) {
                 try {
+                    Gdk.Pixbuf pixbuf;
                     var scale = get_style_context ().get_scale ();
-                    var pixbuf = notification.image_data.to_pixbuf_at_size (48 * scale, 48 * scale);
-
-                    var masked_image = new Notifications.MaskedImage (pixbuf);
-
-                    app_image.pixel_size = 24;
-                    app_image.halign = app_image.valign = Gtk.Align.END;
-
-                    image_overlay.add (masked_image);
-                    image_overlay.add_overlay (app_image);
-                } catch (Error e) {
-                    critical ("Unable to mask image: %s", e.message);
-
-                    app_image.pixel_size = 48;
-                    image_overlay.add (app_image);
-                }
-            } else if (notification.image_path != null) {
-                try {
-                    var scale = get_style_context ().get_scale ();
-                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (notification.image_path, 48 * scale, 48 * scale);
+                    if (notification.image_data != null) {
+                        pixbuf = notification.image_data.get_pixbuf ();
+                    } else {
+                        pixbuf = new Gdk.Pixbuf.from_file_at_size (notification.image_path, 48 * scale, 48 * scale);
+                    }
 
                     var masked_image = new Notifications.MaskedImage (pixbuf);
 

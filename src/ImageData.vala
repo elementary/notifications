@@ -25,42 +25,34 @@ public class Notifications.ImageData : GLib.Object {
     public bool has_alpha { get; construct; }
     public int bits_per_sample { get; construct; }
     public int n_channels { get; construct; }
-    public void* raw { get; set; }
-
-    public ImageData (int width, int height, int rowstride, bool has_alpha, int bits_per_sample, int n_channels, void* raw) {
-        Object (
-            width: width, 
-            height: height, 
-            rowstride: rowstride, 
-            has_alpha: has_alpha, 
-            bits_per_sample: bits_per_sample, 
-            n_channels: n_channels, 
-            raw: raw
-        );
-    }
+    public void* raw { get; construct; }
 
     /**
      * Decode a raw image (iiibiiay) sent through 'hints'
      */
-    public static ImageData from_variant(Variant img)
-    {
-        // Read the image fields
+    public ImageData.from_variant(Variant img) {
         int v_width           = img.get_child_value(0).get_int32();
         int v_height          = img.get_child_value(1).get_int32();
         int v_rowstride       = img.get_child_value(2).get_int32();
         bool v_has_alpha      = img.get_child_value(3).get_boolean();
         int v_bits_per_sample = img.get_child_value(4).get_int32();
         int v_n_channels      = img.get_child_value(5).get_int32();
-        void* v_raw = img.get_child_value (6).get_data();
+        // Storing a pointer to the uint8[] since Glib does not allow it as a property
+        void* v_raw           = img.get_child_value (6).get_data();
 
-        return new ImageData(v_width, v_height, v_rowstride, v_has_alpha, v_bits_per_sample, v_n_channels, v_raw);
+        Object (
+            width: v_width,
+            height: v_height,
+            rowstride: v_rowstride,
+            has_alpha: v_has_alpha,
+            bits_per_sample: v_bits_per_sample,
+            n_channels: v_n_channels,
+            raw: v_raw
+        );
     }
 
-    public Gdk.Pixbuf to_pixbuf_at_size(int w, int h) {
-        unowned uint8[] data = (uint8[]) raw;
-        var pixbuf = new Gdk.Pixbuf.with_unowned_data (data, Gdk.Colorspace.RGB,
+    public Gdk.Pixbuf get_pixbuf () {
+        return new Gdk.Pixbuf.with_unowned_data ((uint8[]) raw, Gdk.Colorspace.RGB,
             has_alpha, bits_per_sample, width, height, rowstride, null);
-        var scaled_pixbuf = pixbuf.scale_simple(w, h,  Gdk.InterpType.BILINEAR);
-        return scaled_pixbuf;
     }
 }

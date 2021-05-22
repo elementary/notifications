@@ -69,7 +69,7 @@ public class Notifications.Notification : GLib.Object {
         unowned Variant? variant = null;
 
         if ((variant = hints.lookup ("image-data")) != null) {
-            image_data = ImageData.from_variant (variant);
+            image_data = new ImageData.from_variant (variant);
         }
 
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
