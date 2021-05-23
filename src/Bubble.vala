@@ -112,7 +112,17 @@ public class Notifications.Bubble : AbstractBubble {
 
         construct {
             var app_image = new Gtk.Image ();
-            app_image.icon_name = notification.app_icon;
+
+            if (notification.app_icon.contains ("/")) {
+                var file = File.new_for_uri (notification.app_icon);
+                if (file.query_exists ()) {
+                    app_image.gicon = new FileIcon (file);
+                } else {
+                    app_image.icon_name = "dialog-information";
+                }
+            } else {
+                app_image.icon_name = notification.app_icon;
+            }
 
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;

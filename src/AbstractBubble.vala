@@ -27,46 +27,73 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     private Gtk.Revealer revealer;
     private uint timeout_id;
+    private Hdy.Carousel carousel;
 
     construct {
-        content_area = new Gtk.Stack ();
-        content_area.transition_type = Gtk.StackTransitionType.SLIDE_DOWN;
-        content_area.vhomogeneous = false;
+        content_area = new Gtk.Stack () {
+            transition_type = Gtk.StackTransitionType.SLIDE_DOWN,
+            vhomogeneous = false
+        };
 
-        draw_area = new Gtk.Grid ();
-        draw_area.hexpand = true;
-        draw_area.margin = 16;
+        draw_area = new Gtk.Grid () {
+            hexpand = true,
+            margin = 16
+        };
         draw_area.get_style_context ().add_class ("draw-area");
         draw_area.add (content_area);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
-        close_button.halign = close_button.valign = Gtk.Align.START;
+        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
+            halign = Gtk.Align.START,
+            valign = Gtk.Align.START
+        };
         close_button.get_style_context ().add_class ("close");
 
-        var close_revealer = new Gtk.Revealer ();
-        close_revealer.reveal_child = false;
-        close_revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
+        var close_revealer = new Gtk.Revealer () {
+            reveal_child = false,
+            transition_type = Gtk.RevealerTransitionType.CROSSFADE
+        };
         close_revealer.add (close_button);
 
         var overlay = new Gtk.Overlay ();
         overlay.add (draw_area);
         overlay.add_overlay (close_revealer);
 
-        revealer = new Gtk.Revealer ();
-        revealer.reveal_child = true;
-        revealer.transition_duration = 195;
-        revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
+        revealer = new Gtk.Revealer () {
+            reveal_child = true,
+            transition_duration = 195,
+            transition_type = Gtk.RevealerTransitionType.CROSSFADE
+        };
         revealer.add (overlay);
 
         var label = new Gtk.Grid ();
+
+        carousel = new Hdy.Carousel () {
+            allow_mouse_drag = true,
+            interactive = true,
+            halign = Gtk.Align.END,
+            hexpand = true
+        };
+        carousel.add (new Gtk.Grid ());
+        carousel.add (revealer);
+        carousel.scroll_to (revealer);
 
         default_height = 0;
         default_width = 332;
         resizable = false;
         type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        add (revealer);
         get_style_context ().add_class ("notification");
+        // Prevent stealing focus when an app window is closed
+        set_accept_focus (false);
         set_titlebar (label);
+        add (carousel);
+
+        carousel.page_changed.connect ((index) => {
+            if (index == 0) {
+                closed (Notifications.Server.CloseReason.DISMISSED);
+                destroy ();
+            }
+
+        });
 
         close_button.clicked.connect (() => {
             closed (Notifications.Server.CloseReason.DISMISSED);

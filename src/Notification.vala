@@ -32,6 +32,9 @@ public class Notifications.Notification : GLib.Object {
     public string? image_path { get; private set; default = null; }
     public string summary { get; construct set; }
 
+    private static Regex entity_regex;
+    private static Regex tag_regex;
+
     public Notification (string app_name, string app_icon, string summary, string body, string[] actions, HashTable<string, Variant> hints) {
         Object (
             app_name: app_name,
@@ -43,11 +46,23 @@ public class Notifications.Notification : GLib.Object {
         );
     }
 
+    static construct {
+        try {
+            entity_regex = new Regex ("&(?!amp;|quot;|apos;|lt;|gt;)");
+            tag_regex = new Regex ("<(?!\\/?[biu]>)");
+        } catch (Error e) {
+            warning ("Invalid regex: %s", e.message);
+        }
+    }
+
     construct {
         /*Only summary is required by GLib, so try to set a title when body is empty*/
         if (body == "") {
-            body = summary;
+            body = fix_markup (summary);
             summary = app_name;
+        } else {
+            body = fix_markup (body);
+            summary = fix_markup (summary);
         }
 
         unowned Variant? variant = null;
@@ -61,6 +76,9 @@ public class Notifications.Notification : GLib.Object {
             app_id.replace (".desktop", "");
 
             app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
+            if (app_info == null) {
+                app_info = new DesktopAppInfo.from_filename ("/etc/xdg/autostart/%s.desktop".printf (app_id));
+            }
         }
 
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
@@ -78,5 +96,21 @@ public class Notifications.Notification : GLib.Object {
                 app_icon = "dialog-information";
             }
         }
+    }
+
+    /**
+     * Copied from gnome-shell, fixes the mess of markup that is sent to us
+     */
+    private string fix_markup (string markup) {
+        var text = markup;
+
+        try {
+            text = entity_regex.replace (markup, markup.length, 0, "&amp;");
+            text = tag_regex.replace (text, text.length, 0, "&lt;");
+        } catch (Error e) {
+            warning ("Invalid regex: %s", e.message);
+        }
+
+        return text;
     }
 }
