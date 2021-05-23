@@ -68,10 +68,6 @@ public class Notifications.Notification : GLib.Object {
 
         unowned Variant? variant = null;
 
-        if ((variant = hints.lookup ("image-data")) != null) {
-            pixbuf = read_image_data (variant);
-        }
-
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
@@ -84,6 +80,10 @@ public class Notifications.Notification : GLib.Object {
             if (app_info == null) {
                 app_info = new DesktopAppInfo.from_filename ("/etc/xdg/autostart/%s.desktop".printf (app_id));
             }
+        }
+
+        if ((variant = hints.lookup ("image-data")) != null || (variant = hints.lookup ("image_data")) != null || (variant = hints.lookup ("icon_data")) != null) {
+            pixbuf = read_image_data (variant);
         }
 
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
