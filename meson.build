@@ -19,7 +19,6 @@ executable(
     'src/Bubble.vala',
     'src/Confirmation.vala',
     'src/DBus.vala',
-    'src/ImageData.vala',
     'src/Notification.vala',
     'src/Widgets/MaskedImage.vala',
     css_gresource,

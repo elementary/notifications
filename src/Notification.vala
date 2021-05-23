@@ -30,7 +30,7 @@ public class Notifications.Notification : GLib.Object {
     public string app_name { get; construct; }
     public string body { get; construct set; }
     public string? image_path { get; private set; default = null; }
-    public Notifications.ImageData? image_data { get; private set; default = null; }
+    public Gdk.Pixbuf? pixbuf { get; private set; default = null; }
     public string summary { get; construct set; }
 
     private static Regex entity_regex;
@@ -69,7 +69,7 @@ public class Notifications.Notification : GLib.Object {
         unowned Variant? variant = null;
 
         if ((variant = hints.lookup ("image-data")) != null) {
-            image_data = new ImageData.from_variant (variant);
+            pixbuf = read_image_data (variant);
         }
 
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
@@ -117,6 +117,20 @@ public class Notifications.Notification : GLib.Object {
         }
 
         return text;
+    }
+
+    private Gdk.Pixbuf? read_image_data (Variant img) {
+        int width = img.get_child_value (0).get_int32 ();
+        int height = img.get_child_value (1).get_int32 ();
+        int rowstride = img.get_child_value (2).get_int32 ();
+        bool has_alpha = img.get_child_value (3).get_boolean ();
+        int bits_per_sample = img.get_child_value (4).get_int32 ();
+        unowned uint8[] raw = (uint8[]) img.get_child_value (6).get_data ();
+
+        // Build the pixbuf from the unowned buffer, and copy it to maintain our own instance.
+        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.with_unowned_data (raw, Gdk.Colorspace.RGB,
+            has_alpha, bits_per_sample, width, height, rowstride, null);
+        return pixbuf.copy ();
     }
 
 }

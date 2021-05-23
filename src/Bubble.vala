@@ -119,12 +119,12 @@ public class Notifications.Bubble : AbstractBubble {
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;
 
-            if (notification.image_data != null || notification.image_path != null) {
+            if (notification.pixbuf != null || notification.image_path != null) {
                 try {
                     Gdk.Pixbuf pixbuf;
                     var scale = get_style_context ().get_scale ();
-                    if (notification.image_data != null) {
-                        pixbuf = notification.image_data.get_pixbuf ();
+                    if (notification.pixbuf != null) {
+                        pixbuf = notification.pixbuf;
                     } else {
                         pixbuf = new Gdk.Pixbuf.from_file_at_size (notification.image_path, 48 * scale, 48 * scale);
                     }
