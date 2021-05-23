@@ -48,6 +48,7 @@ public class Notifications.Bubble : AbstractBubble {
 
         if (notification.app_info != null) {
             bool default_action = false;
+            bool has_actions = notification.actions.length > 0;
 
             for (int i = 0; i < notification.actions.length; i += 2) {
                 if (notification.actions[i] == "default") {
@@ -63,10 +64,9 @@ public class Notifications.Bubble : AbstractBubble {
 
             button_release_event.connect ((event) => {
                 if (default_action) {
-                    notification.app_info.launch_action ("default", new GLib.AppLaunchContext ());
                     action_invoked ("default");
                     dismiss ();
-                } else {
+                } else if (!has_actions) {
                     try {
                         notification.app_info.launch (null, null);
                         dismiss ();
@@ -195,10 +195,10 @@ public class Notifications.Bubble : AbstractBubble {
             for (int i = 0; i < notification.actions.length; i += 2) {
                 if (notification.actions[i] != "default") {
                     var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                    var action = notification.actions[i].dup();
 
                     button.clicked.connect (() => {
-                        notification.app_info.launch_action (notification.actions[i], new GLib.AppLaunchContext ());
-                        action_invoked (notification.actions[i]);
+                        action_invoked (action);
                     });
 
                     action_area.pack_end (button);
