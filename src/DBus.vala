@@ -184,9 +184,16 @@ public class Notifications.Server : Object {
     }
 
     private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {
+        unowned Variant? variant = null;
+
+        if ((variant = hints.lookup ("suppress-sound")) != null && variant.is_of_type (VariantType.BOOLEAN) && variant.get_boolean ()) {
+            return;
+        }
+
         if (sound_name == "dialog-information") {
-            Variant? variant = hints.lookup ("category");
-            if (variant != null) {
+            if ((variant = hints.lookup ("sound-name")) != null && variant.is_of_type (VariantType.STRING)) {
+                sound_name = variant.get_string ();
+            } else if ((variant = hints.lookup ("category")) != null && variant.is_of_type (VariantType.STRING)) {
                 sound_name = category_to_sound_name (variant.get_string ());
             }
         }
