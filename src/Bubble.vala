@@ -130,12 +130,13 @@ public class Notifications.Bubble : AbstractBubble {
                     }
 
                     var masked_image = new Notifications.MaskedImage (pixbuf);
-
-                    app_image.pixel_size = 24;
-                    app_image.halign = app_image.valign = Gtk.Align.END;
-
                     image_overlay.add (masked_image);
-                    image_overlay.add_overlay (app_image);
+
+                    if (app_image.icon_name != "dialog-information") {
+                        app_image.pixel_size = 24;
+                        app_image.halign = app_image.valign = Gtk.Align.END;
+                        image_overlay.add_overlay (app_image);
+                    }
                 } catch (Error e) {
                     critical ("Unable to mask image: %s", e.message);
 
