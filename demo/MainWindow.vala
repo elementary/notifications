@@ -27,6 +27,7 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.ComboBoxText priority_combobox;
     private Gtk.ComboBoxText category_combobox;
     private Gtk.ComboBoxText sound_combobox;
+    private Gtk.Switch suppress_sound_switch;
 
     public MainWindow (Gtk.Application application) {
         Object (application: application);
@@ -112,6 +113,11 @@ public class MainWindow : Gtk.ApplicationWindow {
         sound_combobox.append_text ("service-logout");
         sound_combobox.set_active (0);
 
+        var suppress_sound_label = new Gtk.Label ("Suppress Sounds:");
+        suppress_sound_switch = new Gtk.Switch () {
+            active = false,
+            halign = Gtk.Align.START
+        };
 
         var send_button = new Gtk.Button.with_label ("Send Notification") {
             can_default = true,
@@ -136,7 +142,9 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (category_combobox, 1, 5);
         grid.attach (sound_label, 0, 6);
         grid.attach (sound_combobox, 1, 6);
-        grid.attach (send_button, 0, 7, 2);
+        grid.attach (suppress_sound_label, 0, 7);
+        grid.attach (suppress_sound_switch, 1, 7);
+        grid.attach (send_button, 0, 8, 2);
 
         add (grid);
 
@@ -214,6 +222,9 @@ public class MainWindow : Gtk.ApplicationWindow {
             Variant sound_name = new Variant ("s", sound_combobox.get_active_text ());
             notification.set_hint ("sound-name", sound_name);
         }
+
+        Variant suppress_sound = new Variant ("b", suppress_sound_switch.active);
+        notification.set_hint ("suppress-sound", suppress_sound);
 
         try {
             notification.show ();
