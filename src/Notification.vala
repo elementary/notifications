@@ -30,7 +30,7 @@ public class Notifications.Notification : GLib.Object {
     public string app_name { get; construct; }
     public string body { get; construct set; }
     public string? image_path { get; private set; default = null; }
-    public Gdk.Pixbuf? pixbuf { get; private set; default = null; }
+    public Gdk.Pixbuf? image_data { get; private set; default = null; }
     public string summary { get; construct set; }
 
     private static Regex entity_regex;
@@ -83,7 +83,7 @@ public class Notifications.Notification : GLib.Object {
         }
 
         if ((variant = hints.lookup ("image-data")) != null || (variant = hints.lookup ("image_data")) != null || (variant = hints.lookup ("icon_data")) != null) {
-            pixbuf = read_image_data (variant);
+            image_data = image_data_variant_to_pixbuf (variant);
         }
 
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
@@ -119,7 +119,7 @@ public class Notifications.Notification : GLib.Object {
         return text;
     }
 
-    private Gdk.Pixbuf? read_image_data (Variant img) {
+    private Gdk.Pixbuf? image_data_variant_to_pixbuf (Variant img) {
         int width = img.get_child_value (0).get_int32 ();
         int height = img.get_child_value (1).get_int32 ();
         int rowstride = img.get_child_value (2).get_int32 ();
