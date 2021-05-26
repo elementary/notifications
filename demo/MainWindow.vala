@@ -26,6 +26,7 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.Entry id_entry;
     private Gtk.ComboBoxText priority_combobox;
     private Gtk.ComboBoxText category_combobox;
+    private Gtk.ComboBoxText sound_combobox;
 
     public MainWindow (Gtk.Application application) {
         Object (application: application);
@@ -93,6 +94,24 @@ public class MainWindow : Gtk.ApplicationWindow {
         category_combobox.append_text ("transfer.error");
         category_combobox.set_active (0);
 
+        var sound_label = new Gtk.Label ("Sound Name:");
+
+        sound_combobox = new Gtk.ComboBoxText () {
+            hexpand = true
+        };
+        sound_combobox.append_text ("");
+        sound_combobox.append_text ("device-added");
+        sound_combobox.append_text ("device-removed");
+        sound_combobox.append_text ("dialog-error");
+        sound_combobox.append_text ("dialog-information");
+        sound_combobox.append_text ("message-new-instant");
+        sound_combobox.append_text ("message");
+        sound_combobox.append_text ("network-connectivity-established");
+        sound_combobox.append_text ("network-connectivity-lost");
+        sound_combobox.append_text ("service-login");
+        sound_combobox.append_text ("service-logout");
+        sound_combobox.set_active (0);
+
 
         var send_button = new Gtk.Button.with_label ("Send Notification") {
             can_default = true,
@@ -115,7 +134,9 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (libnotify_label, 0, 4);
         grid.attach (category_label, 0, 5);
         grid.attach (category_combobox, 1, 5);
-        grid.attach (send_button, 0, 6, 2);
+        grid.attach (sound_label, 0, 6);
+        grid.attach (sound_combobox, 1, 6);
+        grid.attach (send_button, 0, 7, 2);
 
         add (grid);
 
@@ -125,7 +146,8 @@ public class MainWindow : Gtk.ApplicationWindow {
 
     private void route_notification () {
         var category = category_combobox.get_active_text ();
-        if (category.length > 0) {
+        var sound = sound_combobox.get_active_text ();
+        if (category.length > 0 || sound.length > 0) {
             send_libnotify_notification ();
         } else {
             send_notification ();
@@ -181,7 +203,17 @@ public class MainWindow : Gtk.ApplicationWindow {
             app_name = "io.elementary.notifications.demo"
         };
         notification.set_urgency (urgency);
-        notification.set_category (category_combobox.get_active_text ());
+
+        var category = category_combobox.get_active_text ();
+        if (category.length > 0) {
+            notification.set_category (category_combobox.get_active_text ());
+        }
+
+        var sound = sound_combobox.get_active_text ();
+        if (sound.length > 0) {
+            Variant sound_name = new Variant ("s", sound_combobox.get_active_text ());
+            notification.set_hint ("sound-name", sound_name);
+        }
 
         try {
             notification.show ();
