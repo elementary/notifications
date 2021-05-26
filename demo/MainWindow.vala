@@ -25,6 +25,7 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.Entry body_entry;
     private Gtk.Entry id_entry;
     private Gtk.ComboBoxText priority_combobox;
+    private Gtk.ComboBoxText category_combobox;
 
     public MainWindow (Gtk.Application application) {
         Object (application: application);
@@ -62,6 +63,36 @@ public class MainWindow : Gtk.ApplicationWindow {
         priority_combobox.append_text ("Urgent");
         priority_combobox.set_active (1);
 
+        var libnotify_label = new Gtk.Label ("Libnotify");
+
+        var category_label = new Gtk.Label ("Category:");
+
+        category_combobox = new Gtk.ComboBoxText () {
+            hexpand = true
+        };
+        category_combobox.append_text ("");
+        category_combobox.append_text ("device");
+        category_combobox.append_text ("device.added");
+        category_combobox.append_text ("device.error");
+        category_combobox.append_text ("device.removed");
+        category_combobox.append_text ("email");
+        category_combobox.append_text ("email.arrived");
+        category_combobox.append_text ("email.bounced");
+        category_combobox.append_text ("im");
+        category_combobox.append_text ("im.error");
+        category_combobox.append_text ("im.received");
+        category_combobox.append_text ("network");
+        category_combobox.append_text ("network.connected");
+        category_combobox.append_text ("network.disconnected");
+        category_combobox.append_text ("network.error");
+        category_combobox.append_text ("presence");
+        category_combobox.append_text ("presence.offline");
+        category_combobox.append_text ("presence.online");
+        category_combobox.append_text ("transfer");
+        category_combobox.append_text ("transfer.complete");
+        category_combobox.append_text ("transfer.error");
+        category_combobox.set_active (0);
+
 
         var send_button = new Gtk.Button.with_label ("Send Notification") {
             can_default = true,
@@ -81,12 +112,24 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (id_entry, 0, 2, 2);
         grid.attach (priority_label, 0, 3);
         grid.attach (priority_combobox, 1, 3);
-        grid.attach (send_button, 0, 4, 2);
+        grid.attach (libnotify_label, 0, 4);
+        grid.attach (category_label, 0, 5);
+        grid.attach (category_combobox, 1, 5);
+        grid.attach (send_button, 0, 6, 2);
 
         add (grid);
 
         send_button.has_default = true;
-        send_button.clicked.connect (send_notification);
+        send_button.clicked.connect (route_notification);
+    }
+
+    private void route_notification () {
+        var category = category_combobox.get_active_text ();
+        if (category.length > 0) {
+            send_libnotify_notification ();
+        } else {
+            send_notification ();
+        }
     }
 
     private void send_notification () {
@@ -114,5 +157,36 @@ public class MainWindow : Gtk.ApplicationWindow {
         string? id = id_entry.text.length == 0 ? null : id_entry.text;
 
         application.send_notification (id, notification);
+    }
+
+    private void send_libnotify_notification () {
+        Notify.init ("io.elementary.notifications.demo");
+
+        Notify.Urgency urgency;
+        switch (priority_combobox.active) {
+        case 3:
+        case 2:
+            urgency = Notify.Urgency.CRITICAL;
+            break;
+        case 0:
+            urgency = Notify.Urgency.LOW;
+            break;
+        case 1:
+        default:
+            urgency = Notify.Urgency.NORMAL;
+            break;
+        }
+
+        var notification = new Notify.Notification (title_entry.text, body_entry.text, "preferences-system-notifications") {
+            app_name = "io.elementary.notifications.demo"
+        };
+        notification.set_urgency (urgency);
+        notification.set_category (category_combobox.get_active_text ());
+
+        try {
+            notification.show ();
+        } catch (Error e) {
+            critical ("Failed to send notification: %s", e.message);
+        }
     }
 }
