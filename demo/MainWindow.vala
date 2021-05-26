@@ -65,7 +65,9 @@ public class MainWindow : Gtk.ApplicationWindow {
         priority_combobox.append_text ("Urgent");
         priority_combobox.set_active (1);
 
-        var libnotify_label = new Gtk.Label ("Libnotify");
+        var libnotify_label = new Gtk.Label ("Libnotify Tests") {
+            halign = Gtk.Align.CENTER
+        };
 
         var category_label = new Gtk.Label ("Category:");
 
@@ -137,7 +139,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (id_entry, 0, 2, 2);
         grid.attach (priority_label, 0, 3);
         grid.attach (priority_combobox, 1, 3);
-        grid.attach (libnotify_label, 0, 4);
+        grid.attach (libnotify_label, 0, 4, 2);
         grid.attach (category_label, 0, 5);
         grid.attach (category_combobox, 1, 5);
         grid.attach (sound_label, 0, 6);
