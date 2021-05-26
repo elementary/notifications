@@ -120,6 +120,10 @@ public class Notifications.Notification : GLib.Object {
     }
 
     private Gdk.Pixbuf? image_data_variant_to_pixbuf (Variant img) {
+        if (img.get_type_string() != "(iiibiiay)") {
+            warning ("Invalid type string: %s", img.get_type_string());
+            return null;
+        }
         int width = img.get_child_value (0).get_int32 ();
         int height = img.get_child_value (1).get_int32 ();
         int rowstride = img.get_child_value (2).get_int32 ();
