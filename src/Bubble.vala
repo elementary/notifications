@@ -193,7 +193,7 @@ public class Notifications.Bubble : AbstractBubble {
             for (int i = 0; i < notification.actions.length; i += 2) {
                 if (notification.actions[i] != "default") {
                     var button = new Gtk.Button.with_label (notification.actions[i + 1]);
-                    var action = notification.actions[i].dup();
+                    var action = notification.actions[i].dup ();
 
                     button.clicked.connect (() => {
                         action_invoked (action);
