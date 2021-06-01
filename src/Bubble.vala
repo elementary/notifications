@@ -46,37 +46,35 @@ public class Notifications.Bubble : AbstractBubble {
                 break;
         }
 
-        if (notification.app_info != null) {
-            bool default_action = false;
+        bool default_action = false;
+        bool has_actions = notification.actions.length > 0;
 
-            for (int i = 0; i < notification.actions.length; i += 2) {
-                if (notification.actions[i] == "default") {
-                    default_action = true;
-                    break;
+        for (int i = 0; i < notification.actions.length; i += 2) {
+            if (notification.actions[i] == "default") {
+                default_action = true;
+                break;
+            }
+        }
+
+        contents.action_invoked.connect ((action_key) => {
+            action_invoked (action_key);
+            dismiss ();
+        });
+
+        button_release_event.connect ((event) => {
+            if (default_action) {
+                action_invoked ("default");
+                dismiss ();
+            } else if (notification.app_info != null && !has_actions) {
+                try {
+                    notification.app_info.launch (null, null);
+                    dismiss ();
+                } catch (Error e) {
+                    critical ("Unable to launch app: %s", e.message);
                 }
             }
-
-            contents.action_invoked.connect ((action_key) => {
-                action_invoked (action_key);
-                dismiss ();
-            });
-
-            button_release_event.connect ((event) => {
-                if (default_action) {
-                    notification.app_info.launch_action ("default", new GLib.AppLaunchContext ());
-                    action_invoked ("default");
-                    dismiss ();
-                } else {
-                    try {
-                        notification.app_info.launch (null, null);
-                        dismiss ();
-                    } catch (Error e) {
-                        critical ("Unable to launch app: %s", e.message);
-                    }
-                }
-                return Gdk.EVENT_STOP;
-            });
-        }
+            return Gdk.EVENT_STOP;
+        });
 
         leave_notify_event.connect (() => {
             if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
@@ -112,7 +110,17 @@ public class Notifications.Bubble : AbstractBubble {
 
         construct {
             var app_image = new Gtk.Image ();
-            app_image.icon_name = notification.app_icon;
+
+            if (notification.app_icon.contains ("/")) {
+                var file = File.new_for_uri (notification.app_icon);
+                if (file.query_exists ()) {
+                    app_image.gicon = new FileIcon (file);
+                } else {
+                    app_image.icon_name = "dialog-information";
+                }
+            } else {
+                app_image.icon_name = notification.app_icon;
+            }
 
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;
@@ -185,10 +193,10 @@ public class Notifications.Bubble : AbstractBubble {
             for (int i = 0; i < notification.actions.length; i += 2) {
                 if (notification.actions[i] != "default") {
                     var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                    var action = notification.actions[i].dup ();
 
                     button.clicked.connect (() => {
-                        notification.app_info.launch_action (notification.actions[i], new GLib.AppLaunchContext ());
-                        action_invoked (notification.actions[i]);
+                        action_invoked (action);
                     });
 
                     action_area.pack_end (button);

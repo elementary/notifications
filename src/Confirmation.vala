@@ -30,17 +30,22 @@ public class Notifications.Confirmation : AbstractBubble {
     }
 
     construct {
-        var image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG);
-        image.valign = Gtk.Align.START;
-        image.pixel_size = 48;
+        var image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG) {
+            valign = Gtk.Align.START,
+            pixel_size = 48
+        };
 
-        var progressbar = new Gtk.ProgressBar ();
-        progressbar.hexpand = true;
-        progressbar.valign = Gtk.Align.CENTER;
-        progressbar.margin_end = 6;
+        var progressbar = new Gtk.ProgressBar () {
+            hexpand = true,
+            valign = Gtk.Align.CENTER,
+            margin_end = 6,
+            width_request = 228
+        };
+        progressbar.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
-        var contents = new Gtk.Grid ();
-        contents.column_spacing = 6;
+        var contents = new Gtk.Grid () {
+            column_spacing = 6
+        };
         contents.attach (image, 0, 0);
         contents.attach (progressbar, 1, 0);
 

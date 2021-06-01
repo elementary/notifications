@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Notifications Demo
+Comment=A demo to test the notification server
+Exec=io.elementary.notifications.demo
+Icon=preferences-system-notifications
+Type=Application
+NoDisplay=true
