@@ -179,29 +179,31 @@ public class Notifications.Bubble : AbstractBubble {
                 body_label.lines = 1;
             }
 
-            var action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
-                halign = Gtk.Align.END,
-                layout_style = Gtk.ButtonBoxStyle.SPREAD
-            };
-
             column_spacing = 6;
             attach (image_overlay, 0, 0, 1, 2);
             attach (title_label, 1, 0);
             attach (body_label, 1, 1);
-            attach (action_area, 0, 2, 2, 1);
 
-            for (int i = 0; i < notification.actions.length; i += 2) {
-                if (notification.actions[i] != "default") {
-                    var button = new Gtk.Button.with_label (notification.actions[i + 1]);
-                    var action = notification.actions[i].dup ();
+            if (notification.actions.length > 0) {
+                var action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
+                    layout_style = Gtk.ButtonBoxStyle.END
+                };
 
-                    button.clicked.connect (() => {
-                        action_invoked (action);
-                    });
+                attach (action_area, 0, 2, 2);
 
-                    action_area.pack_end (button);
-                } else {
-                    i += 2;
+                for (int i = 0; i < notification.actions.length; i += 2) {
+                    if (notification.actions[i] != "default") {
+                        var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                        var action = notification.actions[i].dup ();
+
+                        button.clicked.connect (() => {
+                            action_invoked (action);
+                        });
+
+                        action_area.pack_end (button);
+                    } else {
+                        i += 2;
+                    }
                 }
             }
         }
