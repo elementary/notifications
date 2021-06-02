@@ -189,7 +189,7 @@ public class Notifications.Bubble : AbstractBubble {
                     layout_style = Gtk.ButtonBoxStyle.END
                 };
 
-                attach (action_area, 0, 2, 2);
+                bool action_area_packed = false;
 
                 for (int i = 0; i < notification.actions.length; i += 2) {
                     if (notification.actions[i] != "default") {
@@ -201,6 +201,11 @@ public class Notifications.Bubble : AbstractBubble {
                         });
 
                         action_area.pack_end (button);
+
+                        if (!action_area_packed) {
+                            attach (action_area, 0, 2, 2);
+                            action_area_packed = true;
+                        }
                     } else {
                         i += 2;
                     }
