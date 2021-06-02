@@ -165,6 +165,7 @@ public class Notifications.Bubble : AbstractBubble {
                 valign = Gtk.Align.START,
                 width_chars = 33,
                 wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
                 xalign = 0
             };
 
