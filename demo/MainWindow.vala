@@ -28,6 +28,7 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.ComboBoxText category_combobox;
     private Gtk.ComboBoxText sound_combobox;
     private Gtk.Switch suppress_sound_switch;
+    private Gtk.SpinButton action_spinbutton;
 
     public MainWindow (Gtk.Application application) {
         Object (application: application);
@@ -64,6 +65,10 @@ public class MainWindow : Gtk.ApplicationWindow {
         priority_combobox.append_text ("High");
         priority_combobox.append_text ("Urgent");
         priority_combobox.set_active (1);
+
+        var action_label = new Gtk.Label ("Actions:");
+
+        action_spinbutton = new Gtk.SpinButton.with_range (0, 3, 1);
 
         var libnotify_label = new Gtk.Label ("Libnotify Tests") {
             halign = Gtk.Align.CENTER
@@ -139,19 +144,36 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (id_entry, 0, 2, 2);
         grid.attach (priority_label, 0, 3);
         grid.attach (priority_combobox, 1, 3);
-        grid.attach (libnotify_label, 0, 4, 2);
-        grid.attach (category_label, 0, 5);
-        grid.attach (category_combobox, 1, 5);
-        grid.attach (sound_label, 0, 6);
-        grid.attach (sound_combobox, 1, 6);
-        grid.attach (suppress_sound_label, 0, 7);
-        grid.attach (suppress_sound_switch, 1, 7);
-        grid.attach (send_button, 0, 8, 2);
+        grid.attach (action_label, 0, 4);
+        grid.attach (action_spinbutton, 1, 4);
+        grid.attach (libnotify_label, 0, 5, 2);
+        grid.attach (category_label, 0, 6);
+        grid.attach (category_combobox, 1, 6);
+        grid.attach (sound_label, 0, 7);
+        grid.attach (sound_combobox, 1, 7);
+        grid.attach (suppress_sound_label, 0, 8);
+        grid.attach (suppress_sound_switch, 1, 8);
+        grid.attach (send_button, 0, 9, 2);
 
-        add (grid);
+        var toast = new Granite.Widgets.Toast ("");
+
+        var overlay = new Gtk.Overlay ();
+        overlay.add (grid);
+        overlay.add_overlay (toast);
+
+        add (overlay);
 
         send_button.has_default = true;
         send_button.clicked.connect (route_notification);
+
+        var toast_action = new SimpleAction ("toast", VariantType.STRING);
+
+        GLib.Application.get_default ().add_action (toast_action);
+
+        toast_action.activate.connect ((parameter) => {
+            toast.title = parameter.get_string ();
+            toast.send_notification ();
+        });
     }
 
     private void route_notification () {
@@ -181,10 +203,17 @@ public class MainWindow : Gtk.ApplicationWindow {
             priority = NotificationPriority.NORMAL;
             break;
         }
-
         var notification = new Notification (title_entry.text);
         notification.set_body (body_entry.text);
         notification.set_priority (priority);
+
+        for (int i = 1; i <= action_spinbutton.value; i++) {
+            var title = "Action %i".printf (i);
+            notification.add_button (
+                title,
+                GLib.Action.print_detailed_name ("app.toast", new Variant ("s", title))
+            );
+        }
 
         string? id = id_entry.text.length == 0 ? null : id_entry.text;
 

@@ -24,7 +24,7 @@ public class Notifications.Bubble : AbstractBubble {
     public Notifications.Notification notification { get; construct; }
     public uint32 id { get; construct; }
 
-    public Bubble (Notifications.Notification notification, string[] actions, uint32 id) {
+    public Bubble (Notifications.Notification notification, uint32 id) {
         Object (
             notification: notification,
             id: id
@@ -46,30 +46,35 @@ public class Notifications.Bubble : AbstractBubble {
                 break;
         }
 
-        if (notification.app_info != null) {
-            bool default_action = false;
+        bool default_action = false;
+        bool has_actions = notification.actions.length > 0;
 
-            for (int i = 0; i < notification.actions.length; i += 2) {
-                if (notification.actions[i] == "default") {
-                    default_action = true;
-                    break;
+        for (int i = 0; i < notification.actions.length; i += 2) {
+            if (notification.actions[i] == "default") {
+                default_action = true;
+                break;
+            }
+        }
+
+        contents.action_invoked.connect ((action_key) => {
+            action_invoked (action_key);
+            dismiss ();
+        });
+
+        button_release_event.connect ((event) => {
+            if (default_action) {
+                action_invoked ("default");
+                dismiss ();
+            } else if (notification.app_info != null && !has_actions) {
+                try {
+                    notification.app_info.launch (null, null);
+                    dismiss ();
+                } catch (Error e) {
+                    critical ("Unable to launch app: %s", e.message);
                 }
             }
-
-            button_press_event.connect ((event) => {
-                if (default_action) {
-                    launch_action ("default");
-                } else {
-                    try {
-                        notification.app_info.launch (null, null);
-                        dismiss ();
-                    } catch (Error e) {
-                        critical ("Unable to launch app: %s", e.message);
-                    }
-                }
-                return Gdk.EVENT_STOP;
-            });
-        }
+            return Gdk.EVENT_STOP;
+        });
 
         leave_notify_event.connect (() => {
             if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
@@ -79,23 +84,24 @@ public class Notifications.Bubble : AbstractBubble {
         });
     }
 
-    private void launch_action (string action_key) {
-        notification.app_info.launch_action (action_key, new GLib.AppLaunchContext ());
-        action_invoked (action_key);
-        dismiss ();
-    }
-
     public void replace (Notifications.Notification new_notification) {
         start_timeout (4000);
 
         var new_contents = new Contents (new_notification);
         new_contents.show_all ();
 
+        new_contents.action_invoked.connect ((action_key) => {
+            action_invoked (action_key);
+            dismiss ();
+        });
+
         content_area.add (new_contents);
         content_area.visible_child = new_contents;
     }
 
     private class Contents : Gtk.Grid {
+        public signal void action_invoked (string action_key);
+
         public Notifications.Notification notification { get; construct; }
 
         public Contents (Notifications.Notification notification) {
@@ -177,6 +183,29 @@ public class Notifications.Bubble : AbstractBubble {
             attach (image_overlay, 0, 0, 1, 2);
             attach (title_label, 1, 0);
             attach (body_label, 1, 1);
+
+            if (notification.actions.length > 0) {
+                var action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
+                    layout_style = Gtk.ButtonBoxStyle.END
+                };
+
+                attach (action_area, 0, 2, 2);
+
+                for (int i = 0; i < notification.actions.length; i += 2) {
+                    if (notification.actions[i] != "default") {
+                        var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                        var action = notification.actions[i].dup ();
+
+                        button.clicked.connect (() => {
+                            action_invoked (action);
+                        });
+
+                        action_area.pack_end (button);
+                    } else {
+                        i += 2;
+                    }
+                }
+            }
         }
     }
 }
