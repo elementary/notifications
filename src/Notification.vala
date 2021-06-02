@@ -56,15 +56,6 @@ public class Notifications.Notification : GLib.Object {
     }
 
     construct {
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "") {
-            body = fix_markup (summary);
-            summary = app_name;
-        } else {
-            body = fix_markup (body);
-            summary = fix_markup (summary);
-        }
-
         unowned Variant? variant = null;
 
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
@@ -95,6 +86,19 @@ public class Notifications.Notification : GLib.Object {
             } else {
                 app_icon = "dialog-information";
             }
+        }
+
+        if (app_name == "" && app_info != null) {
+            app_name = app_info.get_display_name ();
+        }
+
+        /*Only summary is required by GLib, so try to set a title when body is empty*/
+        if (body == "") {
+            body = fix_markup (summary);
+            summary = app_name;
+        } else {
+            body = fix_markup (body);
+            summary = fix_markup (summary);
         }
     }
 
