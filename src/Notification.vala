@@ -93,7 +93,7 @@ public class Notifications.Notification : GLib.Object {
             }
 
             var is_a_path = image_path.has_prefix ("/") || image_path.has_prefix ("file://");
-            if (badge_icon != null || image_path == app_icon || !is_a_path) {
+            if (badge_icon != null || !is_a_path) {
                 image_path = null;
             }
         }
