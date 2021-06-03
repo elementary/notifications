@@ -23,6 +23,7 @@
 public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.Entry title_entry;
     private Gtk.Entry body_entry;
+    private Gtk.Entry icon_entry;
     private Gtk.Entry id_entry;
     private Gtk.ComboBoxText priority_combobox;
     private Gtk.SpinButton action_spinbutton;
@@ -50,6 +51,11 @@ public class MainWindow : Gtk.ApplicationWindow {
         id_entry = new Gtk.Entry () {
             activates_default = true,
             placeholder_text = "Replaces Id"
+        };
+
+        icon_entry = new Gtk.Entry () {
+            activates_default = true,
+            placeholder_text = "Badge Icon Name"
         };
 
         var priority_label = new Gtk.Label ("Priority:");
@@ -83,11 +89,12 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (title_entry, 0, 0, 2);
         grid.attach (body_entry, 0, 1, 2);
         grid.attach (id_entry, 0, 2, 2);
-        grid.attach (priority_label, 0, 3);
-        grid.attach (priority_combobox, 1, 3);
-        grid.attach (action_label, 0, 4);
-        grid.attach (action_spinbutton, 1, 4);
-        grid.attach (send_button, 0, 5, 2);
+        grid.attach (icon_entry, 0, 3, 2);
+        grid.attach (priority_label, 0, 4);
+        grid.attach (priority_combobox, 1, 4);
+        grid.attach (action_label, 0, 5);
+        grid.attach (action_spinbutton, 1, 5);
+        grid.attach (send_button, 0, 6, 2);
 
         var toast = new Granite.Widgets.Toast ("");
 
@@ -140,6 +147,10 @@ public class MainWindow : Gtk.ApplicationWindow {
         }
 
         string? id = id_entry.text.length == 0 ? null : id_entry.text;
+
+        if (icon_entry.text != "") {
+            notification.set_icon (new ThemedIcon (icon_entry.text));
+        }
 
         application.send_notification (id, notification);
     }

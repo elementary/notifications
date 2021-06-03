@@ -31,6 +31,7 @@ public class Notifications.Notification : GLib.Object {
     public string body { get; construct set; }
     public string? image_path { get; private set; default = null; }
     public string summary { get; construct set; }
+    public GLib.Icon badge_icon { get; construct set; }
 
     private static Regex entity_regex;
     private static Regex tag_regex;
@@ -58,6 +59,7 @@ public class Notifications.Notification : GLib.Object {
     construct {
         unowned Variant? variant = null;
 
+        // GLib.Notification.set_priority ()
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
@@ -72,14 +74,7 @@ public class Notifications.Notification : GLib.Object {
             }
         }
 
-        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
-            image_path = variant.get_string ();
-
-            if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
-                image_path = null;
-            }
-        }
-
+        // Always "" if sent by GLib.Notification
         if (app_icon == "") {
             if (app_info != null) {
                 app_icon = app_info.get_icon ().to_string ();
@@ -88,11 +83,27 @@ public class Notifications.Notification : GLib.Object {
             }
         }
 
+        // GLib.Notification.set_icon ()
+        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
+            image_path = variant.get_string ();
+
+            // GLib.Notification also sends icon names via this hint
+            if (Gtk.IconTheme.get_default ().has_icon (image_path) && image_path != app_icon) {
+                badge_icon = new ThemedIcon (image_path);
+            }
+
+            var is_a_path = image_path.has_prefix ("/") || image_path.has_prefix ("file://");
+            if (badge_icon != null || image_path == app_icon || !is_a_path) {
+                image_path = null;
+            }
+        }
+
+        // Always "" if sent by GLib.Notification
         if (app_name == "" && app_info != null) {
             app_name = app_info.get_display_name ();
         }
 
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
+        /*Only summary is required by GLib.Notification, so try to set a title when body is empty*/
         if (body == "") {
             body = fix_markup (summary);
             summary = app_name;

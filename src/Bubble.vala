@@ -146,6 +146,15 @@ public class Notifications.Bubble : AbstractBubble {
             } else {
                 app_image.pixel_size = 48;
                 image_overlay.add (app_image);
+
+                if (notification.badge_icon != null) {
+                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
+                        halign = Gtk.Align.END,
+                        valign = Gtk.Align.END,
+                        pixel_size = 24
+                    };
+                    image_overlay.add_overlay (badge_image);
+                }
             }
 
             var title_label = new Gtk.Label (notification.summary) {
