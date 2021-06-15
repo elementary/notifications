@@ -141,7 +141,7 @@ public class Notifications.Server : Object {
                     switch (notification.priority) {
                         case GLib.NotificationPriority.HIGH:
                         case GLib.NotificationPriority.URGENT:
-                            send_sound (hints, "dialog-urgent");
+                            send_sound (hints, "dialog-warning");
                             break;
                         default:
                             send_sound (hints);
