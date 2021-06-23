@@ -50,7 +50,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         var close_revealer = new Gtk.Revealer () {
             reveal_child = false,
-            transition_type = Gtk.RevealerTransitionType.CROSSFADE
+            transition_type = Gtk.RevealerTransitionType.CROSSFADE,
+            halign = Gtk.Align.START,
+            valign = Gtk.Align.START
         };
         close_revealer.add (close_button);
 
@@ -92,7 +94,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
                 closed (Notifications.Server.CloseReason.DISMISSED);
                 destroy ();
             }
-
         });
 
         close_button.clicked.connect (() => {

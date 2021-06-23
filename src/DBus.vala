@@ -125,7 +125,7 @@ public class Notifications.Server : Object {
                     if (bubbles.has_key (id) && bubbles[id] != null) {
                         bubbles[id].replace (notification);
                     } else {
-                        bubbles[id] = new Notifications.Bubble (notification, actions, id);
+                        bubbles[id] = new Notifications.Bubble (notification, id);
                         bubbles[id].show_all ();
 
                         bubbles[id].action_invoked.connect ((action_key) => {
@@ -138,7 +138,15 @@ public class Notifications.Server : Object {
                     }
                 }
                 if (app_settings.get_boolean ("sounds")) {
-                    send_sound (hints);
+                    switch (notification.priority) {
+                        case GLib.NotificationPriority.HIGH:
+                        case GLib.NotificationPriority.URGENT:
+                            send_sound (hints, "dialog-warning");
+                            break;
+                        default:
+                            send_sound (hints);
+                            break;
+                    }
                 }
             }
         }
