@@ -1,0 +1,113 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2018-01-04 00:14+0000\n"
+"Last-Translator: Jörg Arnold <j0ar@posteo.de>\n"
+"Language-Team: German <https://weblate.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/de/>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.18\n"
+"X-Launchpad-Export-Date: 2016-12-27 05:06+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Hier gibt es nichts zu tun"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"In der Systemeinstellung »Benachrichtigungen« können Sie einrichten, welche "
+"Anwendungen Benachrichtigungen senden dürfen, in welcher\n"
+"Weise diese erscheinen sollen und wann Sie nicht durch Benachrichtigungen "
+"gestört werden wollen."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Installierte Anwendungen, die über eine Benachrichtigungsfunktion verfügen, "
+"erscheinen hier automatisch."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Benachrichtigungen, Klänge und das Benachrichtigungscenter einrichten"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Bitte nicht stören"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Benachrichtigungscenter"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Audio"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Hinweise"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Im Modus »Bitte nicht stören« werden Benachrichtigungen und Warnmeldungen "
+"ausgeblendet sowie Benachrichtigungsklänge unterdrückt."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Systembenachrichtigungen, wie beispielsweise die der Lautstärke- und "
+"Helligkeitseinstellungen, sind nicht betroffen."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS befindet sich im Modus »Bitte nicht stören«"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Hinweise erscheinen in der oberen rechte Ecke des Bildschirms und werden "
+"nach kurzer Zeit automatisch wieder ausgeblendet."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Klänge"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Beim Eintreffen von Benachrichtigungen werden Klänge wiedergegeben."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Benachrichtigungscenter"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr ""
+"Verpasste Benachrichtigungen werden im Benachrichtigungscenter angezeigt."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Deaktiviert"

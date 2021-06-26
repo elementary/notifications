@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2018-06-18 00:05+0000\n"
+"Last-Translator: Majer Tamás <mtamas@disroot.org>\n"
+"Language-Team: Hungarian <https://weblate.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/hu/>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.18\n"
+"X-Launchpad-Export-Date: 2016-02-04 06:12+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Nincs teendő"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Az értesítési beállításokban megadhatja, hogy mely alkalmazások küldhetnek "
+"értesítéseket, és hogy azok hogyan jelenjenek meg,\n"
+"illetve kikapcsolhatja őket, ha nem szeretné, hogy elvonják a figyelmét."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"Itt automatikusan megjelennek azok a telepített alkalmazások, amelyek "
+"értesítési beállításokkal rendelkeznek."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Értesítések"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Értesítési buborékok, hangok és az értesítési központ beállítása"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Ne zavarj"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "Értesítési központ"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "Hang"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Buborékok"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Ne zavarj módban az értesítések és figyelmeztetések is rejtve lesznek, az "
+"értesítési hangok pedig némítva."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"A rendszerszintű értesítésekre, mint például a hangerő és fényerő állítása, "
+"nincs hatással."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "Az elementary OS ne zavarj módban van"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"A buborékok a képernyő jobb felső sarkában jelennek meg, és automatikusan "
+"eltűnnek."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Hangok"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "A hangok egyszer játszódnak le az új értesítés pillanatában."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Értesítési központ"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Az elmulasztott értesítések megjelennek az Értesítési központban."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Kikapcsolva"

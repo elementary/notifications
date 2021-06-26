@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2018-02-11 00:08+0000\n"
+"Last-Translator: Lasha-Giorgi Esebua <lashagiorgiesebua@gmail.com>\n"
+"Language-Team: Georgian <https://weblate.elementary.io/projects/switchboard/"
+"switchboard-plug-notifications/ka/>\n"
+"Language: ka\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.18\n"
+"X-Launchpad-Export-Date: 2016-02-04 06:12+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "აქ არაფერია"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"შეტყობინებების პარამეტრებით შესაძლებელია შეტყობინებების გამომყენებელი "
+"პროგრამის სამართავად, პროგრამის შეტყობინბის გამოჩენის შესაცვლელად,\n"
+"და იმის დასაყენებლად, როცა არ გსურთ შეტყობინებებმა შეგაწუხოთ."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr ""
+"შეტყობინებებიანი პროგრამების დაყენებისას ისინი ავტომატურად გამოჩნდებიან აქ."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "შეტყობინებები"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr ""
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "არ შემაწუხოთ"
+
+#: src/Plug.vala:84
+#, fuzzy
+msgid "Notifications Center"
+msgstr "შეყობინებების ცენტრი"
+
+#: src/Plug.vala:85
+#, fuzzy
+msgid "Sound"
+msgstr "ხმები"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "ბუშტები"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"\"არ შემაწუხოთ\" რეჟიმისას, შეტყობინებები და გაფრთხილებები დაიმალება და "
+"შეტყობინების ხმები დადუმდება."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"სისტემური შეტყობინებები, როგორიცაა ხმა და ეკრანის სიკაშკაშე, ხელშეუხებელი "
+"დარჩება."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS \"არ შემაწუხოთ\" რეჟიმშია"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr "ბუშტები ეკრანის ზედა მაჯრვენა კუთხეში ჩნდებიან და ავტომატურად ქრებიან."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "ხმები"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "ახალი შეტყობინების მოსვლისას იკვრება ხმა."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "შეყობინებების ცენტრი"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "შეტყობინებების ცენტრში გამოყოვებული შეტყობინებების ჩვენება."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "გამორთულია"

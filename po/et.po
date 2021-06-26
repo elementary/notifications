@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2016-06-16 13:49+0000\n"
+"Last-Translator: Kristjan Vool <tictac7x@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2016-06-17 05:47+0000\n"
+"X-Generator: Launchpad (build 18097)\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "Siin pole midagi teha"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"Märguannete seadistamisega on võimalik määrata, millised rakendused annavad "
+"endast märku ning kuidas nad seda teevad.\n"
+"Kõik märguanded on ka võimalik keelata, et sind ei segataks."
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr "Märguandeid kasutavad rakendused kuvatakse siin."
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "Märguanded"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "Märguannete mullide, helide ja märguannete keskuse seadistamine"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "Märguannete keelamine"
+
+#: src/Plug.vala:84
+#, fuzzy
+msgid "Notifications Center"
+msgstr "Märguannete keskus"
+
+#: src/Plug.vala:85
+#, fuzzy
+msgid "Sound"
+msgstr "Helid"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "Mullid"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr ""
+"Kõikide rakenduste märguanded on keelatud. Ei kuvata ühtegi märguande mulli "
+"ning märguannete helid on vaigistatud."
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr ""
+"Süsteemi märguanded, nagu näiteks helitugevus, võrguühendus ning "
+"ekraaniheledus, ei ole mõjutatud."
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "Kõik märguanded on keelatud"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr ""
+"Märguande mull ilmub üles paremasse nurka ning mõne aja pärast peidetakse "
+"see automaatselt."
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "Helid"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "Märguande korral heli esitamine."
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "Märguannete keskus"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "Märkamata jäänud märguannete lisamine märguannete keskusesse."
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "Keelatud"

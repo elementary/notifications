@@ -1,0 +1,103 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 22:27+0000\n"
+"PO-Revision-Date: 2020-11-21 04:15+0000\n"
+"Last-Translator: colindemian <colindemian@outlook.com>\n"
+"Language-Team: Chinese (Simplified) <https://l10n.elementary.io/projects/"
+"switchboard/switchboard-plug-notifications/zh_Hans/>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.9.1\n"
+"X-Launchpad-Export-Date: 2017-03-22 07:15+0000\n"
+
+#: src/Plug.vala:24
+msgid "Nothing to do here"
+msgstr "暂无内容"
+
+#: src/Plug.vala:26
+msgid ""
+"Notifications preferences are for configuring which apps make use of "
+"notifications, for changing how an app's notifications appear,\n"
+"and for setting when you do not want to be disturbed by notifications."
+msgstr ""
+"通知设置可以对应用程序的通知进行配置，\n"
+"更改应用程序通知的显示方式，\n"
+"还能设定免打扰时间。"
+
+#: src/Plug.vala:28
+msgid ""
+"When apps are installed that have notification options they will "
+"automatically appear here."
+msgstr "安装的应用若包含通知选项，它们会自动出现在此处。"
+
+#: src/Plug.vala:45
+msgid "Notifications"
+msgstr "通知"
+
+#: src/Plug.vala:46
+msgid "Configure notification bubbles, sounds, and notification center"
+msgstr "配置通知气泡、声音和通知中心"
+
+#: src/Plug.vala:83 src/Widgets/Sidebar.vala:32
+msgid "Do Not Disturb"
+msgstr "勿扰模式"
+
+#: src/Plug.vala:84
+msgid "Notifications Center"
+msgstr "通知中心"
+
+#: src/Plug.vala:85
+msgid "Sound"
+msgstr "声音"
+
+#: src/Plug.vala:86 src/Widgets/AppSettingsView.vala:45
+#: src/Widgets/AppEntry.vala:65
+msgid "Bubbles"
+msgstr "气泡"
+
+#: src/Widgets/MainView.vala:29
+msgid ""
+"While in Do Not Disturb mode, notifications and alerts will be hidden and "
+"notification sounds will be silenced."
+msgstr "勿扰模式启用时，通知和警告将会被隐藏，通知提示音也将关闭。"
+
+#: src/Widgets/MainView.vala:31
+msgid ""
+"System notifications, such as volume and display brightness, will be "
+"unaffected."
+msgstr "系统通知，如音量和屏幕亮度等不会受影响。"
+
+#: src/Widgets/MainView.vala:34
+msgid "elementary OS is in Do Not Disturb mode"
+msgstr "elementary OS 正处于勿扰模式中"
+
+#: src/Widgets/AppSettingsView.vala:46
+msgid ""
+"Bubbles appear in the top right corner of the display and disappear "
+"automatically."
+msgstr "屏幕右上角弹出气泡并自动消失。"
+
+#: src/Widgets/AppSettingsView.vala:52 src/Widgets/AppEntry.vala:69
+msgid "Sounds"
+msgstr "声音"
+
+#: src/Widgets/AppSettingsView.vala:53
+msgid "Sounds play once when a new notification arrives."
+msgstr "新通知到达时播放提示音。"
+
+#: src/Widgets/AppSettingsView.vala:59 src/Widgets/AppEntry.vala:73
+msgid "Notification Center"
+msgstr "通知中心"
+
+#: src/Widgets/AppSettingsView.vala:60
+msgid "Show missed notifications in Notification Center."
+msgstr "在通知中心显示未查看的通知。"
+
+#: src/Widgets/AppEntry.vala:77
+msgid "Disabled"
+msgstr "已禁用"

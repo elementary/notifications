@@ -1,41 +1,33 @@
-project('io.elementary.notifications', 'vala', 'c')
+project(
+    'io.elementary.notifications',
+    'vala', 'c',
+    version: '1.0.0'
+)
 
 gnome = import('gnome')
 i18n = import('i18n')
+prefix = get_option('prefix')
+datadir = join_paths(prefix, get_option('datadir'))
+libdir = join_paths(prefix, get_option('libdir'))
 
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language:'c')
 add_project_arguments(['--vapidir', join_paths(meson.current_source_dir(), 'vapi')], language: 'vala')
 
-css_gresource = gnome.compile_resources(
-    'css-resource',
+server_gresource = gnome.compile_resources(
+    'server-resource',
     join_paths('data', 'notifications.gresource.xml'),
     source_dir: 'data'
 )
 
-executable(
-    meson.project_name(),
-    'src/AbstractBubble.vala',
-    'src/Application.vala',
-    'src/Bubble.vala',
-    'src/Confirmation.vala',
-    'src/DBus.vala',
-    'src/Notification.vala',
-    'src/Widgets/MaskedImage.vala',
-    css_gresource,
-    dependencies: [
-        dependency ('libcanberra'),
-        dependency ('libcanberra-gtk3'),
-        dependency ('glib-2.0'),
-        dependency ('gobject-2.0'),
-        dependency ('granite', version: '>=5.4.0'),
-        dependency ('gtk+-3.0'),
-        dependency ('libhandy-1')
-    ],
-    install : true
+plug_gresource = gnome.compile_resources(
+    'plug-resource',
+    join_paths('data', 'plug.gresource.xml'),
+    source_dir: 'data'
 )
 
 subdir('data')
 subdir('demo')
+subdir('src')
 subdir('po')
 
 meson.add_install_script('meson/post_install.py')
