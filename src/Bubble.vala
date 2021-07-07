@@ -152,6 +152,15 @@ public class Notifications.Bubble : AbstractBubble {
             } else {
                 app_image.pixel_size = 48;
                 image_overlay.add (app_image);
+
+                if (notification.badge_icon != null) {
+                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
+                        halign = Gtk.Align.END,
+                        valign = Gtk.Align.END,
+                        pixel_size = 24
+                    };
+                    image_overlay.add_overlay (badge_image);
+                }
             }
 
             var title_label = new Gtk.Label (notification.summary) {
@@ -171,6 +180,7 @@ public class Notifications.Bubble : AbstractBubble {
                 valign = Gtk.Align.START,
                 width_chars = 33,
                 wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
                 xalign = 0
             };
 
@@ -195,7 +205,7 @@ public class Notifications.Bubble : AbstractBubble {
                     layout_style = Gtk.ButtonBoxStyle.END
                 };
 
-                attach (action_area, 0, 2, 2);
+                bool action_area_packed = false;
 
                 for (int i = 0; i < notification.actions.length; i += 2) {
                     if (notification.actions[i] != "default") {
@@ -207,6 +217,11 @@ public class Notifications.Bubble : AbstractBubble {
                         });
 
                         action_area.pack_end (button);
+
+                        if (!action_area_packed) {
+                            attach (action_area, 0, 2, 2);
+                            action_area_packed = true;
+                        }
                     } else {
                         i += 2;
                     }
