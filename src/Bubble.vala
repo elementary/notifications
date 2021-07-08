@@ -62,7 +62,9 @@ public class Notifications.Bubble : AbstractBubble {
         });
 
         button_release_event.connect ((event) => {
-            if (default_action) {
+            if (dismissed) {
+                // Process no more events
+            } else if (default_action) {
                 action_invoked ("default");
                 dismiss ();
             } else if (notification.app_info != null && !has_actions) {

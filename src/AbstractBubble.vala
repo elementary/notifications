@@ -24,6 +24,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     protected Gtk.Stack content_area;
     protected Gtk.HeaderBar headerbar;
     protected Gtk.Grid draw_area;
+    protected bool dismissed;
 
     private Gtk.Revealer revealer;
     private uint timeout_id;
@@ -146,6 +147,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     public void dismiss () {
+        dismissed = true;
         revealer.reveal_child = false;
         GLib.Timeout.add (revealer.transition_duration, () => {
             destroy ();
