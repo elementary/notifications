@@ -98,10 +98,8 @@ public class Notifications.Notification : GLib.Object {
             if (Gtk.IconTheme.get_default ().has_icon (image_path) && image_path != app_icon) {
                 badge_icon = new ThemedIcon (image_path);
             } else if (image_path.has_prefix ("/") || image_path.has_prefix ("file://")) {
-                var scale = ((Gtk.Application) GLib.Application.get_default ()).get_active_window ().get_style_context ().get_scale ();
-
                 try {
-                    var pixbuf = new Gdk.Pixbuf.from_file_at_size (image_path, 48 * scale, 48 * scale);
+                    var pixbuf = new Gdk.Pixbuf.from_file (image_path);
                     image = new Notifications.MaskedImage (pixbuf);
                 } catch (Error e) {
                     critical ("Unable to mask image: %s", e.message);
