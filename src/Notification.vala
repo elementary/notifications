@@ -29,8 +29,11 @@ public class Notifications.Notification : GLib.Object {
     public string app_id { get; private set; default = OTHER_APP_ID; }
     public string app_name { get; construct; }
     public string body { get; construct set; }
-    public string? image_path { get; private set; default = null; }
     public string summary { get; construct set; }
+
+    public GLib.Icon? primary_icon { get; set; default = null; }
+    public GLib.Icon? badge_icon { get; set; default = null; }
+    public MaskedImage? image { get; set; default = null; }
 
     private static Regex entity_regex;
     private static Regex tag_regex;
@@ -56,17 +59,9 @@ public class Notifications.Notification : GLib.Object {
     }
 
     construct {
-        /*Only summary is required by GLib, so try to set a title when body is empty*/
-        if (body == "") {
-            body = fix_markup (summary);
-            summary = app_name;
-        } else {
-            body = fix_markup (body);
-            summary = fix_markup (summary);
-        }
-
         unowned Variant? variant = null;
 
+        // GLib.Notification.set_priority ()
         if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
@@ -81,20 +76,49 @@ public class Notifications.Notification : GLib.Object {
             }
         }
 
-        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
-            image_path = variant.get_string ();
-
-            if (!image_path.has_prefix ("/") && !image_path.has_prefix ("file://")) {
-                image_path = null;
+        // Always "" if sent by GLib.Notification
+        if (app_icon == "" && app_info != null) {
+            primary_icon = app_info.get_icon ();
+        } else if (app_icon.contains ("/")) {
+            var file = File.new_for_uri (app_icon);
+            if (file.query_exists ()) {
+                primary_icon = new FileIcon (file);
             }
         }
 
-        if (app_icon == "") {
-            if (app_info != null) {
-                app_icon = app_info.get_icon ().to_string ();
-            } else {
-                app_icon = "dialog-information";
+        if (primary_icon == null) {
+            primary_icon = new ThemedIcon ("dialog-information");
+        }
+
+        // GLib.Notification.set_icon ()
+        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
+            var image_path = variant.get_string ();
+
+            // GLib.Notification also sends icon names via this hint
+            if (Gtk.IconTheme.get_default ().has_icon (image_path) && image_path != app_icon) {
+                badge_icon = new ThemedIcon (image_path);
+            } else if (image_path.has_prefix ("/") || image_path.has_prefix ("file://")) {
+                try {
+                    var pixbuf = new Gdk.Pixbuf.from_file (image_path);
+                    image = new Notifications.MaskedImage (pixbuf);
+                } catch (Error e) {
+                    critical ("Unable to mask image: %s", e.message);
+                }
             }
+        }
+
+        // Always "" if sent by GLib.Notification
+        if (app_name == "" && app_info != null) {
+            app_name = app_info.get_display_name ();
+        }
+
+        /*Only summary is required by GLib.Notification, so try to set a title when body is empty*/
+        if (body == "") {
+            body = fix_markup (summary);
+            summary = app_name;
+        } else {
+            body = fix_markup (body);
+            summary = fix_markup (summary);
         }
     }
 
