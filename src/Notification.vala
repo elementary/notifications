@@ -86,10 +86,6 @@ public class Notifications.Notification : GLib.Object {
             }
         }
 
-        if (primary_icon == null) {
-            primary_icon = new ThemedIcon ("dialog-information");
-        }
-
         // GLib.Notification.set_icon ()
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
             var image_path = variant.get_string ();
@@ -105,6 +101,19 @@ public class Notifications.Notification : GLib.Object {
                     critical ("Unable to mask image: %s", e.message);
                 }
             }
+        }
+
+        // Raw image data sent within a variant
+        if ((variant = hints.lookup ("image-data")) != null || (variant = hints.lookup ("image_data")) != null || (variant = hints.lookup ("icon_data")) != null) {
+            var pixbuf = image_data_variant_to_pixbuf (variant);
+            if (pixbuf != null) {
+                image = new Notifications.MaskedImage (pixbuf);
+            }
+        }
+
+        // Display a generic notification icon if there is no notification image
+        if (image == null && primary_icon == null) {
+            primary_icon = new ThemedIcon ("dialog-information");
         }
 
         // Always "" if sent by GLib.Notification
@@ -137,4 +146,23 @@ public class Notifications.Notification : GLib.Object {
 
         return text;
     }
+
+    private Gdk.Pixbuf? image_data_variant_to_pixbuf (Variant img) {
+        if (img.get_type_string () != "(iiibiiay)") {
+            warning ("Invalid type string: %s", img.get_type_string ());
+            return null;
+        }
+        int width = img.get_child_value (0).get_int32 ();
+        int height = img.get_child_value (1).get_int32 ();
+        int rowstride = img.get_child_value (2).get_int32 ();
+        bool has_alpha = img.get_child_value (3).get_boolean ();
+        int bits_per_sample = img.get_child_value (4).get_int32 ();
+        unowned uint8[] raw = (uint8[]) img.get_child_value (6).get_data ();
+
+        // Build the pixbuf from the unowned buffer, and copy it to maintain our own instance.
+        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.with_unowned_data (raw, Gdk.Colorspace.RGB,
+            has_alpha, bits_per_sample, width, height, rowstride, null);
+        return pixbuf.copy ();
+    }
+
 }
