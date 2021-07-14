@@ -5,6 +5,7 @@ executable(
     dependencies : [
         dependency ('granite'),
         dependency ('gtk+-3.0'),
+        dependency ('libnotify'),
     ],
     install : true
 )
