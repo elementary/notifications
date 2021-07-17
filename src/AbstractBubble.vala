@@ -96,9 +96,10 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
 
-        close_button.clicked.connect (() => {
+        close_button.button_release_event.connect (() => {
             closed (Notifications.Server.CloseReason.DISMISSED);
             dismiss ();
+            return Gdk.EVENT_STOP;
         });
 
         enter_notify_event.connect (() => {
