@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-19 16:48+0000\n"
-"PO-Revision-Date: 2020-01-17 01:00+0000\n"
-"Last-Translator: Daniel Foré <daniel@elementary.io>\n"
+"PO-Revision-Date: 2021-07-23 14:59+0000\n"
+"Last-Translator: DartDeaDia <jorydit@gmail.com>\n"
 "Language-Team: Russian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: data/notifications.appdata.xml.in:7
 msgid "Notifications"
@@ -26,35 +26,36 @@ msgstr "Уведомления"
 
 #: data/notifications.appdata.xml.in:8
 msgid "Notification bubbles and sounds for the desktop"
-msgstr ""
+msgstr "Пузыри уведомлений и звуки для рабочего стола"
 
 #: data/notifications.appdata.xml.in:10
 msgid "A notification server for Pantheon"
-msgstr ""
+msgstr "Сервер уведомлений для Pantheon"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Complete rewrite:"
-msgstr ""
+msgstr "Полностью переписано:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Support the dark style"
-msgstr ""
+msgstr "Поддержка темного стиля"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Action buttons"
-msgstr ""
+msgstr "Кнопки действий"
 
 #: data/notifications.appdata.xml.in:19
 msgid "Optional badge icons"
-msgstr ""
+msgstr "Дополнительные значки пиктограмм"
 
 #: data/notifications.appdata.xml.in:20
 msgid "Automatically badge images with app icons"
 msgstr ""
+"Автоматическое размещение изображений значков на пиктограммах приложений"
 
 #: data/notifications.appdata.xml.in:21
 msgid "Swipe away to dismiss"
-msgstr ""
+msgstr "Проведение пальцем, чтобы отклонить"
 
 #: data/notifications.appdata.xml.in:60
 msgid "elementary, Inc."
