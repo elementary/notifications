@@ -8,6 +8,10 @@
     <child name="applications" schema="io.elementary.notifications.applications" />
   </schema>
   <schema id="io.elementary.notifications.applications">
+    <key type="b" name="bypass-do-not-disturb">
+      <default>false</default>
+      <summary>Notify despite Do Not Disturb is enabled</summary>
+    </key>
     <key type="b" name="ask">
       <default>true</default>
       <summary>Ask before allowing notifications</summary>
