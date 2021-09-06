@@ -5,10 +5,24 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Notifications</name>
-  <summary></summary>
+  <summary>Notification bubbles and sounds for the desktop</summary>
   <description>
-    <p></p>
+    <p>A notification server for Pantheon</p>
   </description>
+  <releases>
+    <release version="6.0.0" date="2021-07-19" urgency="medium">
+      <description>
+        <p>Complete rewrite:</p>
+        <ul>
+          <li>Support the dark style</li>
+          <li>Action buttons</li>
+          <li>Optional badge icons</li>
+          <li>Automatically badge images with app icons</li>
+          <li>Swipe away to dismiss</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
   <provides>
     <binary>io.elementary.notifications</binary>
   </provides>
