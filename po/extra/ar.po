@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-19 16:48+0000\n"
-"PO-Revision-Date: 2020-05-14 14:10+0000\n"
-"Last-Translator: nasserbinlaboun <nasser1990com@gmail.com>\n"
+"PO-Revision-Date: 2021-09-04 17:03+0000\n"
+"Last-Translator: Muhammad Al-Jayyousi <m7md.j99@protonmail.com>\n"
 "Language-Team: Arabic <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ar/>\n"
 "Language: ar\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: data/notifications.appdata.xml.in:7
 msgid "Notifications"
@@ -26,36 +26,36 @@ msgstr "الإشعارات"
 
 #: data/notifications.appdata.xml.in:8
 msgid "Notification bubbles and sounds for the desktop"
-msgstr ""
+msgstr "إشعارات على شكل فقاعات وأصوات لسطح المكتب"
 
 #: data/notifications.appdata.xml.in:10
 msgid "A notification server for Pantheon"
-msgstr ""
+msgstr "خادم إشعارات ل Pantheon"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Complete rewrite:"
-msgstr ""
+msgstr "إعادة كتابة كاملة للكود:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Support the dark style"
-msgstr ""
+msgstr "دعم الواجهة المظلمة"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Action buttons"
-msgstr ""
+msgstr "أزرار للإجراءات"
 
 #: data/notifications.appdata.xml.in:19
 msgid "Optional badge icons"
-msgstr ""
+msgstr "أيقونات أوسمة اختيارية"
 
 #: data/notifications.appdata.xml.in:20
 msgid "Automatically badge images with app icons"
-msgstr ""
+msgstr "تعليم الصور بأيقونات التطبيقات تلقائياً"
 
 #: data/notifications.appdata.xml.in:21
 msgid "Swipe away to dismiss"
-msgstr ""
+msgstr "السحب بعيداً للإغلاق"
 
 #: data/notifications.appdata.xml.in:60
 msgid "elementary, Inc."
-msgstr "اليمينتري المتحدة."
+msgstr "elementary, Inc."
