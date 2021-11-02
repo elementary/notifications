@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-19 16:48+0000\n"
-"PO-Revision-Date: 2021-11-02 07:08+0000\n"
+"PO-Revision-Date: 2021-11-02 08:56+0000\n"
 "Last-Translator: Sebastian Gardziński <skellige102@gmail.com>\n"
 "Language-Team: Polish <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/pl/>\n"
@@ -42,19 +42,19 @@ msgstr "Wspieraj ciemny styl"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Action buttons"
-msgstr ""
+msgstr "Przyciski akcji"
 
 #: data/notifications.appdata.xml.in:19
 msgid "Optional badge icons"
-msgstr ""
+msgstr "Opcjonalne ikony odznak"
 
 #: data/notifications.appdata.xml.in:20
 msgid "Automatically badge images with app icons"
-msgstr ""
+msgstr "Automatycznie oznaczaj obrazy ikonami aplikacji"
 
 #: data/notifications.appdata.xml.in:21
 msgid "Swipe away to dismiss"
-msgstr ""
+msgstr "Przesuń aby zamknąć"
 
 #: data/notifications.appdata.xml.in:60
 msgid "elementary, Inc."
