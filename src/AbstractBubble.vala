@@ -27,7 +27,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     private Gtk.Revealer revealer;
     private uint timeout_id;
-    private Hdy.Carousel carousel;
+    private Adw.Carousel carousel;
 
     construct {
         content_area = new Gtk.Stack () {
@@ -69,7 +69,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         var label = new Gtk.Grid ();
 
-        carousel = new Hdy.Carousel () {
+        carousel = new Adw.Carousel () {
             allow_mouse_drag = true,
             interactive = true,
             halign = Gtk.Align.END,
