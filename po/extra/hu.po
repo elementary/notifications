@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-19 16:48+0000\n"
-"PO-Revision-Date: 2021-12-23 21:58+0000\n"
+"PO-Revision-Date: 2021-12-23 22:01+0000\n"
 "Last-Translator: XSAkos <akos.keresztes@gmail.com>\n"
 "Language-Team: Hungarian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/hu/>\n"
@@ -33,19 +33,19 @@ msgstr "Értesítési kiszolgáló a PAntheon-hoz"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Complete rewrite:"
-msgstr ""
+msgstr "Teljes újraírás:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Support the dark style"
-msgstr ""
+msgstr "Sötét mód támogatása"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Action buttons"
-msgstr ""
+msgstr "Akciógombok"
 
 #: data/notifications.appdata.xml.in:19
 msgid "Optional badge icons"
-msgstr ""
+msgstr "Nem kötelező jelzés ikon"
 
 #: data/notifications.appdata.xml.in:20
 msgid "Automatically badge images with app icons"
