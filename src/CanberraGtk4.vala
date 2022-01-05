@@ -60,11 +60,11 @@ namespace CanberraGtk4 {
         display.setting_changed.connect ((setting) => {
             Value new_val;
             if (setting == "gtk-sound-theme-name") {
-                new_val = Value (typeof(string));
+                new_val = Value (typeof (string));
                 display.get_setting ("gtk-sound-theme-name", new_val);
                 context.change_props (Canberra.PROP_CANBERRA_ENABLE, new_val.get_string ());
             } else if (setting == "gtk-enable-event-sounds") {
-                new_val = Value (typeof(bool));
+                new_val = Value (typeof (bool));
                 unowned var env = GLib.Environment.get_variable ("CANBERRA_FORCE_EVENT_SOUNDS");
                 display.get_setting ("gtk-enable-event-sounds", new_val);
                 context.change_props (Canberra.PROP_CANBERRA_ENABLE, = env != null ? true : new_val.get_boolean ());
