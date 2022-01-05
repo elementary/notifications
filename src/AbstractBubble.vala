@@ -40,7 +40,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             margin = 16
         };
         draw_area.get_style_context ().add_class ("draw-area");
-        draw_area.add (content_area);
+        draw_area.attach (content_area, 0, 0);
 
         var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
             halign = Gtk.Align.START,
