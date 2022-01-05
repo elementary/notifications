@@ -55,7 +55,7 @@ public class Notifications.Server : Object {
             bus_proxy = null;
         }
 
-        ca_context = CanberraGtk.context_get ();
+        ca_context = CanberraGtk4.context_get ();
         ca_context.change_props (
             Canberra.PROP_APPLICATION_NAME, "Notifications",
             Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
