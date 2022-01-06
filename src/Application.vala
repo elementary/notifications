@@ -29,7 +29,7 @@ public class Notifications.Application : Gtk.Application {
     protected override void activate () {
         var css_provider = new Gtk.CssProvider ();
         css_provider.load_from_resource ("/io/elementary/notifications/application.css");
-        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
         var server = new Notifications.Server ();
 
