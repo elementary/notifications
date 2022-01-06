@@ -34,7 +34,7 @@ public class Notifications.Bubble : AbstractBubble {
     construct {
         var contents = new Contents (notification);
 
-        content_area.add (contents);
+        content_area.add_child (contents);
 
         switch (notification.priority) {
             case GLib.NotificationPriority.HIGH:
@@ -88,14 +88,14 @@ public class Notifications.Bubble : AbstractBubble {
         start_timeout (4000);
 
         var new_contents = new Contents (new_notification);
-        new_contents.show_all ();
+        // new_contents.show_all ();
 
         new_contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
             dismiss ();
         });
 
-        content_area.add (new_contents);
+        content_area.add_child (new_contents);
         content_area.visible_child = new_contents;
     }
 
@@ -120,14 +120,14 @@ public class Notifications.Bubble : AbstractBubble {
                 app_image.pixel_size = 24;
                 app_image.halign = app_image.valign = Gtk.Align.END;
 
-                image_overlay.add (notification.image);
+                image_overlay.child = notification.image;
                 image_overlay.add_overlay (app_image);
             } else {
                 app_image.pixel_size = 48;
-                image_overlay.add (app_image);
+                image_overlay.child = app_image;
 
                 if (notification.badge_icon != null) {
-                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
+                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon) {
                         halign = Gtk.Align.END,
                         valign = Gtk.Align.END,
                         pixel_size = 24

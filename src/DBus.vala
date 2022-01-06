@@ -126,7 +126,7 @@ public class Notifications.Server : Object {
                         bubbles[id].replace (notification);
                     } else {
                         bubbles[id] = new Notifications.Bubble (notification, id);
-                        bubbles[id].show_all ();
+                        bubbles[id].present ();
 
                         bubbles[id].action_invoked.connect ((action_key) => {
                             action_invoked (id, action_key);
@@ -188,7 +188,7 @@ public class Notifications.Server : Object {
             confirmation.progress = progress_value;
         }
 
-        confirmation.show_all ();
+        // confirmation.show_all ();
     }
 
     private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {

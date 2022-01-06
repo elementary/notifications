@@ -37,7 +37,7 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         image.gicon = mask_pixbuf (pixbuf, scale);
         image.pixel_size = ICON_SIZE;
 
-        add (image);
+        child = image;
         add_overlay (mask);
     }
 
