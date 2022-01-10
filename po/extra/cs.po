@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-19 16:48+0000\n"
-"PO-Revision-Date: 2020-06-07 11:11+0000\n"
+"PO-Revision-Date: 2022-01-10 18:13+0000\n"
 "Last-Translator: p-bo <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/cs/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: data/notifications.appdata.xml.in:7
 msgid "Notifications"
@@ -25,7 +25,7 @@ msgstr "Upozorňování"
 
 #: data/notifications.appdata.xml.in:8
 msgid "Notification bubbles and sounds for the desktop"
-msgstr ""
+msgstr "Bubliny oznámení a zvuky pro plochy"
 
 #: data/notifications.appdata.xml.in:10
 msgid "A notification server for Pantheon"
