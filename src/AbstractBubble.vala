@@ -101,36 +101,25 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
 
-        var button_controller = new Gtk.EventControllerLegacy ();
-        close_button.add_controller (button_controller);
-        button_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.BUTTON_RELEASE) {
-                closed (Notifications.Server.CloseReason.DISMISSED);
-                dismiss ();
+        close_button.button_release_event.connect (() => {
+            closed (Notifications.Server.CloseReason.DISMISSED);
+            dismiss ();
+            return Gdk.EVENT_STOP;
+        });
+
+        enter_notify_event.connect (() => {
+            close_revealer.reveal_child = true;
+            stop_timeout ();
+            return Gdk.EVENT_PROPAGATE;
+        });
+
+        leave_notify_event.connect ((event) => {
+            if (event.detail == Gdk.NotifyType.INFERIOR) {
                 return Gdk.EVENT_STOP;
             }
-        });
 
-        var enter_controller = new Gtk.EventControllerLegacy ();
-        add_controller (enter_controller);
-        enter_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.ENTER_NOTIFY) {
-                close_revealer.reveal_child = true;
-                stop_timeout ();
-                return Gdk.EVENT_PROPAGATE;
-            }
-        });
-
-        var leave_controller = new Gtk.EventControllerLegacy ();
-        add_controller (leave_controller);
-        leave_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
-                // if (event.detail == Gdk.NotifyType.INFERIOR) {
-                //     return Gdk.EVENT_STOP;
-                // }
-                close_revealer.reveal_child = false;
-                return Gdk.EVENT_PROPAGATE;
-            }
+            close_revealer.reveal_child = false;
+            return Gdk.EVENT_PROPAGATE;
         });
 
         var granite_settings = Granite.Settings.get_default ();
@@ -148,11 +137,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
             Source.remove (timeout_id);
             timeout_id = 0;
         }
-    }
-
-    public new void add_controller (Gtk.EventController controller) {
-        var widget = (Gtk.Widget) this;
-        widget.add_controller (controller);
     }
 
     protected void start_timeout (uint timeout) {

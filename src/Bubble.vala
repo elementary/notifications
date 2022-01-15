@@ -61,12 +61,7 @@ public class Notifications.Bubble : AbstractBubble {
             dismiss ();
         });
 
-        var button_controller = new Gtk.GestureClick ();
-        var motion_controller = new Gtk.EventControllerLegacy ();
-        add_controller (button_controller);
-        add_controller (motion_controller);
-
-        button_controller.released.connect (() => {
+        button_release_event.connect ((event) => {
             if (default_action) {
                 action_invoked ("default");
                 dismiss ();
@@ -78,16 +73,15 @@ public class Notifications.Bubble : AbstractBubble {
                     critical ("Unable to launch app: %s", e.message);
                 }
             }
-            // return Gdk.EVENT_STOP;
+            return Gdk.EVENT_STOP;
         });
 
-        motion_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
-                if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                    return Gdk.EVENT_PROPAGATE;
-                }
-                start_timeout (4000);
+        leave_notify_event.connect (() => {
+            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
+                return Gdk.EVENT_PROPAGATE;
             }
+
+            start_timeout (4000);
         });
     }
 
