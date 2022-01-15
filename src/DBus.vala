@@ -180,8 +180,9 @@ public class Notifications.Server : Object {
                 icon_name,
                 progress_value
             );
-            confirmation.destroy.connect (() => {
+            confirmation.close_request.connect (() => {
                 confirmation = null;
+                return true;
             });
         } else {
             confirmation.icon_name = icon_name;

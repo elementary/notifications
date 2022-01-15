@@ -61,7 +61,12 @@ public class Notifications.Bubble : AbstractBubble {
             dismiss ();
         });
 
-        button_release_event.connect ((event) => {
+        var button_controller = new Gtk.GestureClick ();
+        var motion_controller = new Gtk.EventControllerLegacy ();
+        add_controller (button_controller);
+        add_controller (motion_controller);
+
+        button_controller.released.connect (() => {
             if (default_action) {
                 action_invoked ("default");
                 dismiss ();
@@ -73,14 +78,16 @@ public class Notifications.Bubble : AbstractBubble {
                     critical ("Unable to launch app: %s", e.message);
                 }
             }
-            return Gdk.EVENT_STOP;
+            // return Gdk.EVENT_STOP;
         });
 
-        leave_notify_event.connect (() => {
-            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                return Gdk.EVENT_PROPAGATE;
+        motion_controller.event.connect ((event) => {
+            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
+                if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
+                    return Gdk.EVENT_PROPAGATE;
+                }
+                start_timeout (4000);
             }
-            start_timeout (4000);
         });
     }
 
@@ -174,22 +181,23 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
 
             if (notification.actions.length > 0) {
-                var action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
-                    layout_style = Gtk.ButtonBoxStyle.END
-                };
+                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 
                 bool action_area_packed = false;
 
                 for (int i = 0; i < notification.actions.length; i += 2) {
                     if (notification.actions[i] != "default") {
-                        var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                        var button = new Gtk.Button.with_label (notification.actions[i + 1]) {
+                            width_request = 85,
+                            height_request = 27
+                        };
                         var action = notification.actions[i].dup ();
 
                         button.clicked.connect (() => {
                             action_invoked (action);
                         });
 
-                        action_area.pack_end (button);
+                        action_area.prepend (button);
 
                         if (!action_area_packed) {
                             attach (action_area, 0, 2, 2);

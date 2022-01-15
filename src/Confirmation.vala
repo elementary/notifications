@@ -62,13 +62,13 @@ public class Notifications.Confirmation : AbstractBubble {
         });
 
         var controller = new Gtk.EventControllerLegacy ();
+        add_controller (controller);
 
-        var this_widget = (Gtk.Widget) this;
-        this_widget.add_controller (controller);
-
-        controller.event.connect (() => {
-            start_timeout (2000);
-            return Gdk.EVENT_PROPAGATE;
+        controller.event.connect ((event) => {
+            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
+                start_timeout (2000);
+                return Gdk.EVENT_PROPAGATE;
+            }
         });
     }
 }

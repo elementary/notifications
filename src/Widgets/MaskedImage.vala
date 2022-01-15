@@ -18,13 +18,18 @@
 *
 */
 
-public class Notifications.MaskedImage : Gtk.Overlay {
+public class Notifications.MaskedImage : Gtk.Widget {
     private const int ICON_SIZE = 48;
 
+    public Gtk.Overlay overlay_widget { get; set; }
     public Gdk.Pixbuf pixbuf { get; construct; }
 
     public MaskedImage (Gdk.Pixbuf pixbuf) {
         Object (pixbuf: pixbuf);
+    }
+
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BinLayout));
     }
 
     construct {
@@ -37,8 +42,9 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         image.gicon = mask_pixbuf (pixbuf, scale);
         image.pixel_size = ICON_SIZE;
 
-        child = image;
-        add_overlay (mask);
+        overlay_widget = new Gtk.Overlay ();
+        overlay_widget.child = image;
+        overlay_widget.add_overlay (mask);
     }
 
     private static Gdk.Pixbuf? mask_pixbuf (Gdk.Pixbuf pixbuf, int scale) {
@@ -61,5 +67,11 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         cr.paint ();
 
         return Gdk.pixbuf_get_from_surface (surface, 0, 0, mask_size, mask_size);
+    }
+
+    ~MaskedImage () {
+        while (get_last_child () != null) {
+            get_last_child ().unparent ();
+        }
     }
 }
