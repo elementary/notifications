@@ -174,15 +174,16 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
 
             if (notification.actions.length > 0) {
-                var action_area = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL) {
-                    layout_style = Gtk.ButtonBoxStyle.END
-                };
+                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 
                 bool action_area_packed = false;
 
                 for (int i = 0; i < notification.actions.length; i += 2) {
                     if (notification.actions[i] != "default") {
-                        var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                        var button = new Gtk.Button.with_label (notification.actions[i + 1]) {
+                            width_request = 85,
+                            height_request = 27
+                        };
                         var action = notification.actions[i].dup ();
 
                         button.clicked.connect (() => {
