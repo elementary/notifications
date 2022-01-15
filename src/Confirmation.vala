@@ -62,10 +62,8 @@ public class Notifications.Confirmation : AbstractBubble {
         });
 
         leave_notify_event.connect (() => {
-            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
-                start_timeout (2000);
-                return Gdk.EVENT_PROPAGATE;
-            }
+            start_timeout (2000);
+            return Gdk.EVENT_PROPAGATE;
         });
     }
 }
