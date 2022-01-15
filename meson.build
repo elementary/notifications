@@ -29,7 +29,7 @@ executable(
         dependency ('gio-unix-2.0'),
         dependency ('glib-2.0'),
         dependency ('gobject-2.0'),
-        # dependency ('granite', version: '>=5.4.0'),
+        dependency ('granite-7'),
         dependency ('gtk4'),
         dependency ('libadwaita-1')
     ],

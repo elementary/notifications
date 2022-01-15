@@ -61,7 +61,12 @@ public class Notifications.Confirmation : AbstractBubble {
             start_timeout (2000);
         });
 
-        leave_notify_event.connect (() => {
+        var controller = new Gtk.EventControllerLegacy ();
+
+        var this_widget = (Gtk.Widget) this;
+        this_widget.add_controller (controller);
+
+        controller.event.connect (() => {
             start_timeout (2000);
             return Gdk.EVENT_PROPAGATE;
         });
