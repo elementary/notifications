@@ -74,17 +74,20 @@ public class MainWindow : Gtk.ApplicationWindow {
         action_spinbutton = new Gtk.SpinButton.with_range (0, 3, 1);
 
         var send_button = new Gtk.Button.with_label ("Send Notification") {
-            can_default = true,
+            // can_default = true,
             halign = Gtk.Align.END,
             margin_top = 12
         };
-        send_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+        send_button.add_css_class (Granite.STYLE_CLASS_SUGGESTED_ACTION);
 
         var grid = new Gtk.Grid () {
             valign = Gtk.Align.CENTER,
             column_spacing = 12,
             row_spacing = 12,
-            margin = 12
+            margin_start = 12,
+            margin_end = 12,
+            margin_top = 12,
+            margin_bottom = 12
         };
         grid.attach (title_entry, 0, 0, 2);
         grid.attach (body_entry, 0, 1, 2);
@@ -98,13 +101,14 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         var toast = new Granite.Widgets.Toast ("");
 
-        var overlay = new Gtk.Overlay ();
-        overlay.add (grid);
+        var overlay = new Gtk.Overlay () {
+            child = grid
+        };
         overlay.add_overlay (toast);
 
-        add (overlay);
+        child = overlay;
 
-        send_button.has_default = true;
+        // send_button.has_default = true;
         send_button.clicked.connect (send_notification);
 
         var toast_action = new SimpleAction ("toast", VariantType.STRING);
