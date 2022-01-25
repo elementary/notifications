@@ -174,7 +174,9 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
 
             if (notification.actions.length > 0) {
-                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                    homogeneous = true
+                };
 
                 bool action_area_packed = false;
 
