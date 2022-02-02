@@ -114,6 +114,12 @@ public class Notifications.Server : Object {
         } else {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
+            var apps = settings.get_strv("applications");
+            if (!(notification.app_id in apps)) {
+                apps += notification.app_id;
+                settings.set_strv("applications", apps);
+            }
+
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new GLib.Settings.full (
                     SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
