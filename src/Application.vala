@@ -1,5 +1,5 @@
 /*
-* Copyright 2019 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2022 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -25,41 +25,54 @@ public class Notifications.Application : Gtk.Application {
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
-            flags: ApplicationFlags.FLAGS_NONE
+            flags: ApplicationFlags.IS_SERVICE
         );
     }
 
-    static construct {
+    protected override bool dbus_register (DBusConnection connection, string object_path) throws Error {
+        var server = new Notifications.Server ();
+
+        try {
+            connection.register_object ("/org/freedesktop/Notifications", server);
+        } catch (Error e) {
+            warning ("Registring notification server failed: %s", e.message);
+            return false;
+        }
+
+        Bus.own_name_on_connection (
+            connection, "org.freedesktop.Notifications", BusNameOwnerFlags.DO_NOT_QUEUE,
+            () => hold (),
+            (conn, name) => {
+                critical ("Could not aquire bus: %s", name);
+                name_lost ();
+            }
+        );
+
+        return base.dbus_register (connection, object_path);
+    }
+
+    protected override void startup () {
+        base.startup ();
+
         granite_settings = Granite.Settings.get_default ();
         gtk_settings = Gtk.Settings.get_default ();
         gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         granite_settings.notify["prefers-color-scheme"].connect (() => {
             gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         });
-    }
 
-    protected override void activate () {
         var css_provider = new Gtk.CssProvider ();
-        css_provider.load_from_resource ("/io/elementary/notifications/application.css");
+        css_provider.load_from_resource (resource_base_path + "/application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-        var server = new Notifications.Server ();
+        unowned var context = CanberraGtk.context_get ();
+        context.change_props (
+            Canberra.PROP_APPLICATION_NAME, "Notifications",
+            Canberra.PROP_APPLICATION_ID, application_id,
+            null
+        );
 
-        Bus.own_name (BusType.SESSION, "org.freedesktop.Notifications", BusNameOwnerFlags.NONE, (connection) => {
-            try {
-                connection.register_object ("/org/freedesktop/Notifications", server);
-            } catch (Error e) {
-                warning ("Registring notification server failed: %s", e.message);
-                quit ();
-            }
-        },
-        () => {},
-        (con, name) => {
-            warning ("Could not aquire bus %s", name);
-            quit ();
-        });
-
-        hold ();
+        context.open ();
     }
 
     public static int main (string[] args) {
