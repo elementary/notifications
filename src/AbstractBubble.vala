@@ -28,6 +28,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private Gtk.Revealer revealer;
     private uint timeout_id;
     private Hdy.Carousel carousel;
+    private Gtk.Settings gtk_settings;
+    private Granite.Settings granite_settings;
 
     construct {
         content_area = new Gtk.Stack () {
@@ -112,18 +114,27 @@ public class Notifications.AbstractBubble : Gtk.Window {
             if (event.detail == Gdk.NotifyType.INFERIOR) {
                 return Gdk.EVENT_STOP;
             }
+
             close_revealer.reveal_child = false;
             return Gdk.EVENT_PROPAGATE;
         });
 
-        var granite_settings = Granite.Settings.get_default ();
-        var gtk_settings = Gtk.Settings.get_default ();
+        granite_settings = Granite.Settings.get_default ();
+        gtk_settings = Gtk.Settings.get_default ();
 
-        gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
+        gtk_settings.gtk_application_prefer_dark_theme =
+         Granite.Settings.get_default ().prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
 
+        // For reasons that are not entirely clear, must use object members inside the closure
+        // in order that bubble is destroyed, otherwise there is a remaining reference
         granite_settings.notify["prefers-color-scheme"].connect (() => {
-            gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
+            gtk_settings.gtk_application_prefer_dark_theme =
+                granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         });
+    }
+
+    ~AbstractBubble () {
+        debug ("DESTRUCT abstract bubble");
     }
 
     protected void stop_timeout () {

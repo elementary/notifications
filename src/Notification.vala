@@ -128,6 +128,10 @@ public class Notifications.Notification : GLib.Object {
         }
     }
 
+    ~Notification () {
+        debug ("DESTRUCT notification");
+    }
+
     /**
      * Copied from gnome-shell, fixes the mess of markup that is sent to us
      */
