@@ -69,6 +69,7 @@ public class Notifications.Server : Object {
     }
 
     public void close_notification (uint32 id) throws DBusError, IOError {
+warning ("SERVER close notification");
         if (bubbles.has_key (id)) {
             bubbles[id].dismiss ();
             closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);

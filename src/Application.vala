@@ -29,16 +29,14 @@ public class Notifications.Application : Gtk.Application {
         );
     }
 
-    static construct {
+    protected override void activate () {
         granite_settings = Granite.Settings.get_default ();
         gtk_settings = Gtk.Settings.get_default ();
         gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         granite_settings.notify["prefers-color-scheme"].connect (() => {
             gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         });
-    }
 
-    protected override void activate () {
         var css_provider = new Gtk.CssProvider ();
         css_provider.load_from_resource ("/io/elementary/notifications/application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
