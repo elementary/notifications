@@ -43,7 +43,6 @@ public class Notifications.Application : Gtk.Application {
         css_provider.load_from_resource ("/io/elementary/notifications/application.css");
         Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-
         var server = new Notifications.Server ();
 
         Bus.own_name (BusType.SESSION, "org.freedesktop.Notifications", BusNameOwnerFlags.NONE, (connection) => {
