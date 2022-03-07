@@ -36,7 +36,7 @@ public class Notifications.Application : Gtk.Application {
             connection.register_object ("/org/freedesktop/Notifications", server);
         } catch (Error e) {
             warning ("Registring notification server failed: %s", e.message);
-            return false;
+            throw e;
         }
 
         Bus.own_name_on_connection (
