@@ -73,6 +73,7 @@ public class Notifications.Bubble : AbstractBubble {
                     critical ("Unable to launch app: %s", e.message);
                 }
             }
+
             return Gdk.EVENT_STOP;
         });
 
