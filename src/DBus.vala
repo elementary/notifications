@@ -79,7 +79,13 @@ public class Notifications.Server : Object {
         };
     }
 
-    public void get_server_information (out string name, out string vendor, out string version, out string spec_version) throws DBusError, IOError {
+    public void get_server_information (
+        out string name,
+        out string vendor,
+        out string version,
+        out string spec_version
+    ) throws DBusError, IOError {
+
         name = "io.elementary.notifications";
         vendor = "elementaryOS";
         version = "0.1";
@@ -127,6 +133,7 @@ public class Notifications.Server : Object {
                         });
                     }
                 }
+
                 if (app_settings.get_boolean ("sounds")) {
                     switch (notification.priority) {
                         case GLib.NotificationPriority.HIGH:
