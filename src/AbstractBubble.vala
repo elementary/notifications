@@ -40,7 +40,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             margin = 16
         };
         draw_area.get_style_context ().add_class ("draw-area");
-        draw_area.add (content_area);
+        draw_area.attach (content_area, 0, 0);
 
         var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
             halign = Gtk.Align.START,
@@ -96,9 +96,10 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
 
-        close_button.clicked.connect (() => {
+        close_button.button_release_event.connect (() => {
             closed (Notifications.Server.CloseReason.DISMISSED);
             dismiss ();
+            return Gdk.EVENT_STOP;
         });
 
         enter_notify_event.connect (() => {
@@ -113,15 +114,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
             close_revealer.reveal_child = false;
             return Gdk.EVENT_PROPAGATE;
-        });
-
-        var granite_settings = Granite.Settings.get_default ();
-        var gtk_settings = Gtk.Settings.get_default ();
-
-        gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-
-        granite_settings.notify["prefers-color-scheme"].connect (() => {
-            gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         });
     }
 

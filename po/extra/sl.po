@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-16 16:30-0800\n"
+"POT-Creation-Date: 2021-07-19 16:48+0000\n"
 "PO-Revision-Date: 2020-02-15 20:08+0000\n"
 "Last-Translator: Marko <marko.dolar@gmail.com>\n"
 "Language-Team: Slovenian <https://l10n.elementary.io/projects/desktop/"
@@ -16,14 +16,46 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3;\n"
 "X-Generator: Weblate 3.9.1\n"
 
 #: data/notifications.appdata.xml.in:7
 msgid "Notifications"
 msgstr "Obvestila"
 
-#: data/notifications.appdata.xml.in:46
+#: data/notifications.appdata.xml.in:8
+msgid "Notification bubbles and sounds for the desktop"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:10
+msgid "A notification server for Pantheon"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:15
+msgid "Complete rewrite:"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:17
+msgid "Support the dark style"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:18
+msgid "Action buttons"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:19
+msgid "Optional badge icons"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:20
+msgid "Automatically badge images with app icons"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:21
+msgid "Swipe away to dismiss"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:60
 msgid "elementary, Inc."
 msgstr "elementary, Inc."

@@ -39,7 +39,6 @@ public class Notifications.Server : Object {
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
 
     private uint32 id_counter = 0;
-    private unowned Canberra.Context? ca_context = null;
     private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
 
@@ -55,16 +54,7 @@ public class Notifications.Server : Object {
             bus_proxy = null;
         }
 
-        ca_context = CanberraGtk.context_get ();
-        ca_context.change_props (
-            Canberra.PROP_APPLICATION_NAME, "Notifications",
-            Canberra.PROP_APPLICATION_ID, "io.elementary.notifications",
-            null
-        );
-        ca_context.open ();
-
         settings = new GLib.Settings ("io.elementary.notifications");
-
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
     }
 
@@ -89,7 +79,13 @@ public class Notifications.Server : Object {
         };
     }
 
-    public void get_server_information (out string name, out string vendor, out string version, out string spec_version) throws DBusError, IOError {
+    public void get_server_information (
+        out string name,
+        out string vendor,
+        out string version,
+        out string spec_version
+    ) throws DBusError, IOError {
+
         name = "io.elementary.notifications";
         vendor = "elementaryOS";
         version = "0.1";
@@ -137,8 +133,17 @@ public class Notifications.Server : Object {
                         });
                     }
                 }
+
                 if (app_settings.get_boolean ("sounds")) {
-                    send_sound (hints);
+                    switch (notification.priority) {
+                        case GLib.NotificationPriority.HIGH:
+                        case GLib.NotificationPriority.URGENT:
+                            send_sound (hints, "dialog-warning");
+                            break;
+                        default:
+                            send_sound (hints);
+                            break;
+                    }
                 }
             }
         }
@@ -198,7 +203,7 @@ public class Notifications.Server : Object {
             props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
             props.sets (Canberra.PROP_EVENT_ID, sound_name);
 
-            ca_context.play_full (0, props);
+            CanberraGtk.context_get ().play_full (0, props);
         }
     }
 

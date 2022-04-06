@@ -120,21 +120,22 @@ public class MainWindow : Gtk.ApplicationWindow {
     private void send_notification () {
         NotificationPriority priority;
         switch (priority_combobox.active) {
-        case 3:
-            priority = NotificationPriority.URGENT;
-            break;
-        case 2:
-            priority = NotificationPriority.HIGH;
-            break;
-        case 0:
-            priority = NotificationPriority.LOW;
-            break;
-        case 1:
-        default:
-            priority = NotificationPriority.NORMAL;
-            break;
+            case 3:
+                priority = NotificationPriority.URGENT;
+                break;
+            case 2:
+                priority = NotificationPriority.HIGH;
+                break;
+            case 0:
+                priority = NotificationPriority.LOW;
+                break;
+            case 1:
+            default:
+                priority = NotificationPriority.NORMAL;
+                break;
         }
-        var notification = new Notification (title_entry.text);
+
+        var notification = new GLib.Notification (title_entry.text);
         notification.set_body (body_entry.text);
         notification.set_priority (priority);
 
