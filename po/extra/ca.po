@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-07 06:43+0000\n"
-"PO-Revision-Date: 2021-07-21 15:01+0000\n"
+"PO-Revision-Date: 2022-04-07 11:33+0000\n"
 "Last-Translator: David M <rbndavid@gmail.com>\n"
 "Language-Team: Catalan <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ca/>\n"
@@ -33,15 +33,15 @@ msgstr "Un servidor de notificacions per al Pantheon"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Minor Updates:"
-msgstr ""
+msgstr "Actualitzacions menors:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Performance improvements"
-msgstr ""
+msgstr "Millores de rendiment"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Updated translations"
-msgstr ""
+msgstr "Traduccions actualitzades"
 
 #: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
