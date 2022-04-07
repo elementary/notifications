@@ -1,3 +1,19 @@
+io.elementary.notifications (6.0.1) bionic; urgency=medium
+
+  * Release 6.0.1 (#171)
+  * Remove old issue templates (#136)
+  * Application: use startup and dbus_register instead of activate
+    (#168)
+  * Improve style in places (#164)
+  * Move dark theme handling to the Application class (#166)
+  * Replace ButtonBox with Box (#161)
+  * Replace add with attach for Grid (#159)
+  * Revert "Fix #117: Show icons for daemons (#118)" (#122)
+  * Update translation files
+  * Update translation template
+
+ -- elementary, Inc. <builds@elementary.io>  Thu, 07 Apr 2022 06:43:24 +0000
+
 io.elementary.notifications (6.0.0) bionic; urgency=medium
 
   * no changes since last release.
