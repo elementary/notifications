@@ -10,6 +10,15 @@
     <p>A notification server for Pantheon</p>
   </description>
   <releases>
+    <release version="6.0.1" date="2022-04-06" urgency="medium">
+      <description>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Performance improvements</li>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+    </release>
     <release version="6.0.0" date="2021-07-19" urgency="medium">
       <description>
         <p>Complete rewrite:</p>
