@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 16:48+0000\n"
+"POT-Creation-Date: 2022-04-07 06:43+0000\n"
 "PO-Revision-Date: 2021-07-19 21:05+0000\n"
 "Last-Translator: Alvaro <alvaroaraoz_92@hotmail.com>\n"
 "Language-Team: Spanish <https://l10n.elementary.io/projects/desktop/"
@@ -32,29 +32,41 @@ msgid "A notification server for Pantheon"
 msgstr "Un servidor de notificaciones para Pantheon"
 
 #: data/notifications.appdata.xml.in:15
+msgid "Minor Updates:"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:17
+msgid "Performance improvements"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:18
+msgid "Updated translations"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
 msgstr "Reescritura completa:"
 
-#: data/notifications.appdata.xml.in:17
+#: data/notifications.appdata.xml.in:26
 msgid "Support the dark style"
 msgstr "Soporte al modo oscuro"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:27
 msgid "Action buttons"
 msgstr "Botones de acción"
 
-#: data/notifications.appdata.xml.in:19
+#: data/notifications.appdata.xml.in:28
 msgid "Optional badge icons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:20
+#: data/notifications.appdata.xml.in:29
 msgid "Automatically badge images with app icons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:21
+#: data/notifications.appdata.xml.in:30
 msgid "Swipe away to dismiss"
 msgstr "Desliza el dedo para descartar"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "elementary, Inc."
 msgstr "elementary, Inc."

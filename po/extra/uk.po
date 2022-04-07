@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 16:48+0000\n"
+"POT-Creation-Date: 2022-04-07 06:43+0000\n"
 "PO-Revision-Date: 2021-07-19 21:05+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://l10n.elementary.io/projects/desktop/"
@@ -33,29 +33,41 @@ msgid "A notification server for Pantheon"
 msgstr "Сервер сповіщень для Pantheon"
 
 #: data/notifications.appdata.xml.in:15
+msgid "Minor Updates:"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:17
+msgid "Performance improvements"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:18
+msgid "Updated translations"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
 msgstr "Повністю переписано:"
 
-#: data/notifications.appdata.xml.in:17
+#: data/notifications.appdata.xml.in:26
 msgid "Support the dark style"
 msgstr "Підтримка темного стилю"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:27
 msgid "Action buttons"
 msgstr "Кнопки дій"
 
-#: data/notifications.appdata.xml.in:19
+#: data/notifications.appdata.xml.in:28
 msgid "Optional badge icons"
 msgstr "Додаткові значки піктограм"
 
-#: data/notifications.appdata.xml.in:20
+#: data/notifications.appdata.xml.in:29
 msgid "Automatically badge images with app icons"
 msgstr "Автоматичне розміщення зображень значків на піктограмах застосунків"
 
-#: data/notifications.appdata.xml.in:21
+#: data/notifications.appdata.xml.in:30
 msgid "Swipe away to dismiss"
 msgstr "Проведення пальцем, щоб відхилити"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "elementary, Inc."
 msgstr "elementary, Inc."

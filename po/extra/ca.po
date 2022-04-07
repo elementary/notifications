@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 16:48+0000\n"
+"POT-Creation-Date: 2022-04-07 06:43+0000\n"
 "PO-Revision-Date: 2021-07-21 15:01+0000\n"
 "Last-Translator: David M <rbndavid@gmail.com>\n"
 "Language-Team: Catalan <https://l10n.elementary.io/projects/desktop/"
@@ -32,29 +32,41 @@ msgid "A notification server for Pantheon"
 msgstr "Un servidor de notificacions per al Pantheon"
 
 #: data/notifications.appdata.xml.in:15
+msgid "Minor Updates:"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:17
+msgid "Performance improvements"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:18
+msgid "Updated translations"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
 msgstr "Reescriptura completa:"
 
-#: data/notifications.appdata.xml.in:17
+#: data/notifications.appdata.xml.in:26
 msgid "Support the dark style"
 msgstr "Admissió de l'estil fosc"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:27
 msgid "Action buttons"
 msgstr "Botons d'acció"
 
-#: data/notifications.appdata.xml.in:19
+#: data/notifications.appdata.xml.in:28
 msgid "Optional badge icons"
 msgstr "Icones d'insígnia opcionals"
 
-#: data/notifications.appdata.xml.in:20
+#: data/notifications.appdata.xml.in:29
 msgid "Automatically badge images with app icons"
 msgstr "Inserció d'imatges d'insígnies automàticament amb icones d’aplicacions"
 
-#: data/notifications.appdata.xml.in:21
+#: data/notifications.appdata.xml.in:30
 msgid "Swipe away to dismiss"
 msgstr "Feu-ho lliscar fora per ignorar-ho."
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "elementary, Inc."
 msgstr "elementary, Inc."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 16:48+0000\n"
+"POT-Creation-Date: 2022-04-07 06:43+0000\n"
 "PO-Revision-Date: 2021-11-01 03:29+0000\n"
 "Last-Translator: XXTXTOP <xxtxtop@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://l10n.elementary.io/projects/"
@@ -32,29 +32,41 @@ msgid "A notification server for Pantheon"
 msgstr "Pantheon 的通知服务器"
 
 #: data/notifications.appdata.xml.in:15
+msgid "Minor Updates:"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:17
+msgid "Performance improvements"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:18
+msgid "Updated translations"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
 msgstr "完全重写："
 
-#: data/notifications.appdata.xml.in:17
+#: data/notifications.appdata.xml.in:26
 msgid "Support the dark style"
 msgstr "支持深色风格"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:27
 msgid "Action buttons"
 msgstr "操作按钮"
 
-#: data/notifications.appdata.xml.in:19
+#: data/notifications.appdata.xml.in:28
 msgid "Optional badge icons"
 msgstr "可选的徽章图标"
 
-#: data/notifications.appdata.xml.in:20
+#: data/notifications.appdata.xml.in:29
 msgid "Automatically badge images with app icons"
 msgstr "使用应用程序图标自动标记图像"
 
-#: data/notifications.appdata.xml.in:21
+#: data/notifications.appdata.xml.in:30
 msgid "Swipe away to dismiss"
 msgstr "滑动以关闭"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "elementary, Inc."
 msgstr "elementary, Inc."

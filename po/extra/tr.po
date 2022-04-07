@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 16:48+0000\n"
+"POT-Creation-Date: 2022-04-07 06:43+0000\n"
 "PO-Revision-Date: 2021-07-19 21:05+0000\n"
 "Last-Translator: Özgür Baskin <queeup@zoho.com>\n"
 "Language-Team: Turkish <https://l10n.elementary.io/projects/desktop/"
@@ -33,29 +33,41 @@ msgid "A notification server for Pantheon"
 msgstr "Pantheon için bir bildirim sunucusu"
 
 #: data/notifications.appdata.xml.in:15
+msgid "Minor Updates:"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:17
+msgid "Performance improvements"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:18
+msgid "Updated translations"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
 msgstr "Tamamen yeniden yazıldı:"
 
-#: data/notifications.appdata.xml.in:17
+#: data/notifications.appdata.xml.in:26
 msgid "Support the dark style"
 msgstr "Koyu renk tema desteği eklendi"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:27
 msgid "Action buttons"
 msgstr "Eylem düğmeleri eklendi"
 
-#: data/notifications.appdata.xml.in:19
+#: data/notifications.appdata.xml.in:28
 msgid "Optional badge icons"
 msgstr "İsteğe bağlı rozet simgeleri eklendi"
 
-#: data/notifications.appdata.xml.in:20
+#: data/notifications.appdata.xml.in:29
 msgid "Automatically badge images with app icons"
 msgstr "Uygulama simgeleriyle görüntüleri otomatik olarak rozetleyin"
 
-#: data/notifications.appdata.xml.in:21
+#: data/notifications.appdata.xml.in:30
 msgid "Swipe away to dismiss"
 msgstr "Kapatmak için kaydırma hareketleri eklendi"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "elementary, Inc."
 msgstr "elementary, Inc."
