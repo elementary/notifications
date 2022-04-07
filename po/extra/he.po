@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-07 06:43+0000\n"
-"PO-Revision-Date: 2021-11-23 17:47+0000\n"
+"PO-Revision-Date: 2022-04-07 22:05+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/he/>\n"
@@ -33,15 +33,15 @@ msgstr "שרת התראות עבור Pantheon"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Minor Updates:"
-msgstr ""
+msgstr "עדכונים משניים:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Performance improvements"
-msgstr ""
+msgstr "שיפורי ביצועים"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Updated translations"
-msgstr ""
+msgstr "תרגומים עדכניים"
 
 #: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
