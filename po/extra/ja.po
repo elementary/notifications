@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-07 06:43+0000\n"
-"PO-Revision-Date: 2021-07-20 00:36+0000\n"
+"PO-Revision-Date: 2022-04-09 02:45+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ja/>\n"
@@ -33,15 +33,15 @@ msgstr "Pantheon 向けの通知サーバーです"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Minor Updates:"
-msgstr ""
+msgstr "そのほかのアップデート:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Performance improvements"
-msgstr ""
+msgstr "パフォーマンスの改善"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Updated translations"
-msgstr ""
+msgstr "翻訳の更新"
 
 #: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
