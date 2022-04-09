@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-07 06:43+0000\n"
-"PO-Revision-Date: 2021-12-24 01:33+0000\n"
+"PO-Revision-Date: 2022-04-10 05:46+0000\n"
 "Last-Translator: TomiOhl <ohlslager.tom@gmail.com>\n"
 "Language-Team: Hungarian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/hu/>\n"
@@ -33,15 +33,15 @@ msgstr "Értesítéskiszolgáló a Pantheonhoz"
 
 #: data/notifications.appdata.xml.in:15
 msgid "Minor Updates:"
-msgstr ""
+msgstr "Kisebb frissítések:"
 
 #: data/notifications.appdata.xml.in:17
 msgid "Performance improvements"
-msgstr ""
+msgstr "Teljesítménybeli javítások"
 
 #: data/notifications.appdata.xml.in:18
 msgid "Updated translations"
-msgstr ""
+msgstr "Frissített fordítások"
 
 #: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
