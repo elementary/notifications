@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-07 06:43+0000\n"
-"PO-Revision-Date: 2020-01-16 16:30-0800\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-04-14 22:02+0000\n"
+"Last-Translator: Pikhosh <pikhosh@gmail.com>\n"
+"Language-Team: Persian <https://l10n.elementary.io/projects/desktop/"
+"notifications-extra/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: data/notifications.appdata.xml.in:7
 msgid "Notifications"
-msgstr ""
+msgstr "اعلان ها"
 
 #: data/notifications.appdata.xml.in:8
 msgid "Notification bubbles and sounds for the desktop"
@@ -38,7 +41,7 @@ msgstr ""
 
 #: data/notifications.appdata.xml.in:18
 msgid "Updated translations"
-msgstr ""
+msgstr "ترجمه های بروز شده"
 
 #: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
