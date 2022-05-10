@@ -21,6 +21,7 @@
 public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (uint32 reason);
 
+    protected Gtk.EventControllerLegacy bubble_motion_controller;
     protected Gtk.Stack content_area;
     protected Gtk.HeaderBar headerbar;
     protected Gtk.Grid draw_area;
@@ -45,12 +46,16 @@ public class Notifications.AbstractBubble : Gtk.Window {
         draw_area.get_style_context ().add_class ("draw-area");
         draw_area.attach (content_area, 0, 0);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic") {
+        var close_button = new Gtk.Image.from_icon_name ("window-close-symbolic") {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START,
+            pixel_size = 24
             // Gtk.IconSize.LARGE_TOOLBAR
         };
         close_button.get_style_context ().add_class ("close");
+
+        var close_button_controller = new Gtk.GestureClick ();
+        close_button.add_controller (close_button_controller);
 
         var close_revealer = new Gtk.Revealer () {
             reveal_child = false,
@@ -82,7 +87,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
         carousel.append (new Gtk.Grid ());
         carousel.append (revealer);
-        carousel.scroll_to (revealer);
+        carousel.scroll_to (revealer, true);
 
         default_height = 0;
         default_width = 332;
@@ -101,25 +106,33 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
 
-        close_button.button_release_event.connect (() => {
+        close_button_controller.released.connect (() => {
             closed (Notifications.Server.CloseReason.DISMISSED);
             dismiss ();
-            return Gdk.EVENT_STOP;
+            // return Gdk.EVENT_STOP;
         });
 
-        enter_notify_event.connect (() => {
-            close_revealer.reveal_child = true;
-            stop_timeout ();
-            return Gdk.EVENT_PROPAGATE;
-        });
+        bubble_motion_controller = new Gtk.EventControllerLegacy ();
+        ((Gtk.Widget) this).add_controller (bubble_motion_controller);
 
-        leave_notify_event.connect ((event) => {
-            if (event.detail == Gdk.NotifyType.INFERIOR) {
-                return Gdk.EVENT_STOP;
+        // bubble_motion_controller.enter.connect (() => {
+            // close_revealer.reveal_child = true;
+            // stop_timeout ();
+        //     // return Gdk.EVENT_PROPAGATE;
+        // });
+
+        bubble_motion_controller.event.connect ((event) => {
+            if (event.get_event_type () == Gdk.EventType.ENTER_NOTIFY) {
+                close_revealer.reveal_child = true;
+                stop_timeout ();
+            } else if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
+                // if (event.detail == Gdk.NotifyType.INFERIOR) {
+                //     return Gdk.EVENT_STOP;
+                // }
+
+                close_revealer.reveal_child = false;
+                return Gdk.EVENT_PROPAGATE;
             }
-
-            close_revealer.reveal_child = false;
-            return Gdk.EVENT_PROPAGATE;
         });
     }
 

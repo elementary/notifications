@@ -45,6 +45,9 @@ public class Notifications.Bubble : AbstractBubble {
                 start_timeout (4000);
                 break;
         }
+        contents.show ();
+        base.show ();
+        show ();
 
         bool default_action = false;
         bool has_actions = notification.actions.length > 0;
@@ -61,28 +64,32 @@ public class Notifications.Bubble : AbstractBubble {
             dismiss ();
         });
 
-        button_release_event.connect ((event) => {
-            if (default_action) {
-                action_invoked ("default");
-                dismiss ();
-            } else if (notification.app_info != null && !has_actions) {
-                try {
-                    notification.app_info.launch (null, null);
+        bubble_motion_controller.event.connect ((event) => {
+            if (event.get_event_type () == Gdk.EventType.BUTTON_RELEASE) {
+                if (default_action) {
+                    action_invoked ("default");
                     dismiss ();
-                } catch (Error e) {
-                    critical ("Unable to launch app: %s", e.message);
+                } else if (notification.app_info != null && !has_actions) {
+                    try {
+                        notification.app_info.launch (null, null);
+                        dismiss ();
+                    } catch (Error e) {
+                        critical ("Unable to launch app: %s", e.message);
+                    }
                 }
-            }
 
-            return Gdk.EVENT_STOP;
+                return Gdk.EVENT_STOP;
+            }
         });
 
-        leave_notify_event.connect (() => {
-            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                return Gdk.EVENT_PROPAGATE;
-            }
+        bubble_motion_controller.event.connect ((event) => {
+            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
+                if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
+                    return Gdk.EVENT_PROPAGATE;
+                }
 
-            start_timeout (4000);
+                start_timeout (4000);
+            }
         });
     }
 

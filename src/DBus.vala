@@ -204,7 +204,7 @@ public class Notifications.Server : Object {
             props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
             props.sets (Canberra.PROP_EVENT_ID, sound_name);
 
-            CanberraGtk.context_get ().play_full (0, props);
+            CanberraGtk4.context_get ().play_full (0, props);
         }
     }
 
