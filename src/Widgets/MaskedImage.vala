@@ -45,6 +45,7 @@ public class Notifications.MaskedImage : Gtk.Widget {
         overlay_widget = new Gtk.Overlay ();
         overlay_widget.child = image;
         overlay_widget.add_overlay (mask);
+        overlay_widget.set_parent (this);
     }
 
     private static Gdk.Pixbuf? mask_pixbuf (Gdk.Pixbuf pixbuf, int scale) {

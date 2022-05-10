@@ -179,7 +179,7 @@ public class Notifications.Server : Object {
             );
             confirmation.close_request.connect (() => {
                 confirmation = null;
-                return true;
+                return false;
             });
         } else {
             confirmation.icon_name = icon_name;
