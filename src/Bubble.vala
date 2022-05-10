@@ -94,7 +94,7 @@ public class Notifications.Bubble : AbstractBubble {
         start_timeout (4000);
 
         var new_contents = new Contents (new_notification);
-        // new_contents.show_all ();
+        new_contents.show ();
 
         new_contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
