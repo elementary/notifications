@@ -45,9 +45,6 @@ public class Notifications.Bubble : AbstractBubble {
                 start_timeout (4000);
                 break;
         }
-        contents.show ();
-        base.show ();
-        show ();
 
         bool default_action = false;
         bool has_actions = notification.actions.length > 0;

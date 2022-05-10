@@ -186,7 +186,7 @@ public class Notifications.Server : Object {
             confirmation.progress = progress_value;
         }
 
-        // confirmation.show_all ();
+        confirmation.present ();
     }
 
     private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {
