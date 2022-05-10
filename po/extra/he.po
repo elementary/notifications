@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 16:48+0000\n"
-"PO-Revision-Date: 2021-11-23 17:47+0000\n"
+"POT-Creation-Date: 2022-04-07 06:43+0000\n"
+"PO-Revision-Date: 2022-04-07 22:05+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/he/>\n"
@@ -32,29 +32,41 @@ msgid "A notification server for Pantheon"
 msgstr "שרת התראות עבור Pantheon"
 
 #: data/notifications.appdata.xml.in:15
+msgid "Minor Updates:"
+msgstr "עדכונים משניים:"
+
+#: data/notifications.appdata.xml.in:17
+msgid "Performance improvements"
+msgstr "שיפורי ביצועים"
+
+#: data/notifications.appdata.xml.in:18
+msgid "Updated translations"
+msgstr "תרגומים עדכניים"
+
+#: data/notifications.appdata.xml.in:24
 msgid "Complete rewrite:"
 msgstr "שכתוב מחדש:"
 
-#: data/notifications.appdata.xml.in:17
+#: data/notifications.appdata.xml.in:26
 msgid "Support the dark style"
 msgstr "תמיכה בסגנון כהה"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:27
 msgid "Action buttons"
 msgstr "כפתורי פעולה"
 
-#: data/notifications.appdata.xml.in:19
+#: data/notifications.appdata.xml.in:28
 msgid "Optional badge icons"
 msgstr "סמלי עיטורים כרשות"
 
-#: data/notifications.appdata.xml.in:20
+#: data/notifications.appdata.xml.in:29
 msgid "Automatically badge images with app icons"
 msgstr "תמונות עיטורים אוטומטיות עם סמלי יישומים"
 
-#: data/notifications.appdata.xml.in:21
+#: data/notifications.appdata.xml.in:30
 msgid "Swipe away to dismiss"
 msgstr "החלקה הצידה כדי להעלים"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "elementary, Inc."
 msgstr "elementary בע״מ."

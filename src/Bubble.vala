@@ -73,6 +73,7 @@ public class Notifications.Bubble : AbstractBubble {
                     critical ("Unable to launch app: %s", e.message);
                 }
             }
+
             return Gdk.EVENT_STOP;
         });
 
@@ -175,7 +176,11 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
 
             if (notification.actions.length > 0) {
-                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                    halign = Gtk.Align.END,
+                    homogeneous = true
+                };
+                action_area.get_style_context ().add_class ("buttonbox");
 
                 bool action_area_packed = false;
 
