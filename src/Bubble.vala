@@ -39,7 +39,7 @@ public class Notifications.Bubble : AbstractBubble {
         switch (notification.priority) {
             case GLib.NotificationPriority.HIGH:
             case GLib.NotificationPriority.URGENT:
-                content_area.get_style_context ().add_class ("urgent");
+                content_area.add_css_class ("urgent");
                 break;
             default:
                 start_timeout (4000);
@@ -149,7 +149,7 @@ public class Notifications.Bubble : AbstractBubble {
                 width_chars = 33,
                 xalign = 0
             };
-            title_label.get_style_context ().add_class ("title");
+            title_label.add_css_class ("title");
 
             var body_label = new Gtk.Label (notification.body) {
                 ellipsize = Pango.EllipsizeMode.END,
@@ -184,7 +184,7 @@ public class Notifications.Bubble : AbstractBubble {
                     halign = Gtk.Align.END,
                     homogeneous = true
                 };
-                action_area.get_style_context ().add_class ("buttonbox");
+                action_area.add_css_class ("buttonbox");
 
                 bool action_area_packed = false;
 
