@@ -50,7 +50,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START,
             pixel_size = 24
-            // Gtk.IconSize.LARGE_TOOLBAR
         };
         close_button.get_style_context ().add_class ("close");
 
@@ -77,7 +76,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
             child = overlay
         };
 
-        var label = new Gtk.Grid ();
+        var label = new Gtk.Grid () {
+            visible = false
+        };
 
         carousel = new Adw.Carousel () {
             allow_mouse_drag = true,
@@ -85,7 +86,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             halign = Gtk.Align.END,
             hexpand = true
         };
-        carousel.append (new Gtk.Grid ());
+        // carousel.append (new Gtk.Grid ());
         carousel.append (revealer);
         carousel.scroll_to (revealer, true);
 
