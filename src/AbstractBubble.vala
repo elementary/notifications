@@ -50,7 +50,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             valign = Gtk.Align.START,
             pixel_size = 24
         };
-        close_button.get_style_context ().add_class ("close");
+        close_button.add_css_class ("close");
 
         var close_button_controller = new Gtk.GestureClick ();
         close_button.add_controller (close_button_controller);
