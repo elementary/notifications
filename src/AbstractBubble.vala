@@ -23,7 +23,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     protected Gtk.EventControllerLegacy bubble_motion_controller;
     protected Gtk.Stack content_area;
-    protected Gtk.HeaderBar headerbar;
     protected Gtk.Grid draw_area;
 
     private Gtk.Revealer revealer;
