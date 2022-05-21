@@ -22,7 +22,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (uint32 reason);
 
     protected Gtk.Stack content_area;
-    protected Gtk.HeaderBar headerbar;
     protected Gtk.Grid draw_area;
 
     private Gtk.Revealer revealer;
