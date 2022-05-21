@@ -61,7 +61,14 @@ public class Notifications.MaskedImage : Gtk.Widget {
         var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, mask_size, mask_size);
         var cr = new Cairo.Context (surface);
 
-        Granite.Drawing.Utilities.cairo_rounded_rectangle (cr, offset_x, offset_y, size, size, mask_offset);
+        // replace Granite.Drawing.Utilities.cairo_rounded_rectangle
+        cr.move_to (offset_x + mask_offset, offset_y);
+        cr.arc (offset_x + size - mask_offset, offset_y + mask_offset, mask_offset, Math.PI * 1.5, Math.PI * 2);
+        cr.arc (offset_x + size - mask_offset, offset_y + size - mask_offset, mask_offset, 0, Math.PI * 0.5);
+        cr.arc (offset_x + mask_offset, offset_y + size - mask_offset, mask_offset, Math.PI * 0.5, Math.PI);
+        cr.arc (offset_x + mask_offset, offset_y + mask_offset, mask_offset, Math.PI, Math.PI * 1.5);
+        cr.close_path ();
+
         cr.clip ();
 
         Gdk.cairo_set_source_pixbuf (cr, input, offset_x, offset_y);

@@ -99,7 +99,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (action_spinbutton, 1, 5);
         grid.attach (send_button, 0, 6, 2);
 
-        var toast = new Granite.Widgets.Toast ("");
+        var toast = new Granite.Toast ("");
 
         var overlay = new Gtk.Overlay () {
             child = grid
