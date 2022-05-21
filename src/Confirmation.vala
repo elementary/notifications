@@ -61,11 +61,9 @@ public class Notifications.Confirmation : AbstractBubble {
             start_timeout (2000);
         });
 
-        bubble_motion_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
-                start_timeout (2000);
-                return Gdk.EVENT_PROPAGATE;
-            }
+        bubble_motion_controller.leave.connect (() => {
+            start_timeout (2000);
+            // return Gdk.EVENT_PROPAGATE;
         });
     }
 }

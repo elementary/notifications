@@ -20,8 +20,9 @@
 
 public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (uint32 reason);
+    public signal void button_release_event ();
 
-    protected Gtk.EventControllerLegacy bubble_motion_controller;
+    protected Gtk.EventControllerMotion bubble_motion_controller;
     protected Gtk.Stack content_area;
     protected Gtk.Grid draw_area;
 
@@ -112,27 +113,28 @@ public class Notifications.AbstractBubble : Gtk.Window {
             // return Gdk.EVENT_STOP;
         });
 
-        bubble_motion_controller = new Gtk.EventControllerLegacy ();
-        ((Gtk.Widget) this).add_controller (bubble_motion_controller);
+        var bubble_gesture_controller = new Gtk.GestureClick ();
+        ((Gtk.Widget) this).add_controller (bubble_gesture_controller);
 
-        // bubble_motion_controller.enter.connect (() => {
-            // close_revealer.reveal_child = true;
-            // stop_timeout ();
-        //     // return Gdk.EVENT_PROPAGATE;
-        // });
+        bubble_gesture_controller.released.connect (() => {
+            button_release_event ();
+        });
 
-        bubble_motion_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.ENTER_NOTIFY) {
-                close_revealer.reveal_child = true;
-                stop_timeout ();
-            } else if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
-                // if (event.detail == Gdk.NotifyType.INFERIOR) {
-                //     return Gdk.EVENT_STOP;
-                // }
+        bubble_motion_controller = new Gtk.EventControllerMotion ();
+        revealer.add_controller (bubble_motion_controller);
 
-                close_revealer.reveal_child = false;
-                return Gdk.EVENT_PROPAGATE;
-            }
+        bubble_motion_controller.enter.connect (() => {
+            close_revealer.reveal_child = true;
+            stop_timeout ();
+            // return Gdk.EVENT_PROPAGATE;
+        });
+
+        bubble_motion_controller.leave.connect ((event) => {
+            // if (event.detail == Gdk.NotifyType.INFERIOR) {
+            //     return Gdk.EVENT_STOP;
+            // }
+            close_revealer.reveal_child = false;
+            // return Gdk.EVENT_PROPAGATE;
         });
     }
 

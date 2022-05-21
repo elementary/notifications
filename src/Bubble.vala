@@ -61,32 +61,27 @@ public class Notifications.Bubble : AbstractBubble {
             dismiss ();
         });
 
-        bubble_motion_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.BUTTON_RELEASE) {
-                if (default_action) {
-                    action_invoked ("default");
+        button_release_event.connect ((event) => {
+            if (default_action) {
+                action_invoked ("default");
+                dismiss ();
+            } else if (notification.app_info != null && !has_actions) {
+                try {
+                    notification.app_info.launch (null, null);
                     dismiss ();
-                } else if (notification.app_info != null && !has_actions) {
-                    try {
-                        notification.app_info.launch (null, null);
-                        dismiss ();
-                    } catch (Error e) {
-                        critical ("Unable to launch app: %s", e.message);
-                    }
+                } catch (Error e) {
+                    critical ("Unable to launch app: %s", e.message);
                 }
-
-                return Gdk.EVENT_STOP;
             }
+
+            // return Gdk.EVENT_STOP;
         });
 
-        bubble_motion_controller.event.connect ((event) => {
-            if (event.get_event_type () == Gdk.EventType.LEAVE_NOTIFY) {
-                if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                    return Gdk.EVENT_PROPAGATE;
-                }
-
-                start_timeout (4000);
-            }
+        bubble_motion_controller.leave.connect (() => {
+            // if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
+            //     return Gdk.EVENT_PROPAGATE;
+            // }
+            start_timeout (4000);
         });
     }
 
