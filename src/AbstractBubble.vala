@@ -99,6 +99,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
         can_focus = false;
         set_titlebar (label);
         child = carousel;
+        // Set title to make it recognizable to window manager
+        title = "io.elementary.notifications";
 
         carousel.page_changed.connect ((index) => {
             if (index == 0) {
