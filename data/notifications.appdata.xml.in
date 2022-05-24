@@ -6,6 +6,7 @@
   <project_license>GPL-3.0+</project_license>
   <name>Notifications</name>
   <summary>Notification bubbles and sounds for the desktop</summary>
+  <icon type="stock">preferences-system-notifications</icon>
   <description>
     <p>A notification server for Pantheon</p>
   </description>
