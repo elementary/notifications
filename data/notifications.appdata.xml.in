@@ -11,6 +11,15 @@
     <p>A notification server for Pantheon</p>
   </description>
   <releases>
+    <release version="6.0.2" date="2022-06-08" urgency="medium">
+      <description>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Fix missing icon when set from icon name</li>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+    </release>
     <release version="6.0.1" date="2022-04-06" urgency="medium">
       <description>
         <p>Minor Updates:</p>
