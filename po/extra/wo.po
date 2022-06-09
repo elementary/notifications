@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-07 06:43+0000\n"
+"POT-Creation-Date: 2022-06-09 19:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -24,46 +24,50 @@ msgstr ""
 msgid "Notification bubbles and sounds for the desktop"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:10
+#: data/notifications.appdata.xml.in:11
 msgid "A notification server for Pantheon"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:15
+#: data/notifications.appdata.xml.in:16 data/notifications.appdata.xml.in:25
 msgid "Minor Updates:"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:17
-msgid "Performance improvements"
+#: data/notifications.appdata.xml.in:18
+msgid "Fix missing icon when set from icon name"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:19 data/notifications.appdata.xml.in:28
 msgid "Updated translations"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:24
+#: data/notifications.appdata.xml.in:27
+msgid "Performance improvements"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:34
 msgid "Complete rewrite:"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:26
+#: data/notifications.appdata.xml.in:36
 msgid "Support the dark style"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:27
+#: data/notifications.appdata.xml.in:37
 msgid "Action buttons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:28
+#: data/notifications.appdata.xml.in:38
 msgid "Optional badge icons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:29
+#: data/notifications.appdata.xml.in:39
 msgid "Automatically badge images with app icons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:30
+#: data/notifications.appdata.xml.in:40
 msgid "Swipe away to dismiss"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:69
+#: data/notifications.appdata.xml.in:79
 msgid "elementary, Inc."
 msgstr ""
