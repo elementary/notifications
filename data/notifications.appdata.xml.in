@@ -11,7 +11,7 @@
     <p>A notification server for Pantheon</p>
   </description>
   <releases>
-    <release version="6.0.2" date="2022-06-08" urgency="medium">
+    <release version="6.0.2" date="2022-06-09" urgency="medium">
       <description>
         <p>Minor Updates:</p>
         <ul>
