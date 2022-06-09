@@ -1,3 +1,15 @@
+io.elementary.notifications (6.0.2) bionic; urgency=medium
+
+  * Release 6.0.2
+  * Update translation files
+  * Update translation template
+  * Notification: set icon from icon name (#176)
+  * AppData: Add stock icon (#175)
+  * Remove Unused HeaderBar (#174)
+  * Revert "Remove old issue templates (#136)" (#172)
+
+ -- elementary, Inc. <builds@elementary.io>  Thu, 09 Jun 2022 20:43:50 +0000
+
 io.elementary.notifications (6.0.1) bionic; urgency=medium
 
   * Release 6.0.1 (#171)
