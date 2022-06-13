@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-09 19:04+0000\n"
+"POT-Creation-Date: 2022-06-13 09:03+0000\n"
 "PO-Revision-Date: 2020-01-16 16:30-0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,58 +18,58 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
-#: data/notifications.appdata.xml.in:7
+#: data/notifications.appdata.xml.in:9
 msgid "Notifications"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:8
+#: data/notifications.appdata.xml.in:10
 msgid "Notification bubbles and sounds for the desktop"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:11
+#: data/notifications.appdata.xml.in:12
 msgid "A notification server for Pantheon"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:16 data/notifications.appdata.xml.in:25
+#: data/notifications.appdata.xml.in:29
+msgid "elementary, Inc."
+msgstr ""
+
+#: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
 msgid "Minor Updates:"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:38
 msgid "Fix missing icon when set from icon name"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:19 data/notifications.appdata.xml.in:28
+#: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
 msgid "Updated translations"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:27
+#: data/notifications.appdata.xml.in:47
 msgid "Performance improvements"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:34
+#: data/notifications.appdata.xml.in:54
 msgid "Complete rewrite:"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:36
+#: data/notifications.appdata.xml.in:56
 msgid "Support the dark style"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:37
+#: data/notifications.appdata.xml.in:57
 msgid "Action buttons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:38
+#: data/notifications.appdata.xml.in:58
 msgid "Optional badge icons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:39
+#: data/notifications.appdata.xml.in:59
 msgid "Automatically badge images with app icons"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:40
+#: data/notifications.appdata.xml.in:60
 msgid "Swipe away to dismiss"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:79
-msgid "elementary, Inc."
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-09 19:04+0000\n"
+"POT-Creation-Date: 2022-06-13 09:03+0000\n"
 "PO-Revision-Date: 2022-06-11 23:34+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.elementary.io/projects/desktop/"
@@ -19,58 +19,58 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.4.2\n"
 
-#: data/notifications.appdata.xml.in:7
+#: data/notifications.appdata.xml.in:9
 msgid "Notifications"
 msgstr "Notificações"
 
-#: data/notifications.appdata.xml.in:8
+#: data/notifications.appdata.xml.in:10
 msgid "Notification bubbles and sounds for the desktop"
 msgstr "Notificação de bolhas e sons para o ambiente de trabalho"
 
-#: data/notifications.appdata.xml.in:11
+#: data/notifications.appdata.xml.in:12
 msgid "A notification server for Pantheon"
 msgstr "Um servidor de notificações para o Pantheon"
 
-#: data/notifications.appdata.xml.in:16 data/notifications.appdata.xml.in:25
+#: data/notifications.appdata.xml.in:29
+msgid "elementary, Inc."
+msgstr "elementary, Inc."
+
+#: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
 msgid "Minor Updates:"
 msgstr "Pequenas atualizações:"
 
-#: data/notifications.appdata.xml.in:18
+#: data/notifications.appdata.xml.in:38
 msgid "Fix missing icon when set from icon name"
 msgstr "Corrigir ícone em falta quando definido a partir do nome do ícone"
 
-#: data/notifications.appdata.xml.in:19 data/notifications.appdata.xml.in:28
+#: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
 msgid "Updated translations"
 msgstr "Traduções atualizadas"
 
-#: data/notifications.appdata.xml.in:27
+#: data/notifications.appdata.xml.in:47
 msgid "Performance improvements"
 msgstr "Melhorias de desempenho"
 
-#: data/notifications.appdata.xml.in:34
+#: data/notifications.appdata.xml.in:54
 msgid "Complete rewrite:"
 msgstr "Reescrito do zero:"
 
-#: data/notifications.appdata.xml.in:36
+#: data/notifications.appdata.xml.in:56
 msgid "Support the dark style"
 msgstr "Suporta o estilo escuro"
 
-#: data/notifications.appdata.xml.in:37
+#: data/notifications.appdata.xml.in:57
 msgid "Action buttons"
 msgstr "Botões de acão"
 
-#: data/notifications.appdata.xml.in:38
+#: data/notifications.appdata.xml.in:58
 msgid "Optional badge icons"
 msgstr "Ícones opcionais de distintivo"
 
-#: data/notifications.appdata.xml.in:39
+#: data/notifications.appdata.xml.in:59
 msgid "Automatically badge images with app icons"
 msgstr "Imagens automáticas de distintivos com ícones de aplicações"
 
-#: data/notifications.appdata.xml.in:40
+#: data/notifications.appdata.xml.in:60
 msgid "Swipe away to dismiss"
 msgstr "Deslizar para dispensar"
-
-#: data/notifications.appdata.xml.in:79
-msgid "elementary, Inc."
-msgstr "elementary, Inc."
