@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:03+0000\n"
-"PO-Revision-Date: 2022-04-10 05:46+0000\n"
+"PO-Revision-Date: 2022-06-15 03:53+0000\n"
 "Last-Translator: TomiOhl <ohlslager.tom@gmail.com>\n"
 "Language-Team: Hungarian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/hu/>\n"
@@ -41,7 +41,7 @@ msgstr "Kisebb frissítések:"
 
 #: data/notifications.appdata.xml.in:38
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "Hiányzó ikon javítva az ikonnévből való megállapítás után"
 
 #: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
 msgid "Updated translations"
