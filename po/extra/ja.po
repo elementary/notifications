@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:03+0000\n"
-"PO-Revision-Date: 2022-04-09 02:45+0000\n"
+"PO-Revision-Date: 2022-06-18 21:02+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ja/>\n"
@@ -41,7 +41,7 @@ msgstr "そのほかのアップデート:"
 
 #: data/notifications.appdata.xml.in:38
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "アイコン名を指定して通知を送信すると、アイコンが表示されない不具合を修正"
 
 #: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
 msgid "Updated translations"
