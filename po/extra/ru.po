@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:03+0000\n"
-"PO-Revision-Date: 2021-07-23 14:59+0000\n"
-"Last-Translator: DartDeaDia <jorydit@gmail.com>\n"
+"PO-Revision-Date: 2022-07-24 16:43+0000\n"
+"Last-Translator: кубик круглый <megarainbow29@gmail.com>\n"
 "Language-Team: Russian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ru/>\n"
 "Language: ru\n"
@@ -38,19 +38,19 @@ msgstr "elementary, Inc."
 
 #: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
 msgid "Minor Updates:"
-msgstr ""
+msgstr "Незначительные обновления:"
 
 #: data/notifications.appdata.xml.in:38
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "Исправлено отсутствие значка, если он был установлен из названия"
 
 #: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
 msgid "Updated translations"
-msgstr ""
+msgstr "Обновлены переводы"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Performance improvements"
-msgstr ""
+msgstr "Улучшения производительности"
 
 #: data/notifications.appdata.xml.in:54
 msgid "Complete rewrite:"
