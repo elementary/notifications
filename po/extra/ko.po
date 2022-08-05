@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:03+0000\n"
-"PO-Revision-Date: 2020-01-17 01:00+0000\n"
-"Last-Translator: Daniel Foré <daniel@elementary.io>\n"
+"PO-Revision-Date: 2022-08-05 14:42+0000\n"
+"Last-Translator: Jung-Kyu Park <bagjunggyu@gmail.com>\n"
 "Language-Team: Korean <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ko/>\n"
 "Language: ko\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #: data/notifications.appdata.xml.in:9
 msgid "Notifications"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
 msgid "Updated translations"
-msgstr ""
+msgstr "최신 번역"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Performance improvements"
