@@ -81,6 +81,9 @@ public class Notifications.Notification : GLib.Object {
             if (file.query_exists ()) {
                 primary_icon = new FileIcon (file);
             }
+        } else {
+            // Icon name set directly, such as by Notify.Notification
+            primary_icon = new ThemedIcon (app_icon);
         }
 
         // GLib.Notification.set_icon ()
