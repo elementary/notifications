@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:03+0000\n"
-"PO-Revision-Date: 2022-04-15 20:31+0000\n"
+"PO-Revision-Date: 2022-09-09 03:11+0000\n"
 "Last-Translator: Aga Ismael <agaesmaeel@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://l10n.elementary.io/projects/"
 "desktop/notifications-extra/ckb/>\n"
@@ -49,7 +49,7 @@ msgstr "وەرگێڕانەکان نوێکراونەوە"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Performance improvements"
-msgstr ""
+msgstr "باشترکراوەکانی ئەدا"
 
 #: data/notifications.appdata.xml.in:54
 msgid "Complete rewrite:"
