@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-13 09:03+0000\n"
-"PO-Revision-Date: 2022-09-30 10:39+0000\n"
+"PO-Revision-Date: 2022-09-30 10:44+0000\n"
 "Last-Translator: lenemter <lenemter@gmail.com>\n"
 "Language-Team: Russian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ru/>\n"
@@ -66,7 +66,7 @@ msgstr "Кнопки действий"
 
 #: data/notifications.appdata.xml.in:58
 msgid "Optional badge icons"
-msgstr "Дополнительные значки пиктограмм"
+msgstr "Дополнительные иконки значков"
 
 #: data/notifications.appdata.xml.in:59
 msgid "Automatically badge images with app icons"
