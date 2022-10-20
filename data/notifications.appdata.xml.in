@@ -31,6 +31,16 @@
   <update_contact>contact_at_elementary.io</update_contact>
 
   <releases>
+    <release version="6.0.3" date="2022-10-19" urgency="medium">
+      <description>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Fix missing icon when set from icon name</li>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+    </release>
+
     <release version="6.0.2" date="2022-06-09" urgency="medium">
       <description>
         <p>Minor Updates:</p>
