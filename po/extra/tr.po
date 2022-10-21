@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-13 09:03+0000\n"
+"POT-Creation-Date: 2022-10-20 17:50+0000\n"
 "PO-Revision-Date: 2022-04-09 14:37+0000\n"
 "Last-Translator: Özgür Baskin <queeup@zoho.com>\n"
 "Language-Team: Turkish <https://l10n.elementary.io/projects/desktop/"
@@ -37,41 +37,43 @@ msgid "elementary, Inc."
 msgstr "elementary, Inc."
 
 #: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
+#: data/notifications.appdata.xml.in:54
 msgid "Minor Updates:"
 msgstr "Küçük güncellemeler:"
 
-#: data/notifications.appdata.xml.in:38
-msgid "Fix missing icon when set from icon name"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
+#: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
+#: data/notifications.appdata.xml.in:57
 msgid "Updated translations"
 msgstr "Çeviriler güncellendi"
 
 #: data/notifications.appdata.xml.in:47
+msgid "Fix missing icon when set from icon name"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:56
 msgid "Performance improvements"
 msgstr "Performans iyileştirmeleri"
 
-#: data/notifications.appdata.xml.in:54
+#: data/notifications.appdata.xml.in:63
 msgid "Complete rewrite:"
 msgstr "Tamamen yeniden yazıldı:"
 
-#: data/notifications.appdata.xml.in:56
+#: data/notifications.appdata.xml.in:65
 msgid "Support the dark style"
 msgstr "Koyu renk tema desteği eklendi"
 
-#: data/notifications.appdata.xml.in:57
+#: data/notifications.appdata.xml.in:66
 msgid "Action buttons"
 msgstr "Eylem düğmeleri eklendi"
 
-#: data/notifications.appdata.xml.in:58
+#: data/notifications.appdata.xml.in:67
 msgid "Optional badge icons"
 msgstr "İsteğe bağlı rozet simgeleri eklendi"
 
-#: data/notifications.appdata.xml.in:59
+#: data/notifications.appdata.xml.in:68
 msgid "Automatically badge images with app icons"
 msgstr "Uygulama simgeleriyle görüntüleri otomatik olarak rozetleyin"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "Swipe away to dismiss"
 msgstr "Kapatmak için kaydırma hareketleri eklendi"

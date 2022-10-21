@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-13 09:03+0000\n"
+"POT-Creation-Date: 2022-10-20 17:50+0000\n"
 "PO-Revision-Date: 2022-06-18 21:02+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://l10n.elementary.io/projects/desktop/"
@@ -36,41 +36,44 @@ msgid "elementary, Inc."
 msgstr "elementary, Inc."
 
 #: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
+#: data/notifications.appdata.xml.in:54
 msgid "Minor Updates:"
 msgstr "そのほかのアップデート:"
 
-#: data/notifications.appdata.xml.in:38
-msgid "Fix missing icon when set from icon name"
-msgstr "アイコン名を指定して通知を送信すると、アイコンが表示されない不具合を修正"
-
-#: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:48
+#: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
+#: data/notifications.appdata.xml.in:57
 msgid "Updated translations"
 msgstr "翻訳の更新"
 
 #: data/notifications.appdata.xml.in:47
+msgid "Fix missing icon when set from icon name"
+msgstr ""
+"アイコン名を指定して通知を送信すると、アイコンが表示されない不具合を修正"
+
+#: data/notifications.appdata.xml.in:56
 msgid "Performance improvements"
 msgstr "パフォーマンスの改善"
 
-#: data/notifications.appdata.xml.in:54
+#: data/notifications.appdata.xml.in:63
 msgid "Complete rewrite:"
 msgstr "完全なコードの書き直し:"
 
-#: data/notifications.appdata.xml.in:56
+#: data/notifications.appdata.xml.in:65
 msgid "Support the dark style"
 msgstr "ダークスタイルに対応"
 
-#: data/notifications.appdata.xml.in:57
+#: data/notifications.appdata.xml.in:66
 msgid "Action buttons"
 msgstr "アクションボタンを追加"
 
-#: data/notifications.appdata.xml.in:58
+#: data/notifications.appdata.xml.in:67
 msgid "Optional badge icons"
 msgstr "バッジアイコンを表示可能に"
 
-#: data/notifications.appdata.xml.in:59
+#: data/notifications.appdata.xml.in:68
 msgid "Automatically badge images with app icons"
 msgstr "画像にアプリアイコンを自動的に重ねて表示するように変更"
 
-#: data/notifications.appdata.xml.in:60
+#: data/notifications.appdata.xml.in:69
 msgid "Swipe away to dismiss"
 msgstr "通知をスワイプすると消去できる機能を追加"
