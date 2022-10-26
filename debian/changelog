@@ -1,3 +1,12 @@
+io.elementary.notifications (6.0.3) bionic; urgency=medium
+
+  * Release 6.0.3 (#181)
+  * Update translation files
+  * Update translation template
+  * Appdata: Reorganize (#178)
+
+ -- elementary, Inc. <builds@elementary.io>  Wed, 26 Oct 2022 16:57:38 +0000
+
 io.elementary.notifications (6.0.2) bionic; urgency=medium
 
   * Release 6.0.2
