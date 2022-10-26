@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-20 17:50+0000\n"
-"PO-Revision-Date: 2022-06-10 08:26+0000\n"
+"PO-Revision-Date: 2022-10-27 18:57+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/he/>\n"
@@ -43,7 +43,7 @@ msgstr "עדכונים משניים:"
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
 #: data/notifications.appdata.xml.in:57
 msgid "Updated translations"
-msgstr "תרגומים עדכניים"
+msgstr "התרגומים עודכנו"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Fix missing icon when set from icon name"
