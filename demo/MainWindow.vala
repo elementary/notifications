@@ -26,6 +26,9 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.Entry icon_entry;
     private Gtk.Entry id_entry;
     private Gtk.ComboBoxText priority_combobox;
+    private Gtk.ComboBoxText category_combobox;
+    private Gtk.ComboBoxText sound_combobox;
+    private Gtk.Switch suppress_sound_switch;
     private Gtk.SpinButton action_spinbutton;
 
     public MainWindow (Gtk.Application application) {
@@ -73,6 +76,62 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         action_spinbutton = new Gtk.SpinButton.with_range (0, 3, 1);
 
+        var libnotify_label = new Gtk.Label ("Libnotify Tests") {
+            halign = Gtk.Align.CENTER
+        };
+
+        var category_label = new Gtk.Label ("Category:");
+
+        category_combobox = new Gtk.ComboBoxText () {
+            hexpand = true
+        };
+        category_combobox.append_text ("");
+        category_combobox.append_text ("device");
+        category_combobox.append_text ("device.added");
+        category_combobox.append_text ("device.error");
+        category_combobox.append_text ("device.removed");
+        category_combobox.append_text ("email");
+        category_combobox.append_text ("email.arrived");
+        category_combobox.append_text ("email.bounced");
+        category_combobox.append_text ("im");
+        category_combobox.append_text ("im.error");
+        category_combobox.append_text ("im.received");
+        category_combobox.append_text ("network");
+        category_combobox.append_text ("network.connected");
+        category_combobox.append_text ("network.disconnected");
+        category_combobox.append_text ("network.error");
+        category_combobox.append_text ("presence");
+        category_combobox.append_text ("presence.offline");
+        category_combobox.append_text ("presence.online");
+        category_combobox.append_text ("transfer");
+        category_combobox.append_text ("transfer.complete");
+        category_combobox.append_text ("transfer.error");
+        category_combobox.set_active (0);
+
+        var sound_label = new Gtk.Label ("Sound Name:");
+
+        sound_combobox = new Gtk.ComboBoxText () {
+            hexpand = true
+        };
+        sound_combobox.append_text ("");
+        sound_combobox.append_text ("device-added");
+        sound_combobox.append_text ("device-removed");
+        sound_combobox.append_text ("dialog-error");
+        sound_combobox.append_text ("dialog-information");
+        sound_combobox.append_text ("message-new-instant");
+        sound_combobox.append_text ("message");
+        sound_combobox.append_text ("network-connectivity-established");
+        sound_combobox.append_text ("network-connectivity-lost");
+        sound_combobox.append_text ("service-login");
+        sound_combobox.append_text ("service-logout");
+        sound_combobox.set_active (0);
+
+        var suppress_sound_label = new Gtk.Label ("Suppress Sounds:");
+        suppress_sound_switch = new Gtk.Switch () {
+            active = false,
+            halign = Gtk.Align.START
+        };
+
         var send_button = new Gtk.Button.with_label ("Send Notification") {
             can_default = true,
             halign = Gtk.Align.END,
@@ -94,7 +153,14 @@ public class MainWindow : Gtk.ApplicationWindow {
         grid.attach (priority_combobox, 1, 4);
         grid.attach (action_label, 0, 5);
         grid.attach (action_spinbutton, 1, 5);
-        grid.attach (send_button, 0, 6, 2);
+        grid.attach (libnotify_label, 0, 6, 2);
+        grid.attach (category_label, 0, 7);
+        grid.attach (category_combobox, 1, 7);
+        grid.attach (sound_label, 0, 8);
+        grid.attach (sound_combobox, 1, 8);
+        grid.attach (suppress_sound_label, 0, 9);
+        grid.attach (suppress_sound_switch, 1, 9);
+        grid.attach (send_button, 0, 10, 2);
 
         var toast = new Granite.Widgets.Toast ("");
 
@@ -105,7 +171,7 @@ public class MainWindow : Gtk.ApplicationWindow {
         add (overlay);
 
         send_button.has_default = true;
-        send_button.clicked.connect (send_notification);
+        send_button.clicked.connect (route_notification);
 
         var toast_action = new SimpleAction ("toast", VariantType.STRING);
 
@@ -115,6 +181,16 @@ public class MainWindow : Gtk.ApplicationWindow {
             toast.title = parameter.get_string ();
             toast.send_notification ();
         });
+    }
+
+    private void route_notification () {
+        var category = category_combobox.get_active_text ();
+        var sound = sound_combobox.get_active_text ();
+        if (category.length > 0 || sound.length > 0) {
+            send_libnotify_notification ();
+        } else {
+            send_notification ();
+        }
     }
 
     private void send_notification () {
@@ -154,5 +230,49 @@ public class MainWindow : Gtk.ApplicationWindow {
         }
 
         application.send_notification (id, notification);
+    }
+
+    private void send_libnotify_notification () {
+        Notify.init ("io.elementary.notifications.demo");
+
+        Notify.Urgency urgency;
+        switch (priority_combobox.active) {
+        case 3:
+        case 2:
+            urgency = Notify.Urgency.CRITICAL;
+            break;
+        case 0:
+            urgency = Notify.Urgency.LOW;
+            break;
+        case 1:
+        default:
+            urgency = Notify.Urgency.NORMAL;
+            break;
+        }
+
+        var notification = new Notify.Notification (title_entry.text, body_entry.text, "preferences-system-notifications") {
+            app_name = "io.elementary.notifications.demo"
+        };
+        notification.set_urgency (urgency);
+
+        var category = category_combobox.get_active_text ();
+        if (category.length > 0) {
+            notification.set_category (category_combobox.get_active_text ());
+        }
+
+        var sound = sound_combobox.get_active_text ();
+        if (sound.length > 0) {
+            Variant sound_name = new Variant ("s", sound_combobox.get_active_text ());
+            notification.set_hint ("sound-name", sound_name);
+        }
+
+        Variant suppress_sound = new Variant ("b", suppress_sound_switch.active);
+        notification.set_hint ("suppress-sound", suppress_sound);
+
+        try {
+            notification.show ();
+        } catch (Error e) {
+            critical ("Failed to send notification: %s", e.message);
+        }
     }
 }
