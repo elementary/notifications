@@ -17,6 +17,7 @@ executable(
     'src/AbstractBubble.vala',
     'src/Application.vala',
     'src/Bubble.vala',
+    'src/CanberraGtk4.vala',
     'src/Confirmation.vala',
     'src/DBus.vala',
     'src/Notification.vala',
@@ -24,12 +25,13 @@ executable(
     css_gresource,
     dependencies: [
         dependency ('libcanberra'),
-        dependency ('libcanberra-gtk3'),
+        dependency ('gee-0.8'),
+        dependency ('gio-unix-2.0'),
         dependency ('glib-2.0'),
         dependency ('gobject-2.0'),
-        dependency ('granite', version: '>=5.4.0'),
-        dependency ('gtk+-3.0'),
-        dependency ('libhandy-1')
+        dependency ('granite-7'),
+        dependency ('gtk4'),
+        dependency ('libadwaita-1')
     ],
     install : true
 )

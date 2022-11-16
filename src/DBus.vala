@@ -122,7 +122,7 @@ public class Notifications.Server : Object {
                         bubbles[id].replace (notification);
                     } else {
                         bubbles[id] = new Notifications.Bubble (notification, id);
-                        bubbles[id].show_all ();
+                        bubbles[id].present ();
 
                         bubbles[id].action_invoked.connect ((action_key) => {
                             action_invoked (id, action_key);
@@ -177,15 +177,16 @@ public class Notifications.Server : Object {
                 icon_name,
                 progress_value
             );
-            confirmation.destroy.connect (() => {
+            confirmation.close_request.connect (() => {
                 confirmation = null;
+                return false;
             });
         } else {
             confirmation.icon_name = icon_name;
             confirmation.progress = progress_value;
         }
 
-        confirmation.show_all ();
+        confirmation.present ();
     }
 
     private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {
@@ -203,7 +204,7 @@ public class Notifications.Server : Object {
             props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
             props.sets (Canberra.PROP_EVENT_ID, sound_name);
 
-            CanberraGtk.context_get ().play_full (0, props);
+            CanberraGtk4.context_get ().play_full (0, props);
         }
     }
 

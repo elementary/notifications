@@ -30,7 +30,7 @@ public class Notifications.Confirmation : AbstractBubble {
     }
 
     construct {
-        var image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG) {
+        var image = new Gtk.Image.from_icon_name (icon_name) {
             valign = Gtk.Align.START,
             pixel_size = 48
         };
@@ -41,7 +41,7 @@ public class Notifications.Confirmation : AbstractBubble {
             margin_end = 6,
             width_request = 228
         };
-        progressbar.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
+        progressbar.add_css_class (Granite.STYLE_CLASS_FLAT);
 
         var contents = new Gtk.Grid () {
             column_spacing = 6
@@ -49,9 +49,9 @@ public class Notifications.Confirmation : AbstractBubble {
         contents.attach (image, 0, 0);
         contents.attach (progressbar, 1, 0);
 
-        content_area.add (contents);
+        content_area.add_child (contents);
 
-        get_style_context ().add_class ("confirmation");
+        add_css_class ("confirmation");
 
         bind_property ("icon-name", image, "icon-name");
         bind_property ("progress", progressbar, "fraction");
@@ -61,9 +61,9 @@ public class Notifications.Confirmation : AbstractBubble {
             start_timeout (2000);
         });
 
-        leave_notify_event.connect (() => {
+        bubble_motion_controller.leave.connect (() => {
             start_timeout (2000);
-            return Gdk.EVENT_PROPAGATE;
+            // return Gdk.EVENT_PROPAGATE;
         });
     }
 }

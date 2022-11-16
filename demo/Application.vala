@@ -41,7 +41,7 @@ public class Application : Gtk.Application {
         });
 
         var window = new MainWindow (this);
-        window.show_all ();
+        window.present ();
     }
 
     public static int main (string[] args) {

@@ -18,13 +18,18 @@
 *
 */
 
-public class Notifications.MaskedImage : Gtk.Overlay {
+public class Notifications.MaskedImage : Gtk.Widget {
     private const int ICON_SIZE = 48;
 
+    public Gtk.Overlay overlay_widget { get; set; }
     public Gdk.Pixbuf pixbuf { get; construct; }
 
     public MaskedImage (Gdk.Pixbuf pixbuf) {
         Object (pixbuf: pixbuf);
+    }
+
+    static construct {
+        set_layout_manager_type (typeof (Gtk.BinLayout));
     }
 
     construct {
@@ -37,8 +42,10 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         image.gicon = mask_pixbuf (pixbuf, scale);
         image.pixel_size = ICON_SIZE;
 
-        add (image);
-        add_overlay (mask);
+        overlay_widget = new Gtk.Overlay ();
+        overlay_widget.child = image;
+        overlay_widget.add_overlay (mask);
+        overlay_widget.set_parent (this);
     }
 
     private static Gdk.Pixbuf? mask_pixbuf (Gdk.Pixbuf pixbuf, int scale) {
@@ -54,12 +61,25 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, mask_size, mask_size);
         var cr = new Cairo.Context (surface);
 
-        Granite.Drawing.Utilities.cairo_rounded_rectangle (cr, offset_x, offset_y, size, size, mask_offset);
+        // replace Granite.Drawing.Utilities.cairo_rounded_rectangle
+        cr.move_to (offset_x + mask_offset, offset_y);
+        cr.arc (offset_x + size - mask_offset, offset_y + mask_offset, mask_offset, Math.PI * 1.5, Math.PI * 2);
+        cr.arc (offset_x + size - mask_offset, offset_y + size - mask_offset, mask_offset, 0, Math.PI * 0.5);
+        cr.arc (offset_x + mask_offset, offset_y + size - mask_offset, mask_offset, Math.PI * 0.5, Math.PI);
+        cr.arc (offset_x + mask_offset, offset_y + mask_offset, mask_offset, Math.PI, Math.PI * 1.5);
+        cr.close_path ();
+
         cr.clip ();
 
         Gdk.cairo_set_source_pixbuf (cr, input, offset_x, offset_y);
         cr.paint ();
 
         return Gdk.pixbuf_get_from_surface (surface, 0, 0, mask_size, mask_size);
+    }
+
+    ~MaskedImage () {
+        while (get_last_child () != null) {
+            get_last_child ().unparent ();
+        }
     }
 }

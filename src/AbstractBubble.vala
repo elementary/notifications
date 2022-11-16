@@ -20,13 +20,15 @@
 
 public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (uint32 reason);
+    public signal void button_release_event ();
 
+    protected Gtk.EventControllerMotion bubble_motion_controller;
     protected Gtk.Stack content_area;
     protected Gtk.Grid draw_area;
 
     private Gtk.Revealer revealer;
     private uint timeout_id;
-    private Hdy.Carousel carousel;
+    private Adw.Carousel carousel;
 
     construct {
         content_area = new Gtk.Stack () {
@@ -36,57 +38,69 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         draw_area = new Gtk.Grid () {
             hexpand = true,
-            margin = 16
+            margin_start = 16,
+            margin_end = 16,
+            margin_top = 16,
+            margin_bottom = 16
         };
-        draw_area.get_style_context ().add_class ("draw-area");
+        draw_area.add_css_class ("draw-area");
         draw_area.attach (content_area, 0, 0);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
+        var close_button = new Gtk.Image.from_icon_name ("window-close-symbolic") {
             halign = Gtk.Align.START,
-            valign = Gtk.Align.START
+            valign = Gtk.Align.START,
+            pixel_size = 24
         };
-        close_button.get_style_context ().add_class ("close");
+        close_button.add_css_class ("close");
+
+        var close_button_controller = new Gtk.GestureClick ();
+        close_button.add_controller (close_button_controller);
 
         var close_revealer = new Gtk.Revealer () {
             reveal_child = false,
             transition_type = Gtk.RevealerTransitionType.CROSSFADE,
             halign = Gtk.Align.START,
-            valign = Gtk.Align.START
+            valign = Gtk.Align.START,
+            child = close_button
         };
-        close_revealer.add (close_button);
 
-        var overlay = new Gtk.Overlay ();
-        overlay.add (draw_area);
+        var overlay = new Gtk.Overlay () {
+            child = draw_area
+        };
         overlay.add_overlay (close_revealer);
 
         revealer = new Gtk.Revealer () {
             reveal_child = true,
             transition_duration = 195,
-            transition_type = Gtk.RevealerTransitionType.CROSSFADE
+            transition_type = Gtk.RevealerTransitionType.CROSSFADE,
+            child = overlay
         };
-        revealer.add (overlay);
 
-        var label = new Gtk.Grid ();
+        var label = new Gtk.Grid () {
+            visible = false
+        };
 
-        carousel = new Hdy.Carousel () {
+        carousel = new Adw.Carousel () {
             allow_mouse_drag = true,
             interactive = true,
             halign = Gtk.Align.END,
             hexpand = true
         };
-        carousel.add (new Gtk.Grid ());
-        carousel.add (revealer);
-        carousel.scroll_to (revealer);
+        // carousel.append (new Gtk.Grid ());
+        carousel.append (revealer);
+        carousel.scroll_to (revealer, true);
 
         default_height = 0;
         default_width = 332;
         resizable = false;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
+        // type_hint = Gdk.WindowTypeHint.NOTIFICATION;
         get_style_context ().add_class ("notification");
         // Prevent stealing focus when an app window is closed
-        set_accept_focus (false);
+        can_focus = false;
         set_titlebar (label);
-        add (carousel);
+        child = carousel;
+        // Set title to make it recognizable to window manager
+        title = "io.elementary.notifications";
 
         carousel.page_changed.connect ((index) => {
             if (index == 0) {
@@ -95,24 +109,34 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
 
-        close_button.button_release_event.connect (() => {
+        close_button_controller.released.connect (() => {
             closed (Notifications.Server.CloseReason.DISMISSED);
             dismiss ();
-            return Gdk.EVENT_STOP;
+            // return Gdk.EVENT_STOP;
         });
 
-        enter_notify_event.connect (() => {
+        var bubble_gesture_controller = new Gtk.GestureClick ();
+        ((Gtk.Widget) this).add_controller (bubble_gesture_controller);
+
+        bubble_gesture_controller.released.connect (() => {
+            button_release_event ();
+        });
+
+        bubble_motion_controller = new Gtk.EventControllerMotion ();
+        revealer.add_controller (bubble_motion_controller);
+
+        bubble_motion_controller.enter.connect (() => {
             close_revealer.reveal_child = true;
             stop_timeout ();
-            return Gdk.EVENT_PROPAGATE;
+            // return Gdk.EVENT_PROPAGATE;
         });
 
-        leave_notify_event.connect ((event) => {
-            if (event.detail == Gdk.NotifyType.INFERIOR) {
-                return Gdk.EVENT_STOP;
-            }
+        bubble_motion_controller.leave.connect ((event) => {
+            // if (event.detail == Gdk.NotifyType.INFERIOR) {
+            //     return Gdk.EVENT_STOP;
+            // }
             close_revealer.reveal_child = false;
-            return Gdk.EVENT_PROPAGATE;
+            // return Gdk.EVENT_PROPAGATE;
         });
     }
 

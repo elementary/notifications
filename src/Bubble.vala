@@ -34,12 +34,12 @@ public class Notifications.Bubble : AbstractBubble {
     construct {
         var contents = new Contents (notification);
 
-        content_area.add (contents);
+        content_area.add_child (contents);
 
         switch (notification.priority) {
             case GLib.NotificationPriority.HIGH:
             case GLib.NotificationPriority.URGENT:
-                content_area.get_style_context ().add_class ("urgent");
+                content_area.add_css_class ("urgent");
                 break;
             default:
                 start_timeout (4000);
@@ -74,13 +74,13 @@ public class Notifications.Bubble : AbstractBubble {
                 }
             }
 
-            return Gdk.EVENT_STOP;
+            // return Gdk.EVENT_STOP;
         });
 
-        leave_notify_event.connect (() => {
-            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                return Gdk.EVENT_PROPAGATE;
-            }
+        bubble_motion_controller.leave.connect (() => {
+            // if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
+            //     return Gdk.EVENT_PROPAGATE;
+            // }
             start_timeout (4000);
         });
     }
@@ -89,14 +89,14 @@ public class Notifications.Bubble : AbstractBubble {
         start_timeout (4000);
 
         var new_contents = new Contents (new_notification);
-        new_contents.show_all ();
+        new_contents.show ();
 
         new_contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
             dismiss ();
         });
 
-        content_area.add (new_contents);
+        content_area.add_child (new_contents);
         content_area.visible_child = new_contents;
     }
 
@@ -121,14 +121,14 @@ public class Notifications.Bubble : AbstractBubble {
                 app_image.pixel_size = 24;
                 app_image.halign = app_image.valign = Gtk.Align.END;
 
-                image_overlay.add (notification.image);
+                image_overlay.child = notification.image;
                 image_overlay.add_overlay (app_image);
             } else {
                 app_image.pixel_size = 48;
-                image_overlay.add (app_image);
+                image_overlay.child = app_image;
 
                 if (notification.badge_icon != null) {
-                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
+                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon) {
                         halign = Gtk.Align.END,
                         valign = Gtk.Align.END,
                         pixel_size = 24
@@ -144,7 +144,7 @@ public class Notifications.Bubble : AbstractBubble {
                 width_chars = 33,
                 xalign = 0
             };
-            title_label.get_style_context ().add_class ("title");
+            title_label.add_css_class ("title");
 
             var body_label = new Gtk.Label (notification.body) {
                 ellipsize = Pango.EllipsizeMode.END,
@@ -179,20 +179,23 @@ public class Notifications.Bubble : AbstractBubble {
                     halign = Gtk.Align.END,
                     homogeneous = true
                 };
-                action_area.get_style_context ().add_class ("buttonbox");
+                action_area.add_css_class ("buttonbox");
 
                 bool action_area_packed = false;
 
                 for (int i = 0; i < notification.actions.length; i += 2) {
                     if (notification.actions[i] != "default") {
-                        var button = new Gtk.Button.with_label (notification.actions[i + 1]);
+                        var button = new Gtk.Button.with_label (notification.actions[i + 1]) {
+                            width_request = 85,
+                            height_request = 27
+                        };
                         var action = notification.actions[i].dup ();
 
                         button.clicked.connect (() => {
                             action_invoked (action);
                         });
 
-                        action_area.pack_end (button);
+                        action_area.prepend (button);
 
                         if (!action_area_packed) {
                             attach (action_area, 0, 2, 2);
