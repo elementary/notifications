@@ -109,14 +109,13 @@ public class Notifications.Server : Object {
             send_confirmation (app_icon, hints);
         } else {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
+            var app_settings = new GLib.Settings.full (
+                SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
+                null,
+                "/io/elementary/notifications/applications/%s/".printf (notification.app_id)
+            );
 
-            if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
-                var app_settings = new GLib.Settings.full (
-                    SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
-                    null,
-                    "/io/elementary/notifications/applications/%s/".printf (notification.app_id)
-                );
-
+            if (!settings.get_boolean ("do-not-disturb") || app_settings.get_boolean ("bypass-do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 if (app_settings.get_boolean ("bubbles")) {
                     if (bubbles.has_key (id) && bubbles[id] != null) {
                         bubbles[id].replace (notification);
