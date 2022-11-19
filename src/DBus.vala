@@ -45,7 +45,7 @@ public class Notifications.Server : Object {
     private GLib.Settings settings;
 
     private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
-    
+
     private List<string> valid_apps;
 
     construct {
@@ -59,21 +59,20 @@ public class Notifications.Server : Object {
         settings = new GLib.Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
         valid_apps = new List<string> ();
-        
+
         // Obtain a list of applications in a similar way to NotifyManager.
         var installed_apps = AppInfo.get_all ();
-    
+
         foreach (AppInfo app_info in installed_apps) {
             DesktopAppInfo? desktop_app_info = app_info as DesktopAppInfo;
 
             if (desktop_app_info != null && desktop_app_info.get_boolean ("X-GNOME-UsesNotifications")) {
                 var temp_name = app_info.get_id ();
-                
-                if (temp_name.has_suffix(".desktop")) {
-                    temp_name = temp_name.substring(0,temp_name.length-8);
+
+                if (temp_name.has_suffix (".desktop")) {
+                    temp_name = temp_name.substring (0, temp_name.length-8);
                 }
-                
-                valid_apps.append(temp_name);
+                valid_apps.append (temp_name);
             }
         }
     }
@@ -131,14 +130,14 @@ public class Notifications.Server : Object {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
-                
+
                 var temp_app_id = notification.app_id;
-	            var vaild_application_id = false;
-	            
-	            valid_apps.foreach ((entry) => {
-	                if (entry == temp_app_id) {
-	                    vaild_application_id = true;
-	                }
+                var vaild_application_id = false;
+
+                valid_apps.foreach ((entry) => {
+                    if (entry == temp_app_id) {
+                        vaild_application_id = true;
+                    }
                 });
 
                 // Override the application id to "Other" if it does not exist as an
@@ -146,7 +145,7 @@ public class Notifications.Server : Object {
                 if (!vaild_application_id) {
                     temp_app_id = "gala-other";
                 }
-                
+
                 var app_settings = new GLib.Settings.full (
                     SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
                     null,
