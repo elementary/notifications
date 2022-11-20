@@ -70,7 +70,7 @@ public class Notifications.Server : Object {
                 var temp_name = app_info.get_id ();
 
                 if (temp_name.has_suffix (".desktop")) {
-                    temp_name = temp_name.substring (0, temp_name.length-8);
+                    temp_name = temp_name.substring (0, temp_name.length - 8);
                 }
                 valid_apps.append (temp_name);
             }
