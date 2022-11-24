@@ -46,8 +46,6 @@ public class Notifications.Server : Object {
 
     private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
 
-    private List<string> valid_apps;
-
     construct {
         try {
             bus_proxy = Bus.get_proxy_sync (BusType.SESSION, "org.freedesktop.DBus", "/");
@@ -58,23 +56,6 @@ public class Notifications.Server : Object {
 
         settings = new GLib.Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
-        valid_apps = new List<string> ();
-
-        // Obtain a list of applications in a similar way to NotifyManager.
-        var installed_apps = AppInfo.get_all ();
-
-        foreach (AppInfo app_info in installed_apps) {
-            DesktopAppInfo? desktop_app_info = app_info as DesktopAppInfo;
-
-            if (desktop_app_info != null && desktop_app_info.get_boolean ("X-GNOME-UsesNotifications")) {
-                var temp_name = app_info.get_id ();
-
-                if (temp_name.has_suffix (".desktop")) {
-                    temp_name = temp_name.substring (0, temp_name.length - 8);
-                }
-                valid_apps.append (temp_name);
-            }
-        }
     }
 
     public void close_notification (uint32 id) throws DBusError, IOError {
