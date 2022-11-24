@@ -130,26 +130,14 @@ public class Notifications.Server : Object {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
-
-                var temp_app_id = notification.app_id;
-                var vaild_application_id = false;
-
-                valid_apps.foreach ((entry) => {
-                    if (entry == temp_app_id) {
-                        vaild_application_id = true;
-                    }
-                });
-
-                // Override the application id to "Other" if it does not exist as an
-                // application that is displayed in the switchboard.
-                if (!vaild_application_id) {
-                    temp_app_id = "gala-other";
+                var app_id = notification.app_id;
+                if (notification.app_info == null || notification.app_info.get_boolean ("X-GNOME-UsesNotifications") == false) {
+                    app_id = "gala-other";
                 }
-
                 var app_settings = new GLib.Settings.full (
                     SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
                     null,
-                    "/io/elementary/notifications/applications/%s/".printf (temp_app_id)
+                    "/io/elementary/notifications/applications/%s/".printf (app_id)
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
