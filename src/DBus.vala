@@ -111,10 +111,14 @@ public class Notifications.Server : Object {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
+                var app_id = notification.app_id;
+                if (notification.app_info == null || notification.app_info.get_boolean ("X-GNOME-UsesNotifications") == false) {
+                    app_id = "gala-other";
+                }
                 var app_settings = new GLib.Settings.full (
                     SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
                     null,
-                    "/io/elementary/notifications/applications/%s/".printf (notification.app_id)
+                    "/io/elementary/notifications/applications/%s/".printf (app_id)
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
