@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-20 17:50+0000\n"
-"PO-Revision-Date: 2022-11-09 13:29+0000\n"
+"PO-Revision-Date: 2023-02-18 09:25+0000\n"
 "Last-Translator: David Hewitt <davidmhewitt@gmail.com>\n"
 "Language-Team: English (United Kingdom) <https://l10n.elementary.io/projects/"
 "desktop/notifications-extra/en_GB/>\n"
@@ -38,7 +38,7 @@ msgstr "elementary, Inc."
 #: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
 #: data/notifications.appdata.xml.in:54
 msgid "Minor Updates:"
-msgstr ""
+msgstr "Minor Updates:"
 
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
 #: data/notifications.appdata.xml.in:57
@@ -47,7 +47,7 @@ msgstr "Updated translations"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "Fix missing icon when set from icon name"
 
 #: data/notifications.appdata.xml.in:56
 msgid "Performance improvements"
