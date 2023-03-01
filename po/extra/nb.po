@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-20 17:50+0000\n"
-"PO-Revision-Date: 2021-07-22 02:17+0000\n"
+"PO-Revision-Date: 2023-03-02 10:25+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/nb/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 4.14.2\n"
 
 #: data/notifications.appdata.xml.in:9
 msgid "Notifications"
@@ -52,11 +52,11 @@ msgstr ""
 
 #: data/notifications.appdata.xml.in:56
 msgid "Performance improvements"
-msgstr ""
+msgstr "Ytelsesforbedringer"
 
 #: data/notifications.appdata.xml.in:63
 msgid "Complete rewrite:"
-msgstr ""
+msgstr "Fullstendig omskriving:"
 
 #: data/notifications.appdata.xml.in:65
 msgid "Support the dark style"
