@@ -51,7 +51,7 @@ public class Notifications.Notification : GLib.Object {
 
     static construct {
         try {
-            entity_regex = new Regex ("&(?!amp;|quot;|apos;|lt;|gt;)");
+            entity_regex = new Regex ("&(?!amp;|quot;|apos;|lt;|gt;|nbsp;|#39)");
             tag_regex = new Regex ("<(?!\\/?[biu]>)");
         } catch (Error e) {
             warning ("Invalid regex: %s", e.message);
