@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-20 17:50+0000\n"
-"PO-Revision-Date: 2020-11-03 07:15+0000\n"
-"Last-Translator: Jaimie85 <alsemgeest@gmail.com>\n"
+"PO-Revision-Date: 2023-04-07 17:59+0000\n"
+"Last-Translator: DutchVipperloid <svenroelof@e.email>\n"
 "Language-Team: Dutch <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 4.16.4\n"
 
 #: data/notifications.appdata.xml.in:9
 msgid "Notifications"
@@ -25,11 +25,11 @@ msgstr "Meldingen"
 
 #: data/notifications.appdata.xml.in:10
 msgid "Notification bubbles and sounds for the desktop"
-msgstr ""
+msgstr "Notificatie-bubbels en geluiden voor het bureaublad"
 
 #: data/notifications.appdata.xml.in:12
 msgid "A notification server for Pantheon"
-msgstr ""
+msgstr "Een notificatie-server voor Pantheon"
 
 #: data/notifications.appdata.xml.in:29
 msgid "elementary, Inc."
@@ -38,36 +38,36 @@ msgstr "elementary, Inc."
 #: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
 #: data/notifications.appdata.xml.in:54
 msgid "Minor Updates:"
-msgstr ""
+msgstr "Kleine updates:"
 
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
 #: data/notifications.appdata.xml.in:57
 msgid "Updated translations"
-msgstr ""
+msgstr "Bijgewerkte vertalingen"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "Verbeter missend icoon wanneer ingesteld van icoon naam"
 
 #: data/notifications.appdata.xml.in:56
 msgid "Performance improvements"
-msgstr ""
+msgstr "Prestatieverbeteringen"
 
 #: data/notifications.appdata.xml.in:63
 msgid "Complete rewrite:"
-msgstr ""
+msgstr "Complete herschrijving:"
 
 #: data/notifications.appdata.xml.in:65
 msgid "Support the dark style"
-msgstr ""
+msgstr "Ondersteunt de donkere stijl"
 
 #: data/notifications.appdata.xml.in:66
 msgid "Action buttons"
-msgstr ""
+msgstr "Actieknoppen"
 
 #: data/notifications.appdata.xml.in:67
 msgid "Optional badge icons"
-msgstr ""
+msgstr "Originele badgeiconen"
 
 #: data/notifications.appdata.xml.in:68
 msgid "Automatically badge images with app icons"
@@ -75,4 +75,4 @@ msgstr ""
 
 #: data/notifications.appdata.xml.in:69
 msgid "Swipe away to dismiss"
-msgstr ""
+msgstr "Veeg weg om te negeren"
