@@ -21,8 +21,11 @@
 public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (uint32 reason);
 
+    public uint32 timeout { get; set; }
+
     protected Gtk.Stack content_area;
 
+    private Gtk.Revealer close_revealer;
     private Gtk.Revealer revealer;
     private Gtk.Grid draw_area;
 
@@ -47,7 +50,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
         close_button.get_style_context ().add_class ("close");
 
-        var close_revealer = new Gtk.Revealer () {
+        close_revealer = new Gtk.Revealer () {
             reveal_child = false,
             transition_type = Gtk.RevealerTransitionType.CROSSFADE,
             halign = Gtk.Align.START,
@@ -90,48 +93,59 @@ public class Notifications.AbstractBubble : Gtk.Window {
         // we have only one real page, so we don't need to check the index
         carousel.page_changed.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
-        closed.connect (dismiss);
-
-        enter_notify_event.connect (() => {
-            close_revealer.reveal_child = true;
-            stop_timeout ();
-            return Gdk.EVENT_PROPAGATE;
-        });
-
-        leave_notify_event.connect ((event) => {
-            if (event.detail == Gdk.NotifyType.INFERIOR) {
-                return Gdk.EVENT_STOP;
-            }
-            close_revealer.reveal_child = false;
-            return Gdk.EVENT_PROPAGATE;
-        });
+        closed.connect (close);
     }
 
-    protected void stop_timeout () {
-        if (timeout_id != 0) {
-            Source.remove (timeout_id);
-            timeout_id = 0;
-        }
-    }
-
-    protected void start_timeout (uint timeout) {
-        if (timeout_id != 0) {
-            Source.remove (timeout_id);
-        }
-
-        timeout_id = GLib.Timeout.add (timeout, () => {
-            timeout_id = 0;
-            closed (Notifications.Server.CloseReason.EXPIRED);
-            dismiss ();
-            return false;
-        });
-    }
-
-    public void dismiss () {
+    protected override bool delete_event (Gdk.EventAny event) {
         revealer.reveal_child = false;
-        GLib.Timeout.add (revealer.transition_duration, () => {
+
+        Timeout.add (revealer.transition_duration, () => {
             destroy ();
-            return false;
+            return Source.REMOVE;
         });
+
+        return Gdk.EVENT_STOP;
+    }
+
+    protected override bool enter_notify_event (Gdk.EventCrossing event) {
+        close_revealer.reveal_child = true;
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+            timeout_id = 0;
+        }
+
+        return Gdk.EVENT_PROPAGATE;
+    }
+
+    protected override bool leave_notify_event (Gdk.EventCrossing event) {
+        if (event.detail == Gdk.NotifyType.INFERIOR) {
+            return Gdk.EVENT_STOP;
+        }
+
+        close_revealer.reveal_child = false;
+        if (timeout != 0) {
+            timeout_id = Timeout.add (timeout, timeout_expired);
+        }
+
+        return Gdk.EVENT_PROPAGATE;
+    }
+
+    public new void present () {
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+            timeout_id = 0;
+        }
+
+        get_child ().show_all ();
+        show ();
+
+        if (timeout != 0) {
+            timeout_id = Timeout.add (timeout, timeout_expired);
+        }
+    }
+
+    private bool timeout_expired () {
+        closed (Notifications.Server.CloseReason.EXPIRED);
+        return Source.REMOVE;
     }
 }

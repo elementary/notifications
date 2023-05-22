@@ -42,7 +42,7 @@ public class Notifications.Bubble : AbstractBubble {
                 content_area.get_style_context ().add_class ("urgent");
                 break;
             default:
-                start_timeout (4000);
+                timeout = 4000;
                 break;
         }
 
@@ -58,17 +58,17 @@ public class Notifications.Bubble : AbstractBubble {
 
         contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
-            dismiss ();
+            close ();
         });
 
         button_release_event.connect ((event) => {
             if (default_action) {
                 action_invoked ("default");
-                dismiss ();
+                close ();
             } else if (notification.app_info != null && !has_actions) {
                 try {
                     notification.app_info.launch (null, null);
-                    dismiss ();
+                    close ();
                 } catch (Error e) {
                     critical ("Unable to launch app: %s", e.message);
                 }
@@ -76,24 +76,15 @@ public class Notifications.Bubble : AbstractBubble {
 
             return Gdk.EVENT_STOP;
         });
-
-        leave_notify_event.connect (() => {
-            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                return Gdk.EVENT_PROPAGATE;
-            }
-            start_timeout (4000);
-        });
     }
 
     public void replace (Notifications.Notification new_notification) {
-        start_timeout (4000);
-
         var new_contents = new Contents (new_notification);
         new_contents.show_all ();
 
         new_contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
-            dismiss ();
+            close ();
         });
 
         content_area.add (new_contents);
