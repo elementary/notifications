@@ -9,8 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-20 17:50+0000\n"
 "PO-Revision-Date: 2023-05-31 13:34+0000\n"
-"Last-Translator: Faisal Rachmadin <frachmadin@users.noreply.l10n.elementary."
-"io>\n"
+"Last-Translator: Muhammad Dholifun Nafsi <muhammad_dholifun@protonmail.com>\n"
 "Language-Team: Indonesian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/id/>\n"
 "Language: id\n"
@@ -60,20 +59,20 @@ msgstr "Penulisan ulang lengkap:"
 
 #: data/notifications.appdata.xml.in:65
 msgid "Support the dark style"
-msgstr ""
+msgstr "Mendukung gaya gelap"
 
 #: data/notifications.appdata.xml.in:66
 msgid "Action buttons"
-msgstr ""
+msgstr "Tombol tindakan"
 
 #: data/notifications.appdata.xml.in:67
 msgid "Optional badge icons"
-msgstr ""
+msgstr "Ikon lencana opsional"
 
 #: data/notifications.appdata.xml.in:68
 msgid "Automatically badge images with app icons"
-msgstr ""
+msgstr "Gambar lencana otomatis dengan ikon aplikasi"
 
 #: data/notifications.appdata.xml.in:69
 msgid "Swipe away to dismiss"
-msgstr ""
+msgstr "Geser untuk menutup"
