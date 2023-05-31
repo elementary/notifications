@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-20 17:50+0000\n"
-"PO-Revision-Date: 2023-05-31 13:32+0000\n"
+"PO-Revision-Date: 2023-05-31 13:34+0000\n"
 "Last-Translator: Faisal Rachmadin <frachmadin@users.noreply.l10n.elementary."
 "io>\n"
 "Language-Team: Indonesian <https://l10n.elementary.io/projects/desktop/"
@@ -30,7 +30,7 @@ msgstr "Gelembung dan suara pemberitahuan untuk desktop"
 
 #: data/notifications.appdata.xml.in:12
 msgid "A notification server for Pantheon"
-msgstr ""
+msgstr "Server notifikasi untuk Pantheon"
 
 #: data/notifications.appdata.xml.in:29
 msgid "elementary, Inc."
@@ -39,7 +39,7 @@ msgstr "elementary, Inc."
 #: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
 #: data/notifications.appdata.xml.in:54
 msgid "Minor Updates:"
-msgstr ""
+msgstr "Pembaruan Kecil:"
 
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
 #: data/notifications.appdata.xml.in:57
@@ -48,7 +48,7 @@ msgstr "Terjemahan yang diperbarui"
 
 #: data/notifications.appdata.xml.in:47
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "Perbaiki ikon yang hilang saat diatur dari nama ikon"
 
 #: data/notifications.appdata.xml.in:56
 msgid "Performance improvements"
@@ -56,7 +56,7 @@ msgstr "Peningkatan performa"
 
 #: data/notifications.appdata.xml.in:63
 msgid "Complete rewrite:"
-msgstr "Tulis ulang lengkap:"
+msgstr "Penulisan ulang lengkap:"
 
 #: data/notifications.appdata.xml.in:65
 msgid "Support the dark style"
