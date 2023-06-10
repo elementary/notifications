@@ -31,9 +31,11 @@ public class Notifications.Application : Gtk.Application {
 
     protected override bool dbus_register (DBusConnection connection, string object_path) throws Error {
         var server = new Notifications.Server ();
+        var manager = new Notifications.Manager (server);
 
         try {
             connection.register_object ("/org/freedesktop/Notifications", server);
+            connection.register_object (object_path, manager);
         } catch (Error e) {
             warning ("Registring notification server failed: %s", e.message);
             throw e;

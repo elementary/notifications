@@ -265,3 +265,16 @@ public class Notifications.Server : Object {
         return sound;
     }
 }
+
+[DBus (name = "io.elementary.Notifications")]
+public class Notifications.Manager : Object {
+    private Notifications.Server server;
+
+    public Manager (Server server) {
+        this.server = server;
+    }
+
+    public void invoke_action (uint32 id, string action) throws DBusError, IOError {
+        server.action_invoked (id, action);
+    }
+}
