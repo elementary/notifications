@@ -18,21 +18,34 @@ public class Notifications.Server : Object {
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
 
     private uint32 id_counter = 0;
-    private Notifications.Confirmation? confirmation = null;
 
-    private GLib.Settings settings;
-
-    private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
-
+    private unowned DBusConnection connection;
     private Fdo.ActionGroup action_group;
 
-    construct {
-        settings = new GLib.Settings ("io.elementary.notifications");
-        bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
+    private Gee.Map<uint32, Bubble> bubbles;
+    private Confirmation? confirmation;
+
+    private Settings settings;
+
+    private uint action_group_id;
+    private uint server_id;
+
+    public Server (DBusConnection connection) throws Error {
+        settings = new Settings ("io.elementary.notifications");
+        bubbles = new Gee.HashMap<uint32, Bubble> ();
         action_group = new Fdo.ActionGroup (this);
+
+        server_id = connection.register_object ("/org/freedesktop/Notifications", this);
+        action_group_id = connection.export_action_group ("/org/freedesktop/Notifications", action_group);
+        this.connection = connection;
 
         action_invoked.connect ((id) => close_bubble (id));
         notification_closed.connect ((id) => close_bubble (id));
+    }
+
+    ~Server () {
+        connection.unexport_action_group (action_group_id);
+        connection.unregister_object (server_id);
     }
 
     private void close_bubble (uint32 id) {
