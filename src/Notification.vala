@@ -1,5 +1,5 @@
 /*
-* Copyright 2020 elementary, Inc. (https://elementary.io)
+* Copyright 2020-2023 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -24,7 +24,6 @@ public class Notifications.Notification : GLib.Object {
     public GLib.DesktopAppInfo? app_info { get; private set; default = null; }
     public GLib.NotificationPriority priority { get; private set; default = GLib.NotificationPriority.NORMAL; }
     public HashTable<string, Variant> hints { get; construct; }
-    public string[] actions { get; construct; }
     public string app_icon { get; construct; }
     public string app_id { get; private set; default = OTHER_APP_ID; }
     public string app_name { get; construct; }
@@ -35,16 +34,25 @@ public class Notifications.Notification : GLib.Object {
     public GLib.Icon? badge_icon { get; set; default = null; }
     public MaskedImage? image { get; set; default = null; }
 
+    public string default_action_name { get; set; }
+    public Variant default_action_target { get; set; }
+
+    public GenericArray<Button?> buttons { get; set; }
+
     private static Regex entity_regex;
     private static Regex tag_regex;
 
-    public Notification (string app_name, string app_icon, string summary, string body, string[] actions, HashTable<string, Variant> hints) {
+    public struct Button {
+        string label;
+        string action_name;
+    }
+
+    public Notification (string app_name, string app_icon, string summary, string body, HashTable<string, Variant> hints) {
         Object (
             app_name: app_name,
             app_icon: app_icon,
             summary: summary,
             body: body,
-            actions: actions,
             hints: hints
         );
     }
@@ -187,5 +195,4 @@ public class Notifications.Notification : GLib.Object {
             has_alpha, bits_per_sample, width, height, rowstride, null);
         return pixbuf.copy ();
     }
-
 }

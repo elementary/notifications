@@ -3,8 +3,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-public class Notifications.Bubble : AbstractBubble {
-    public signal void action_invoked (string action_key);
+public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
+    public new string action_name {
+        get { return get_action_name (); }
+        set { set_action_name (value); }
+    }
+
+    public new Variant action_target {
+        get { return get_action_target_value (); }
+        set { set_action_target_value (value); }
+    }
 
     public Notification notification {
         get {
@@ -15,15 +23,7 @@ public class Notifications.Bubble : AbstractBubble {
             _notification = value;
             timeout = 0;
 
-            for (int i = 0; i < notification.actions.length; i += 2) {
-                if (notification.actions[i] == "default") {
-                    _has_default = true;
-                    break;
-                }
-            }
-
             var contents = new Contents (value);
-            contents.action_invoked.connect ((a) => action_invoked (a));
             contents.show_all ();
 
             if (value.priority == URGENT) {
@@ -39,7 +39,6 @@ public class Notifications.Bubble : AbstractBubble {
 
     private Notification _notification;
     private Gtk.GestureMultiPress press_gesture;
-    private bool _has_default;
 
     public Bubble (Notification notification) {
         Object (notification: notification);
@@ -50,20 +49,30 @@ public class Notifications.Bubble : AbstractBubble {
             propagation_phase = BUBBLE
         };
         press_gesture.released.connect (released);
-
-        action_invoked.connect (close);
     }
 
     private void released () {
-        if (_has_default) {
-            action_invoked ("default");
-        } else if (notification.app_info != null) {
+        if (action_name != null) {
+            foreach (unowned var prefix in list_action_prefixes ()) {
+                if (!action_name.has_prefix (prefix)) {
+                    continue;
+                }
+
+                get_action_group (prefix).activate_action (action_name[prefix.length + 1:], action_target);
+                press_gesture.set_state (CLAIMED);
+                return;
+            }
+
+            warning ("cannot activate action '%s': no action group match prefix.", action_name);
+        }
+
+        if (notification.app_info != null) {
             notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
                 try {
                     ((AppInfo) obj).launch_uris_async.end (res);
-                    close ();
+                    closed (Server.CloseReason.UNDEFINED);
                 } catch (Error e) {
-                    critical ("Unable to launch app: %s", e.message);
+                    warning ("Unable to launch app: %s", e.message);
                 }
             });
         }
@@ -71,9 +80,23 @@ public class Notifications.Bubble : AbstractBubble {
         press_gesture.set_state (CLAIMED);
     }
 
-    private class Contents : Gtk.Grid {
-        public signal void action_invoked (string action_key);
+    // Gtk.Actionable impl
+    public unowned string? get_action_name () {
+        return notification.default_action_name;
+    }
 
+    public unowned Variant get_action_target_value () {
+        return notification.default_action_target;
+    }
+
+    // we ignore the set methods because we query the notification model instead.
+    public void set_action_name (string? @value) {
+    }
+
+    public void set_action_target_value (Variant? @value) {
+    }
+
+    private class Contents : Gtk.Grid {
         public Notifications.Notification notification { get; construct; }
 
         public Contents (Notifications.Notification notification) {
@@ -145,34 +168,20 @@ public class Notifications.Bubble : AbstractBubble {
             attach (title_label, 1, 0);
             attach (body_label, 1, 1);
 
-            if (notification.actions.length > 0) {
+            if (notification.buttons.length > 0) {
                 var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
                     halign = Gtk.Align.END,
                     homogeneous = true
                 };
                 action_area.get_style_context ().add_class ("buttonbox");
 
-                bool action_area_packed = false;
-
-                for (int i = 0; i < notification.actions.length; i += 2) {
-                    if (notification.actions[i] != "default") {
-                        var button = new Gtk.Button.with_label (notification.actions[i + 1]);
-                        var action = notification.actions[i].dup ();
-
-                        button.clicked.connect (() => {
-                            action_invoked (action);
-                        });
-
-                        action_area.pack_end (button);
-
-                        if (!action_area_packed) {
-                            attach (action_area, 0, 2, 2);
-                            action_area_packed = true;
-                        }
-                    } else {
-                        i += 2;
-                    }
+                foreach (var button in notification.buttons) {
+                    action_area.pack_end (new Gtk.Button.with_label (button.label) {
+                        action_name = button.action_name
+                    });
                 }
+
+                attach (action_area, 0, 2, 2);
             }
         }
     }
