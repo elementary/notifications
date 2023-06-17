@@ -110,6 +110,15 @@ public class Notifications.Server : Object {
         } else {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
+            // Check if it is "Automatic suspend. Suspending soon because of inactivity." type of notification
+            // These values and hints are taken from gnome-settings-daemon source code
+            if (hints.contains ("desktop-entry") && hints.get ("desktop-entry") == "gnome-power-panel" &&
+                hints.contains ("x-gnome-privacy-scope") && hints.get ("x-gnome-privacy-scope") == "system" &&
+                notification.priority == GLib.NotificationPriority.URGENT && 
+                expire_timeout == 0) {
+                return id;
+            }
+
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_id = notification.app_id;
                 if (notification.app_info == null || notification.app_info.get_boolean ("X-GNOME-UsesNotifications") == false) {
