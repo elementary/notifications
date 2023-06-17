@@ -110,11 +110,11 @@ public class Notifications.Server : Object {
         } else {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
-            // Check if it is "Automatic suspend. Suspending soon because of inactivity." type of notification
+            // Silence "Automatic suspend. Suspending soon because of inactivity." notifications
             // These values and hints are taken from gnome-settings-daemon source code
-            if (hints.contains ("desktop-entry") && hints.get ("desktop-entry") == "gnome-power-panel" &&
-                hints.contains ("x-gnome-privacy-scope") && hints.get ("x-gnome-privacy-scope") == "system" &&
-                notification.priority == GLib.NotificationPriority.URGENT && 
+            if (hints.contains ("desktop-entry") && ((string) hints.get ("desktop-entry")) == "gnome-power-panel" &&
+                hints.contains ("x-gnome-privacy-scope") && ((string) hints.get ("x-gnome-privacy-scope")) == "system" &&
+                notification.priority == GLib.NotificationPriority.HIGH &&
                 expire_timeout == 0) {
                 return id;
             }
