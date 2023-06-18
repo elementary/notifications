@@ -115,7 +115,9 @@ public class Notifications.Server : Object {
             if (hints.contains ("desktop-entry") && ((string) hints.get ("desktop-entry")) == "gnome-power-panel" &&
                 hints.contains ("x-gnome-privacy-scope") && ((string) hints.get ("x-gnome-privacy-scope")) == "system" &&
                 notification.priority == GLib.NotificationPriority.HIGH &&
+                app_icon == "" &&
                 expire_timeout == 0) {
+                debug ("Blocked GSD notification");
                 return id;
             }
 
