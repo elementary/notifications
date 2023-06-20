@@ -110,6 +110,18 @@ public class Notifications.Server : Object {
         } else {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
 
+            // Silence "Automatic suspend. Suspending soon because of inactivity." notifications
+            // These values and hints are taken from gnome-settings-daemon source code
+            // See https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-power-manager.c#L356
+            // We must check for app_icon == "" to not block low power notifications
+            if (hints.contains ("desktop-entry") && ((string) hints.get ("desktop-entry")) == "gnome-power-panel" &&
+                notification.priority == GLib.NotificationPriority.HIGH &&
+                app_icon == "" &&
+                expire_timeout == 0) {
+                debug ("Blocked GSD notification");
+                return id;
+            }
+
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_id = notification.app_id;
                 if (notification.app_info == null || notification.app_info.get_boolean ("X-GNOME-UsesNotifications") == false) {
