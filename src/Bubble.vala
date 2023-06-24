@@ -6,8 +6,38 @@
 public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
-    public Notifications.Notification notification { get; construct; }
+    public Notification notification {
+        get {
+            return _notification;
+        }
 
+        set {
+            _notification = value;
+            timeout = 0;
+
+            for (int i = 0; i < notification.actions.length; i += 2) {
+                if (notification.actions[i] == "default") {
+                    _has_default = true;
+                    break;
+                }
+            }
+
+            var contents = new Contents (value);
+            contents.action_invoked.connect ((a) => action_invoked (a));
+            contents.show_all ();
+
+            if (value.priority >= NotificationPriority.HIGH) {
+                contents.get_style_context ().add_class ("urgent");
+            } else {
+                timeout = 4000;
+            }
+
+            content_area.add (contents);
+            content_area.visible_child = contents;
+        }
+    }
+
+    private Notification _notification;
     private Gtk.GestureMultiPress press_gesture;
     private bool _has_default;
 
@@ -16,55 +46,17 @@ public class Notifications.Bubble : AbstractBubble {
     }
 
     construct {
-        var contents = new Contents (notification);
-
-        content_area.add (contents);
-
-        switch (notification.priority) {
-            case GLib.NotificationPriority.HIGH:
-            case GLib.NotificationPriority.URGENT:
-                content_area.get_style_context ().add_class ("urgent");
-                break;
-            default:
-                timeout = 4000;
-                break;
-        }
-
-        for (int i = 0; i < notification.actions.length; i += 2) {
-            if (notification.actions[i] == "default") {
-                _has_default = true;
-                break;
-            }
-        }
-
-        contents.action_invoked.connect ((action_key) => {
-            action_invoked (action_key);
-            close ();
-        });
-
         press_gesture = new Gtk.GestureMultiPress (this) {
             propagation_phase = BUBBLE
         };
         press_gesture.released.connect (released);
-    }
 
-    public void replace (Notifications.Notification new_notification) {
-        var new_contents = new Contents (new_notification);
-        new_contents.show_all ();
-
-        new_contents.action_invoked.connect ((action_key) => {
-            action_invoked (action_key);
-            close ();
-        });
-
-        content_area.add (new_contents);
-        content_area.visible_child = new_contents;
+        action_invoked.connect (close);
     }
 
     private void released () {
         if (_has_default) {
             action_invoked ("default");
-            close ();
         } else if (notification.app_info != null) {
             notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
                 try {

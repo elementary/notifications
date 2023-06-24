@@ -135,7 +135,7 @@ public class Notifications.Server : Object {
 
                 if (app_settings.get_boolean ("bubbles")) {
                     if (bubbles.has_key (id) && bubbles[id] != null) {
-                        bubbles[id].replace (notification);
+                        bubbles[id].notification = notification;
                     } else {
                         bubbles[id] = new Bubble (notification);
 
