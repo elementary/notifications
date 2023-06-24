@@ -9,6 +9,7 @@ public class Notifications.Bubble : AbstractBubble {
     public Notifications.Notification notification { get; construct; }
 
     private Gtk.GestureMultiPress press_gesture;
+    private bool _has_default;
 
     public Bubble (Notification notification) {
         Object (notification: notification);
@@ -29,12 +30,9 @@ public class Notifications.Bubble : AbstractBubble {
                 break;
         }
 
-        bool default_action = false;
-        bool has_actions = notification.actions.length > 0;
-
         for (int i = 0; i < notification.actions.length; i += 2) {
             if (notification.actions[i] == "default") {
-                default_action = true;
+                _has_default = true;
                 break;
             }
         }
@@ -47,21 +45,7 @@ public class Notifications.Bubble : AbstractBubble {
         press_gesture = new Gtk.GestureMultiPress (this) {
             propagation_phase = BUBBLE
         };
-        press_gesture.released.connect (() => {
-            if (default_action) {
-                action_invoked ("default");
-                close ();
-            } else if (notification.app_info != null && !has_actions) {
-                try {
-                    notification.app_info.launch (null, null);
-                    close ();
-                } catch (Error e) {
-                    critical ("Unable to launch app: %s", e.message);
-                }
-            }
-
-            press_gesture.set_state (CLAIMED);
-        });
+        press_gesture.released.connect (released);
     }
 
     public void replace (Notifications.Notification new_notification) {
@@ -75,6 +59,24 @@ public class Notifications.Bubble : AbstractBubble {
 
         content_area.add (new_contents);
         content_area.visible_child = new_contents;
+    }
+
+    private void released () {
+        if (_has_default) {
+            action_invoked ("default");
+            close ();
+        } else if (notification.app_info != null) {
+            notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
+                try {
+                    ((AppInfo) obj).launch_uris_async.end (res);
+                    close ();
+                } catch (Error e) {
+                    critical ("Unable to launch app: %s", e.message);
+                }
+            });
+        }
+
+        press_gesture.set_state (CLAIMED);
     }
 
     private class Contents : Gtk.Grid {
