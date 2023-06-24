@@ -24,6 +24,8 @@ public class Notifications.Bubble : AbstractBubble {
     public Notifications.Notification notification { get; construct; }
     public uint32 id { get; construct; }
 
+    private Gtk.GestureMultiPress press_gesture;
+
     public Bubble (Notifications.Notification notification, uint32 id) {
         Object (
             notification: notification,
@@ -61,7 +63,10 @@ public class Notifications.Bubble : AbstractBubble {
             close ();
         });
 
-        button_release_event.connect ((event) => {
+        press_gesture = new Gtk.GestureMultiPress (this) {
+            propagation_phase = BUBBLE
+        };
+        press_gesture.released.connect (() => {
             if (default_action) {
                 action_invoked ("default");
                 close ();
@@ -74,7 +79,7 @@ public class Notifications.Bubble : AbstractBubble {
                 }
             }
 
-            return Gdk.EVENT_STOP;
+            press_gesture.set_state (CLAIMED);
         });
     }
 

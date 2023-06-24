@@ -29,6 +29,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private Gtk.Revealer revealer;
     private Gtk.Grid draw_area;
 
+    private Gtk.EventControllerMotion motion_controller;
     private uint timeout_id;
 
     construct {
@@ -94,6 +95,12 @@ public class Notifications.AbstractBubble : Gtk.Window {
         carousel.page_changed.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         closed.connect (close);
+
+        motion_controller = new Gtk.EventControllerMotion (carousel) {
+            propagation_phase = TARGET
+        };
+        motion_controller.enter.connect (pointer_enter);
+        motion_controller.leave.connect (pointer_leave);
     }
 
     protected override bool delete_event (Gdk.EventAny event) {
@@ -107,29 +114,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
         return Gdk.EVENT_STOP;
     }
 
-    protected override bool enter_notify_event (Gdk.EventCrossing event) {
-        close_revealer.reveal_child = true;
-        if (timeout_id != 0) {
-            Source.remove (timeout_id);
-            timeout_id = 0;
-        }
-
-        return Gdk.EVENT_PROPAGATE;
-    }
-
-    protected override bool leave_notify_event (Gdk.EventCrossing event) {
-        if (event.detail == Gdk.NotifyType.INFERIOR) {
-            return Gdk.EVENT_STOP;
-        }
-
-        close_revealer.reveal_child = false;
-        if (timeout != 0) {
-            timeout_id = Timeout.add (timeout, timeout_expired);
-        }
-
-        return Gdk.EVENT_PROPAGATE;
-    }
-
     public new void present () {
         if (timeout_id != 0) {
             Source.remove (timeout_id);
@@ -138,6 +122,23 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         get_child ().show_all ();
         show ();
+
+        if (timeout != 0) {
+            timeout_id = Timeout.add (timeout, timeout_expired);
+        }
+    }
+
+    private void pointer_enter () {
+        close_revealer.reveal_child = true;
+
+        if (timeout_id != 0) {
+            Source.remove (timeout_id);
+            timeout_id = 0;
+        }
+    }
+
+    private void pointer_leave () {
+        close_revealer.reveal_child = false;
 
         if (timeout != 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);
