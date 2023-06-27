@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-20 17:50+0000\n"
+"POT-Creation-Date: 2023-06-27 20:07+0000\n"
 "PO-Revision-Date: 2022-06-10 08:26+0000\n"
 "Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
 "Language-Team: French <https://l10n.elementary.io/projects/desktop/"
@@ -35,46 +35,50 @@ msgstr "Un serveur de notifications pour Pantheon"
 msgid "elementary, Inc."
 msgstr "elementary, Inc."
 
-#: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
-#: data/notifications.appdata.xml.in:54
+#: data/notifications.appdata.xml.in:36
+msgid "Block GSD \"Automatic Suspend\" notifications"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:37 data/notifications.appdata.xml.in:49
+#: data/notifications.appdata.xml.in:58 data/notifications.appdata.xml.in:67
 msgid "Minor Updates:"
 msgstr "Mises à jour mineures :"
 
-#: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
-#: data/notifications.appdata.xml.in:57
+#: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:51
+#: data/notifications.appdata.xml.in:61 data/notifications.appdata.xml.in:70
 msgid "Updated translations"
 msgstr "Mise à jour des traductions"
 
-#: data/notifications.appdata.xml.in:47
+#: data/notifications.appdata.xml.in:60
 msgid "Fix missing icon when set from icon name"
 msgstr ""
 "Correction d'une icône manquante lors de la définition à partir du nom de "
 "l'icône"
 
-#: data/notifications.appdata.xml.in:56
+#: data/notifications.appdata.xml.in:69
 msgid "Performance improvements"
 msgstr "Améliorations des performances"
 
-#: data/notifications.appdata.xml.in:63
+#: data/notifications.appdata.xml.in:76
 msgid "Complete rewrite:"
 msgstr "Réécriture complète :"
 
-#: data/notifications.appdata.xml.in:65
+#: data/notifications.appdata.xml.in:78
 msgid "Support the dark style"
 msgstr "Prise en charge du thème sombre"
 
-#: data/notifications.appdata.xml.in:66
+#: data/notifications.appdata.xml.in:79
 msgid "Action buttons"
 msgstr "Boutons d'action"
 
-#: data/notifications.appdata.xml.in:67
+#: data/notifications.appdata.xml.in:80
 msgid "Optional badge icons"
 msgstr "Option de badge d'icône"
 
-#: data/notifications.appdata.xml.in:68
+#: data/notifications.appdata.xml.in:81
 msgid "Automatically badge images with app icons"
 msgstr "Affichage automatique de l'icône de l'application"
 
-#: data/notifications.appdata.xml.in:69
+#: data/notifications.appdata.xml.in:82
 msgid "Swipe away to dismiss"
 msgstr "Action de glisser pour masquer"
