@@ -24,6 +24,8 @@ public class Notifications.Bubble : AbstractBubble {
     public Notifications.Notification notification { get; construct; }
     public uint32 id { get; construct; }
 
+    private Gtk.GestureMultiPress press_gesture;
+
     public Bubble (Notifications.Notification notification, uint32 id) {
         Object (
             notification: notification,
@@ -42,7 +44,7 @@ public class Notifications.Bubble : AbstractBubble {
                 content_area.get_style_context ().add_class ("urgent");
                 break;
             default:
-                start_timeout (4000);
+                timeout = 4000;
                 break;
         }
 
@@ -58,42 +60,36 @@ public class Notifications.Bubble : AbstractBubble {
 
         contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
-            dismiss ();
+            close ();
         });
 
-        button_release_event.connect ((event) => {
+        press_gesture = new Gtk.GestureMultiPress (this) {
+            propagation_phase = BUBBLE
+        };
+        press_gesture.released.connect (() => {
             if (default_action) {
                 action_invoked ("default");
-                dismiss ();
+                close ();
             } else if (notification.app_info != null && !has_actions) {
                 try {
                     notification.app_info.launch (null, null);
-                    dismiss ();
+                    close ();
                 } catch (Error e) {
                     critical ("Unable to launch app: %s", e.message);
                 }
             }
 
-            return Gdk.EVENT_STOP;
-        });
-
-        leave_notify_event.connect (() => {
-            if (notification.priority == GLib.NotificationPriority.HIGH || notification.priority == GLib.NotificationPriority.URGENT) {
-                return Gdk.EVENT_PROPAGATE;
-            }
-            start_timeout (4000);
+            press_gesture.set_state (CLAIMED);
         });
     }
 
     public void replace (Notifications.Notification new_notification) {
-        start_timeout (4000);
-
         var new_contents = new Contents (new_notification);
         new_contents.show_all ();
 
         new_contents.action_invoked.connect ((action_key) => {
             action_invoked (action_key);
-            dismiss ();
+            close ();
         });
 
         content_area.add (new_contents);

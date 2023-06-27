@@ -31,7 +31,7 @@ public class Notifications.Server : Object {
 
     public void close_notification (uint32 id) throws DBusError, IOError {
         if (bubbles.has_key (id)) {
-            bubbles[id].dismiss ();
+            bubbles[id].close ();
             closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);
             return;
         }
@@ -104,7 +104,6 @@ public class Notifications.Server : Object {
                         bubbles[id].replace (notification);
                     } else {
                         bubbles[id] = new Notifications.Bubble (notification, id);
-                        bubbles[id].show_all ();
 
                         bubbles[id].action_invoked.connect ((action_key) => {
                             action_invoked (id, action_key);
@@ -114,6 +113,8 @@ public class Notifications.Server : Object {
                             closed_callback (id, reason);
                         });
                     }
+
+                    bubbles[id].present ();
                 }
 
                 if (app_settings.get_boolean ("sounds")) {
@@ -167,7 +168,7 @@ public class Notifications.Server : Object {
             confirmation.progress = progress_value;
         }
 
-        confirmation.show_all ();
+        confirmation.present ();
     }
 
     private void send_sound (string sound_name) {

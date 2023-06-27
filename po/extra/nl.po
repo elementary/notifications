@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-20 17:50+0000\n"
+"POT-Creation-Date: 2023-06-27 20:07+0000\n"
 "PO-Revision-Date: 2023-04-07 17:59+0000\n"
 "Last-Translator: Thierry Flament <thierry.flament@outlook.com>\n"
 "Language-Team: Dutch <https://l10n.elementary.io/projects/desktop/"
@@ -35,44 +35,48 @@ msgstr "Een notificatie-server voor Pantheon"
 msgid "elementary, Inc."
 msgstr "elementary, Inc."
 
-#: data/notifications.appdata.xml.in:36 data/notifications.appdata.xml.in:45
-#: data/notifications.appdata.xml.in:54
+#: data/notifications.appdata.xml.in:36
+msgid "Block GSD \"Automatic Suspend\" notifications"
+msgstr ""
+
+#: data/notifications.appdata.xml.in:37 data/notifications.appdata.xml.in:49
+#: data/notifications.appdata.xml.in:58 data/notifications.appdata.xml.in:67
 msgid "Minor Updates:"
 msgstr "Kleine updates:"
 
-#: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:48
-#: data/notifications.appdata.xml.in:57
+#: data/notifications.appdata.xml.in:39 data/notifications.appdata.xml.in:51
+#: data/notifications.appdata.xml.in:61 data/notifications.appdata.xml.in:70
 msgid "Updated translations"
 msgstr "Bijgewerkte vertalingen"
 
-#: data/notifications.appdata.xml.in:47
+#: data/notifications.appdata.xml.in:60
 msgid "Fix missing icon when set from icon name"
 msgstr "Verbeter missend icoon wanneer ingesteld van icoon naam"
 
-#: data/notifications.appdata.xml.in:56
+#: data/notifications.appdata.xml.in:69
 msgid "Performance improvements"
 msgstr "Prestatieverbeteringen"
 
-#: data/notifications.appdata.xml.in:63
+#: data/notifications.appdata.xml.in:76
 msgid "Complete rewrite:"
 msgstr "Complete herschrijving:"
 
-#: data/notifications.appdata.xml.in:65
+#: data/notifications.appdata.xml.in:78
 msgid "Support the dark style"
 msgstr "Ondersteunt de donkere stijl"
 
-#: data/notifications.appdata.xml.in:66
+#: data/notifications.appdata.xml.in:79
 msgid "Action buttons"
 msgstr "Actieknoppen"
 
-#: data/notifications.appdata.xml.in:67
+#: data/notifications.appdata.xml.in:80
 msgid "Optional badge icons"
 msgstr "Originele badgeiconen"
 
-#: data/notifications.appdata.xml.in:68
+#: data/notifications.appdata.xml.in:81
 msgid "Automatically badge images with app icons"
 msgstr "Afbeeldingen automatisch voorzien van app-pictogrammen"
 
-#: data/notifications.appdata.xml.in:69
+#: data/notifications.appdata.xml.in:82
 msgid "Swipe away to dismiss"
 msgstr "Veeg weg om te negeren"
