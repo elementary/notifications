@@ -135,9 +135,9 @@ public class Notifications.Server : Object {
 
                 if (app_settings.get_boolean ("bubbles")) {
                     if (bubbles.has_key (id) && bubbles[id] != null) {
-                        bubbles[id].replace (notification);
+                        bubbles[id].notification = notification;
                     } else {
-                        bubbles[id] = new Notifications.Bubble (notification, id);
+                        bubbles[id] = new Bubble (notification);
 
                         bubbles[id].action_invoked.connect ((action_key) => {
                             action_invoked (id, action_key);
