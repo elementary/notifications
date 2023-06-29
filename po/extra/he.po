@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-29 08:38+0000\n"
-"PO-Revision-Date: 2023-06-29 08:38+0000\n"
+"PO-Revision-Date: 2023-07-01 08:07+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/he/>\n"
@@ -43,7 +43,7 @@ msgstr "חסימה של התראות „השהיה אוטומטית” של סו
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
-msgstr ""
+msgstr "הגברת עוצמת השמע, הבהירות ואת רוחב ההתראות כדי שתתאמנה להתראות אחרות"
 
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:50
 #: data/notifications.appdata.xml.in:59 data/notifications.appdata.xml.in:68
