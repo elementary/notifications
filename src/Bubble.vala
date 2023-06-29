@@ -1,99 +1,74 @@
 /*
-* Copyright 2019-2020 elementary, Inc. (https://elementary.io)
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*
-*/
+ * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 public class Notifications.Bubble : AbstractBubble {
     public signal void action_invoked (string action_key);
 
-    public Notifications.Notification notification { get; construct; }
-    public uint32 id { get; construct; }
+    public Notification notification {
+        get {
+            return _notification;
+        }
 
+        set {
+            _notification = value;
+            timeout = 0;
+
+            for (int i = 0; i < notification.actions.length; i += 2) {
+                if (notification.actions[i] == "default") {
+                    _has_default = true;
+                    break;
+                }
+            }
+
+            var contents = new Contents (value);
+            contents.action_invoked.connect ((a) => action_invoked (a));
+            contents.show_all ();
+
+            if (value.priority >= NotificationPriority.HIGH) {
+                contents.get_style_context ().add_class ("urgent");
+            } else {
+                timeout = 4000;
+            }
+
+            content_area.add (contents);
+            content_area.visible_child = contents;
+        }
+    }
+
+    private Notification _notification;
     private Gtk.GestureMultiPress press_gesture;
+    private bool _has_default;
 
-    public Bubble (Notifications.Notification notification, uint32 id) {
-        Object (
-            notification: notification,
-            id: id
-        );
+    public Bubble (Notification notification) {
+        Object (notification: notification);
     }
 
     construct {
-        var contents = new Contents (notification);
-
-        content_area.add (contents);
-
-        switch (notification.priority) {
-            case GLib.NotificationPriority.HIGH:
-            case GLib.NotificationPriority.URGENT:
-                content_area.get_style_context ().add_class ("urgent");
-                break;
-            default:
-                timeout = 4000;
-                break;
-        }
-
-        bool default_action = false;
-        bool has_actions = notification.actions.length > 0;
-
-        for (int i = 0; i < notification.actions.length; i += 2) {
-            if (notification.actions[i] == "default") {
-                default_action = true;
-                break;
-            }
-        }
-
-        contents.action_invoked.connect ((action_key) => {
-            action_invoked (action_key);
-            close ();
-        });
-
         press_gesture = new Gtk.GestureMultiPress (this) {
             propagation_phase = BUBBLE
         };
-        press_gesture.released.connect (() => {
-            if (default_action) {
-                action_invoked ("default");
-                close ();
-            } else if (notification.app_info != null && !has_actions) {
+        press_gesture.released.connect (released);
+
+        action_invoked.connect (close);
+    }
+
+    private void released () {
+        if (_has_default) {
+            action_invoked ("default");
+        } else if (notification.app_info != null) {
+            notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
                 try {
-                    notification.app_info.launch (null, null);
+                    ((AppInfo) obj).launch_uris_async.end (res);
                     close ();
                 } catch (Error e) {
                     critical ("Unable to launch app: %s", e.message);
                 }
-            }
+            });
+        }
 
-            press_gesture.set_state (CLAIMED);
-        });
-    }
-
-    public void replace (Notifications.Notification new_notification) {
-        var new_contents = new Contents (new_notification);
-        new_contents.show_all ();
-
-        new_contents.action_invoked.connect ((action_key) => {
-            action_invoked (action_key);
-            close ();
-        });
-
-        content_area.add (new_contents);
-        content_area.visible_child = new_contents;
+        press_gesture.set_state (CLAIMED);
     }
 
     private class Contents : Gtk.Grid {
