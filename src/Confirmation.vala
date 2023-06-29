@@ -40,7 +40,7 @@ public class Notifications.Confirmation : AbstractBubble {
             hexpand = true,
             valign = Gtk.Align.CENTER,
             margin_end = 6,
-            width_request = 228
+            width_request = 258
         };
         progressbar.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
