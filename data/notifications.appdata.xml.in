@@ -34,6 +34,7 @@
       <release version="7.0.0" date="2023-06-27" urgency="medium">
       <description>
         <p>Block GSD "Automatic Suspend" notifications</p>
+        <p>Increase sound and brightness notifications width to match other notifications</p>
         <p>Minor Updates:</p>
         <ul>
           <li>Updated translations</li>
