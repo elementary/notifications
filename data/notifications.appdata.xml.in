@@ -42,6 +42,8 @@
       </description>
       <issues>
         <issue url="https://github.com/elementary/wingpanel-indicator-notifications/issues/245">Turning off sounds for "Other" notifications still plays sounds</issue>
+        <issue url="https://github.com/elementary/notifications/issues/196">Send Critical Notifications regardless of Do Not Disturb</issue>
+        <issue url="https://github.com/elementary/notifications/issues/86">Should critical notifications bypass DND?</issue>
       </issues>
     </release>
 
