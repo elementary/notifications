@@ -1,3 +1,9 @@
+io.elementary.notifications (7.0.0) jammy; urgency=medium
+
+  * Release 7.0.0
+
+ -- Danielle Foré <dani@Mini.lan>  Mon, 03 Jul 2023 16:08:11 -0700
+
 io.elementary.notifications (6.0.3) bionic; urgency=medium
 
   * Release 6.0.3 (#181)
