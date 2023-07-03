@@ -26,7 +26,7 @@ public class Notifications.Bubble : AbstractBubble {
             contents.action_invoked.connect ((a) => action_invoked (a));
             contents.show_all ();
 
-            if (value.priority >= NotificationPriority.HIGH) {
+            if (value.priority == URGENT) {
                 contents.get_style_context ().add_class ("urgent");
             } else {
                 timeout = 4000;
