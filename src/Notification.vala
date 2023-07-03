@@ -66,11 +66,12 @@ public class Notifications.Notification : GLib.Object {
             priority = (GLib.NotificationPriority) variant.get_byte ();
         }
 
-        if ((variant = hints.lookup ("desktop-entry")) != null && variant.is_of_type (VariantType.STRING)) {
-            app_id = variant.get_string ();
-            app_id.replace (".desktop", "");
+        if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
+            app_info = new DesktopAppInfo ("%s.desktop".printf (hints["desktop-entry"].get_string ()));
 
-            app_info = new DesktopAppInfo ("%s.desktop".printf (app_id));
+            if (app_info != null && app_info.get_boolean ("X-GNOME-UsesNotification")) {
+                app_id = app_info.get_id ();
+            }
         }
 
         // Always "" if sent by GLib.Notification

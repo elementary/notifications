@@ -25,7 +25,8 @@ public class Notifications.Confirmation : AbstractBubble {
     public Confirmation (string icon_name, double progress) {
         Object (
             icon_name: icon_name,
-            progress: progress
+            progress: progress,
+            timeout: 2000
         );
     }
 
@@ -39,7 +40,7 @@ public class Notifications.Confirmation : AbstractBubble {
             hexpand = true,
             valign = Gtk.Align.CENTER,
             margin_end = 6,
-            width_request = 228
+            width_request = 258
         };
         progressbar.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
@@ -55,15 +56,5 @@ public class Notifications.Confirmation : AbstractBubble {
 
         bind_property ("icon-name", image, "icon-name");
         bind_property ("progress", progressbar, "fraction");
-
-        notify["progress"].connect (() => {
-            stop_timeout ();
-            start_timeout (2000);
-        });
-
-        leave_notify_event.connect (() => {
-            start_timeout (2000);
-            return Gdk.EVENT_PROPAGATE;
-        });
     }
 }

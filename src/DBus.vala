@@ -1,28 +1,7 @@
 /*
-* Copyright 2019 elementary, Inc. (https://elementary.io)
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*
-*/
-
-[DBus (name = "org.freedesktop.DBus")]
-private interface Notifications.DBus : Object {
-    [DBus (name = "GetConnectionUnixProcessID")]
-    public abstract uint32 get_connection_unix_process_id (string name) throws Error;
-}
+ * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
@@ -39,7 +18,6 @@ public class Notifications.Server : Object {
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
 
     private uint32 id_counter = 0;
-    private DBus? bus_proxy = null;
     private Notifications.Confirmation? confirmation = null;
 
     private GLib.Settings settings;
@@ -47,20 +25,13 @@ public class Notifications.Server : Object {
     private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
 
     construct {
-        try {
-            bus_proxy = Bus.get_proxy_sync (BusType.SESSION, "org.freedesktop.DBus", "/");
-        } catch (Error e) {
-            critical (e.message);
-            bus_proxy = null;
-        }
-
         settings = new GLib.Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
     }
 
     public void close_notification (uint32 id) throws DBusError, IOError {
         if (bubbles.has_key (id)) {
-            bubbles[id].dismiss ();
+            bubbles[id].close ();
             closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);
             return;
         }
@@ -103,30 +74,36 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
+        // Silence "Automatic suspend. Suspending soon because of inactivity." notifications
+        // These values and hints are taken from gnome-settings-daemon source code
+        // See: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-power-manager.c#L356
+        // We must check for app_icon == "" to not block low power notifications
+        if ("desktop-entry" in hints && hints["desktop-entry"].get_string () == "gnome-power-panel"
+        && "urgency" in hints && hints["urgency"].get_byte () == 3
+        && app_icon == ""
+        && expire_timeout == 0
+        ) {
+            debug ("Blocked GSD notification");
+            throw new DBusError.FAILED ("Notification Blocked");
+        }
+
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
             var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
-
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
-                var app_id = notification.app_id;
-                if (notification.app_info == null || notification.app_info.get_boolean ("X-GNOME-UsesNotifications") == false) {
-                    app_id = "gala-other";
-                }
-                var app_settings = new GLib.Settings.full (
-                    SettingsSchemaSource.get_default ().lookup ("io.elementary.notifications.applications", true),
-                    null,
-                    "/io/elementary/notifications/applications/%s/".printf (app_id)
+                var app_settings = new Settings.with_path (
+                    "io.elementary.notifications.applications",
+                    settings.path.concat ("applications", "/", notification.app_id, "/")
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
                     if (bubbles.has_key (id) && bubbles[id] != null) {
-                        bubbles[id].replace (notification);
+                        bubbles[id].notification = notification;
                     } else {
-                        bubbles[id] = new Notifications.Bubble (notification, id);
-                        bubbles[id].show_all ();
+                        bubbles[id] = new Bubble (notification);
 
                         bubbles[id].action_invoked.connect ((action_key) => {
                             action_invoked (id, action_key);
@@ -136,18 +113,20 @@ public class Notifications.Server : Object {
                             closed_callback (id, reason);
                         });
                     }
+
+                    bubbles[id].present ();
                 }
 
                 if (app_settings.get_boolean ("sounds")) {
-                    switch (notification.priority) {
-                        case GLib.NotificationPriority.HIGH:
-                        case GLib.NotificationPriority.URGENT:
-                            send_sound (hints, "dialog-warning");
-                            break;
-                        default:
-                            send_sound (hints);
-                            break;
+                    var sound = "dialog-information";
+
+                    if ("category" in hints && hints["category"].is_of_type (VariantType.STRING)) {
+                        sound = category_to_sound_name (hints["category"].get_string ());
+                    } else if (notification.priority >= NotificationPriority.HIGH) {
+                        sound = "dialog-warning";
                     }
+
+                    send_sound (sound);
                 }
             }
         }
@@ -173,7 +152,7 @@ public class Notifications.Server : Object {
         // consistency it should. So we make it emit the default one.
         var confirmation_type = hints.lookup (X_CANONICAL_PRIVATE_SYNCHRONOUS).get_string ();
         if (confirmation_type == "indicator-sound") {
-            send_sound (hints, "audio-volume-change");
+            send_sound ("audio-volume-change");
         }
 
         if (confirmation == null) {
@@ -189,30 +168,26 @@ public class Notifications.Server : Object {
             confirmation.progress = progress_value;
         }
 
-        confirmation.show_all ();
+        confirmation.present ();
     }
 
-    private void send_sound (HashTable<string,Variant> hints, string sound_name = "dialog-information") {
-        if (sound_name == "dialog-information") {
-            Variant? variant = hints.lookup ("category");
-            if (variant != null) {
-                sound_name = category_to_sound_name (variant.get_string ());
-            }
+    private void send_sound (string sound_name) {
+        if (sound_name == "") {
+            return;
         }
 
-        if (sound_name != null) {
-            Canberra.Proplist props;
-            Canberra.Proplist.create (out props);
+        Canberra.Proplist props;
+        Canberra.Proplist.create (out props);
 
-            props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-            props.sets (Canberra.PROP_EVENT_ID, sound_name);
+        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+        props.sets (Canberra.PROP_EVENT_ID, sound_name);
 
-            CanberraGtk.context_get ().play_full (0, props);
-        }
+        CanberraGtk.context_get ().play_full (0, props);
     }
 
-    static unowned string? category_to_sound_name (string category) {
-        unowned string? sound = null;
+    static unowned string category_to_sound_name (string category) {
+        unowned string sound;
+
         switch (category) {
             case "device.added":
                 sound = "device-added";
@@ -240,7 +215,7 @@ public class Notifications.Server : Object {
                 break;
             // no sound at all
             case "x-gnome.music":
-                sound = null;
+                sound = "";
                 break;
             // generic errors
             case "device.error":
