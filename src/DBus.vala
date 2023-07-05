@@ -154,6 +154,7 @@ public class Notifications.Server : Object {
 
         if (confirmation == null) {
             confirmation = new Notifications.Confirmation (
+                confirmation_type,
                 icon_name,
                 progress_value
             );
@@ -161,7 +162,11 @@ public class Notifications.Server : Object {
                 confirmation = null;
             });
         } else {
-            confirmation.replace (icon_name, progress_value);
+            confirmation.replace (
+                confirmation_type,
+                icon_name,
+                progress_value
+            );
         }
 
         confirmation.present ();
