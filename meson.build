@@ -1,4 +1,7 @@
-project('io.elementary.notifications', 'vala', 'c')
+project(
+    'io.elementary.notifications', 'vala', 'c',
+    version: '7.0.0'
+)
 
 gnome = import('gnome')
 i18n = import('i18n')

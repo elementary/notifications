@@ -118,12 +118,9 @@ public class Notifications.Server : Object {
                 }
 
                 if (app_settings.get_boolean ("sounds")) {
-                    var sound = "dialog-information";
-
+                    var sound = notification.priority != URGENT ? "dialog-information" : "dialog-warning";
                     if ("category" in hints && hints["category"].is_of_type (VariantType.STRING)) {
                         sound = category_to_sound_name (hints["category"].get_string ());
-                    } else if (notification.priority >= NotificationPriority.HIGH) {
-                        sound = "dialog-warning";
                     }
 
                     send_sound (sound);

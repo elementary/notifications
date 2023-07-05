@@ -62,8 +62,23 @@ public class Notifications.Notification : GLib.Object {
         unowned Variant? variant = null;
 
         // GLib.Notification.set_priority ()
-        if ((variant = hints.lookup ("urgency")) != null && variant.is_of_type (VariantType.BYTE)) {
-            priority = (GLib.NotificationPriority) variant.get_byte ();
+        // convert between freedesktop urgency levels and GLib.NotificationPriority levels
+        // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#urgency-levels
+        if ("urgency" in hints && hints["urgency"].is_of_type (VariantType.BYTE)) {
+            switch (hints["urgency"].get_byte ()) {
+                case 0:
+                    priority = LOW;
+                    break;
+                case 1:
+                    priority = NORMAL;
+                    break;
+                case 2:
+                    priority = URGENT;
+                    break;
+                default:
+                    warning ("unknown urgency value: %i, ignoring", hints["urgency"].get_byte ());
+                    break;
+            }
         }
 
         if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {

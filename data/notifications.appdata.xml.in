@@ -31,7 +31,7 @@
   <update_contact>contact_at_elementary.io</update_contact>
 
   <releases>
-      <release version="7.0.0" date="2023-06-27" urgency="medium">
+      <release version="7.0.0" date="2023-07-03" urgency="medium">
       <description>
         <p>Block GSD "Automatic Suspend" notifications</p>
         <p>Increase sound and brightness notifications width to match other notifications</p>
@@ -42,6 +42,8 @@
       </description>
       <issues>
         <issue url="https://github.com/elementary/wingpanel-indicator-notifications/issues/245">Turning off sounds for "Other" notifications still plays sounds</issue>
+        <issue url="https://github.com/elementary/notifications/issues/196">Send Critical Notifications regardless of Do Not Disturb</issue>
+        <issue url="https://github.com/elementary/notifications/issues/86">Should critical notifications bypass DND?</issue>
       </issues>
     </release>
 
