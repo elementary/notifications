@@ -40,9 +40,7 @@ public class Notifications.Confirmation : AbstractBubble {
     }
 
     public void replace (string icon_name, double progress) {
-        warning ("Replacing");
         if (this.icon_name == icon_name) {
-            warning ("Same icon name");
             progressbar.fraction = progress;
             return;
         }
@@ -50,7 +48,6 @@ public class Notifications.Confirmation : AbstractBubble {
         this.icon_name = icon_name;
         this.progress = progress;
 
-        warning ("Creating components");
         var contents = create_contents ();
         content_area.add (contents);
         content_area.visible_child = contents;
