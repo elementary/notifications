@@ -152,24 +152,6 @@ public class Notifications.Server : Object {
             send_sound ("audio-volume-change");
         }
 
-        //  if (app_settings.get_boolean ("bubbles")) {
-        //      if (bubbles.has_key (id) && bubbles[id] != null) {
-        //          bubbles[id].notification = notification;
-        //      } else {
-        //          bubbles[id] = new Bubble (notification);
-
-        //          bubbles[id].action_invoked.connect ((action_key) => {
-        //              action_invoked (id, action_key);
-        //          });
-
-        //          bubbles[id].closed.connect ((reason) => {
-        //              closed_callback (id, reason);
-        //          });
-        //      }
-
-        //      bubbles[id].present ();
-        //  }
-
         if (confirmation == null) {
             confirmation = new Notifications.Confirmation (
                 icon_name,
