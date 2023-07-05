@@ -22,6 +22,8 @@ public class Notifications.Confirmation : AbstractBubble {
     public new string icon_name { get; construct set; }
     public double progress { get; construct set; }
 
+    private Gtk.ProgressBar progressbar;
+
     public Confirmation (string icon_name, double progress) {
         Object (
             icon_name: icon_name,
@@ -31,16 +33,42 @@ public class Notifications.Confirmation : AbstractBubble {
     }
 
     construct {
+        var contents = create_contents ();
+        content_area.add (contents);
+
+        get_style_context ().add_class ("confirmation");
+    }
+
+    public void replace (string icon_name, double progress) {
+        warning ("Replacing");
+        if (this.icon_name == icon_name) {
+            warning ("Same icon name");
+            progressbar.fraction = progress;
+            return;
+        }
+
+        this.icon_name = icon_name;
+        this.progress = progress;
+
+        warning ("Creating components");
+        var contents = create_contents ();
+        content_area.add (contents);
+        content_area.visible_child = contents;
+    }
+
+    private Gtk.Widget create_contents () {
         var image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG) {
             valign = Gtk.Align.START,
-            pixel_size = 48
+            pixel_size = 48,
+            icon_name = icon_name
         };
 
-        var progressbar = new Gtk.ProgressBar () {
+        progressbar = new Gtk.ProgressBar () {
             hexpand = true,
             valign = Gtk.Align.CENTER,
             margin_end = 6,
-            width_request = 258
+            width_request = 258,
+            fraction = progress
         };
         progressbar.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
 
@@ -49,12 +77,8 @@ public class Notifications.Confirmation : AbstractBubble {
         };
         contents.attach (image, 0, 0);
         contents.attach (progressbar, 1, 0);
+        contents.show_all ();
 
-        content_area.add (contents);
-
-        get_style_context ().add_class ("confirmation");
-
-        bind_property ("icon-name", image, "icon-name");
-        bind_property ("progress", progressbar, "fraction");
+        return contents;
     }
 }
