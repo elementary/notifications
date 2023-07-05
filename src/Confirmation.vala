@@ -19,15 +19,16 @@
 */
 
 public class Notifications.Confirmation : AbstractBubble {
-    public string confirmation_type { get; private construct set; }
-    public new string icon_name { get; private construct set; }
-    public double progress { get; private construct set; }
+    public string confirmation_type { get; construct set; }
+    public new string icon_name { get; construct set; }
+    public double progress { get; construct set; }
 
     private Gtk.Image image;
     private Gtk.ProgressBar progressbar;
 
     public Confirmation (string confirmation_type, string icon_name, double progress) {
         Object (
+            confirmation_type: confirmation_type,
             icon_name: icon_name,
             progress: progress,
             timeout: 2000
@@ -60,8 +61,7 @@ public class Notifications.Confirmation : AbstractBubble {
     private Gtk.Widget create_contents () {
         image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG) {
             valign = Gtk.Align.START,
-            pixel_size = 48,
-            icon_name = icon_name
+            pixel_size = 48
         };
 
         progressbar = new Gtk.ProgressBar () {
