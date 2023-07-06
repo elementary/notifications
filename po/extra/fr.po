@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-29 08:38+0000\n"
-"PO-Revision-Date: 2022-06-10 08:26+0000\n"
+"PO-Revision-Date: 2023-07-08 01:10+0000\n"
 "Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
 "Language-Team: French <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/fr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.4.2\n"
+"X-Generator: Weblate 4.17\n"
 
 #: data/notifications.appdata.xml.in:9
 msgid "Notifications"
@@ -44,6 +44,8 @@ msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
+"Augmentation du son et de la luminosité des notifications pour les "
+"harmoniser avec les autres notifications"
 
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:50
 #: data/notifications.appdata.xml.in:59 data/notifications.appdata.xml.in:68
