@@ -19,12 +19,36 @@
 */
 
 public class Notifications.Confirmation : AbstractBubble {
-    public string confirmation_type { get; construct set; }
+    private string _confirmation_type;
+    public string confirmation_type {
+        get {
+            return _confirmation_type;
+        }
+        set {
+            if (value == _confirmation_type) {
+                return;
+            }
+
+            _confirmation_type = value;
+
+            if (icon_name_binding != null) {
+                icon_name_binding.unbind ();
+            }
+            if (progress_binding != null) {
+                progress_binding.unbind ();
+            }
+
+            var contents = create_contents ();
+            content_area.add (contents);
+            content_area.visible_child = contents;
+        }
+    }
+
     public new string icon_name { get; construct set; }
     public double progress { get; construct set; }
 
-    private Gtk.Image image;
-    private Gtk.ProgressBar progressbar;
+    private Binding? icon_name_binding;
+    private Binding? progress_binding;
 
     public Confirmation (string confirmation_type, string icon_name, double progress) {
         Object (
@@ -36,35 +60,16 @@ public class Notifications.Confirmation : AbstractBubble {
     }
 
     construct {
-        var contents = create_contents ();
-        content_area.add (contents);
-
         get_style_context ().add_class ("confirmation");
     }
 
-    public void replace (string confirmation_type, string icon_name, double progress) {
-        if (this.confirmation_type == confirmation_type) {
-            image.icon_name = icon_name;
-            progressbar.fraction = progress;
-            return;
-        }
-
-        this.confirmation_type = confirmation_type;
-        this.icon_name = icon_name;
-        this.progress = progress;
-
-        var contents = create_contents ();
-        content_area.add (contents);
-        content_area.visible_child = contents;
-    }
-
     private Gtk.Widget create_contents () {
-        image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG) {
+        var image = new Gtk.Image.from_icon_name (icon_name, Gtk.IconSize.DIALOG) {
             valign = Gtk.Align.START,
             pixel_size = 48
         };
 
-        progressbar = new Gtk.ProgressBar () {
+        var progressbar = new Gtk.ProgressBar () {
             hexpand = true,
             valign = Gtk.Align.CENTER,
             margin_end = 6,
@@ -79,6 +84,9 @@ public class Notifications.Confirmation : AbstractBubble {
         contents.attach (image, 0, 0);
         contents.attach (progressbar, 1, 0);
         contents.show_all ();
+
+        icon_name_binding = bind_property ("icon-name", image, "icon-name");
+        progress_binding = bind_property ("progress", progressbar, "fraction");
 
         return contents;
     }

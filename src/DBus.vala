@@ -162,11 +162,9 @@ public class Notifications.Server : Object {
                 confirmation = null;
             });
         } else {
-            confirmation.replace (
-                confirmation_type,
-                icon_name,
-                progress_value
-            );
+            confirmation.confirmation_type = confirmation_type;
+            confirmation.icon_name = icon_name;
+            confirmation.progress = progress_value;
         }
 
         confirmation.present ();
