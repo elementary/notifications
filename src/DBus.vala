@@ -79,7 +79,7 @@ public class Notifications.Server : Object {
         // See: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-power-manager.c#L356
         // We must check for app_icon == "" to not block low power notifications
         if ("desktop-entry" in hints && hints["desktop-entry"].get_string () == "gnome-power-panel"
-        && "urgency" in hints && hints["urgency"].get_byte () == 3
+        && "urgency" in hints && hints["urgency"].get_byte () == 2
         && app_icon == ""
         && expire_timeout == 0
         ) {
