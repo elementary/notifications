@@ -83,7 +83,6 @@ public class Notifications.Server : Object {
         && app_icon == ""
         && expire_timeout == 0
         ) {
-
             debug ("Blocked GSD notification");
             throw new DBusError.FAILED ("Notification Blocked");
         }
