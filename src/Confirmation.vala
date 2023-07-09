@@ -19,7 +19,8 @@
 */
 
 public class Notifications.Confirmation : AbstractBubble {
-    private string _confirmation_type;
+    public new string icon_name { get; construct set; }
+    public double progress { get; construct set; }
     public string confirmation_type {
         get {
             return _confirmation_type;
@@ -44,9 +45,7 @@ public class Notifications.Confirmation : AbstractBubble {
         }
     }
 
-    public new string icon_name { get; construct set; }
-    public double progress { get; construct set; }
-
+    private string _confirmation_type;
     private Binding? icon_name_binding;
     private Binding? progress_binding;
 
@@ -57,9 +56,7 @@ public class Notifications.Confirmation : AbstractBubble {
             progress: progress,
             timeout: 2000
         );
-    }
 
-    construct {
         get_style_context ().add_class ("confirmation");
     }
 
