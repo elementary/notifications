@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-29 08:38+0000\n"
-"PO-Revision-Date: 2023-06-29 08:38+0000\n"
+"PO-Revision-Date: 2023-07-10 21:07+0000\n"
 "Last-Translator: TomiOhl <ohlslager.tom@gmail.com>\n"
 "Language-Team: Hungarian <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/hu/>\n"
@@ -44,6 +44,8 @@ msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
+"A hang-és fényerőállítási értesítések szélessége növelve az egyéb "
+"értesítések szélességére"
 
 #: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:50
 #: data/notifications.appdata.xml.in:59 data/notifications.appdata.xml.in:68
