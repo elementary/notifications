@@ -4,9 +4,8 @@
  */
 
 public class Notifications.Notification : GLib.Object {
-    private const string OTHER_APP_ID = "gala-other";
-
     public DesktopAppInfo? app_info { get; construct; }
+    public NotificationPriority priority { get; set; default = NORMAL; }
 
     public string app_id {
         get {
@@ -24,26 +23,46 @@ public class Notifications.Notification : GLib.Object {
         }
     }
 
-    public NotificationPriority priority { get; set; default = NORMAL; }
-    public HashTable<string, Variant> hints { get; construct; }
-    public string[] actions { get; construct; }
-    public string app_icon { get; construct; }
-    public string app_name { get; construct; }
-    public string body { get; construct set; }
-    public string summary { get; construct set; }
+    public string title {
+        get {
+            // GLib.Notifications only requires the title, when that's the case, we use it as the body.
+            // So, use the applications's display name as title if we have one.
+            if (_title == null && app_info != null) {
+                return app_info.get_display_name ();
+            }
+
+            return _title ?? "";
+        }
+
+        construct set {
+            _title = (value == null || value == "") ? null : fix_markup (value);
+        }
+    }
+
+    public string body {
+        get {
+            return _body ?? "";
+        }
+
+        construct set {
+            _body = (value == null || value == "") ? null : fix_markup (sanitize_body (value));
+        }
+    }
 
     public GLib.Icon? primary_icon { get; set; default = null; }
     public GLib.Icon? badge_icon { get; set; default = null; }
     public MaskedImage? image { get; set; default = null; }
 
-    private string? _app_id = null;
+    public HashTable<string, Variant> hints { get; construct; }
+    public string[] actions { get; construct; }
+    public string app_icon { get; construct; }
 
-    private static Regex entity_regex;
-    private static Regex tag_regex;
+    private string? _app_id;
+    private string? _title;
+    private string? _body;
 
     public Notification (
         string? app_id,
-        string app_name,
         string app_icon,
         string summary,
         string body,
@@ -52,22 +71,12 @@ public class Notifications.Notification : GLib.Object {
     ) {
         Object (
             app_info: app_id != null ? new DesktopAppInfo (app_id + ".desktop") : null,
-            app_name: app_name,
             app_icon: app_icon,
-            summary: summary,
+            title: summary,
             body: body,
             actions: actions,
             hints: hints
         );
-    }
-
-    static construct {
-        try {
-            entity_regex = new Regex ("&(?!amp;|quot;|apos;|lt;|gt;|nbsp;|#39)");
-            tag_regex = new Regex ("<(?!\\/?[biu]>)");
-        } catch (Error e) {
-            warning ("Invalid regex: %s", e.message);
-        }
     }
 
     construct {
@@ -115,36 +124,39 @@ public class Notifications.Notification : GLib.Object {
         if (image == null && primary_icon == null) {
             primary_icon = new ThemedIcon ("dialog-information");
         }
-
-        // Always "" if sent by GLib.Notification
-        if (app_name == "" && app_info != null) {
-            app_name = app_info.get_display_name ();
-        }
-
-        /*Only summary is required by GLib.Notification, so try to set a title when body is empty*/
-        if (body == "") {
-            body = fix_markup (summary);
-            summary = app_name;
-        } else {
-            body = fix_markup (body);
-            summary = fix_markup (summary);
-        }
     }
 
-    /**
-     * Copied from gnome-shell, fixes the mess of markup that is sent to us
-     */
-    private string fix_markup (string markup) {
+    // Copied from gnome-shell, fixes the mess of markup that is sent to us
+    private static string fix_markup (string markup) {
         var text = markup;
 
         try {
-            text = entity_regex.replace (markup, markup.length, 0, "&amp;");
-            text = tag_regex.replace (text, text.length, 0, "&lt;");
+            text = /&(?!amp;|quot;|apos;|lt;|gt;|nbsp;|#39)/.replace (markup, markup.length, 0, "&amp;"); //vala-lint=space-before-paren
+            text = /<(?!\/?[biu]>)/.replace (text, text.length, 0, "&lt;"); //vala-lint=space-before-paren
         } catch (Error e) {
             warning ("Invalid regex: %s", e.message);
         }
 
         return text;
+    }
+
+    // remove sequences of whitespaces and newlines.
+    private static string sanitize_body (string body) {
+        var lines = body.delimit ("\f\r\n", '\n')._delimit ("\t\v", ' ').split ("\n");
+        foreach (unowned var line in lines) {
+            line._strip ();
+        }
+
+        var sanitized = string.joinv ("\n", lines);
+        while ("  " in sanitized) {
+            sanitized = sanitized.replace ("  ", " ");
+        }
+
+        while ("\n\n" in sanitized) {
+            sanitized = sanitized.replace ("\n\n", "\n");
+        }
+
+        return sanitized;
     }
 
     private Gdk.Pixbuf? image_data_variant_to_pixbuf (Variant img) {

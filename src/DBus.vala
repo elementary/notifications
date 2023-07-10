@@ -94,14 +94,30 @@ public class Notifications.Server : Object {
             throw new DBusError.FAILED ("Notification Blocked");
         }
 
-        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+        var id = replaces_id;
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notification (app_id, app_name, app_icon, summary, body, actions, hints) {
+            // Only summary is required, so try to set a title when body is empty
+            if (body._strip () == "") {
+                body = summary._strip ();
+                summary = app_name._strip ();
+            } else if (summary._strip () == "") {
+                summary = app_name._strip ();
+            }
+
+            if (body == "" || summary == "" && app_id == null) {
+                throw new DBusError.INVALID_ARGS ("summary must not be empty");
+            }
+
+            var notification = new Notification (app_id, app_icon, summary, body, actions, hints) {
                 priority = urgency
             };
+
+            if (id == 0) {
+                id = ++id_counter;
+            }
 
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == URGENT) {
                 var app_settings = new Settings.with_path (

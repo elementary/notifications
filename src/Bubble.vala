@@ -108,7 +108,7 @@ public class Notifications.Bubble : AbstractBubble {
                 }
             }
 
-            var title_label = new Gtk.Label (notification.summary) {
+            var title_label = new Gtk.Label (notification.title) {
                 ellipsize = Pango.EllipsizeMode.END,
                 max_width_chars = 33,
                 valign = Gtk.Align.END,
@@ -119,7 +119,7 @@ public class Notifications.Bubble : AbstractBubble {
 
             var body_label = new Gtk.Label (notification.body) {
                 ellipsize = Pango.EllipsizeMode.END,
-                lines = 2,
+                lines = "\n" in notification.body ? 1 : 2,
                 max_width_chars = 33,
                 use_markup = true,
                 valign = Gtk.Align.START,
@@ -128,17 +128,6 @@ public class Notifications.Bubble : AbstractBubble {
                 wrap_mode = Pango.WrapMode.WORD_CHAR,
                 xalign = 0
             };
-
-            if ("\n" in notification.body) {
-                string[] lines = notification.body.split ("\n");
-                string stripped_body = lines[0] + "\n";
-                for (int i = 1; i < lines.length; i++) {
-                    stripped_body += lines[i].strip () + "";
-                }
-
-                body_label.label = stripped_body.strip ();
-                body_label.lines = 1;
-            }
 
             column_spacing = 6;
             attach (image_overlay, 0, 0, 1, 2);
