@@ -1,32 +1,33 @@
 /*
-* Copyright 2020 elementary, Inc. (https://elementary.io)
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* General Public License for more details.
-*
-* You should have received a copy of the GNU General Public
-* License along with this program; if not, write to the
-* Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-* Boston, MA 02110-1301 USA
-*
-*/
+ * Copyright 2020-2023 elementary, Inc. (https://elementary.io)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 public class Notifications.Notification : GLib.Object {
     private const string OTHER_APP_ID = "gala-other";
 
-    public GLib.DesktopAppInfo? app_info { get; private set; default = null; }
-    public GLib.NotificationPriority priority { get; private set; default = GLib.NotificationPriority.NORMAL; }
+    public DesktopAppInfo? app_info { get; construct; }
+
+    public string app_id {
+        get {
+            if (_app_id == null) {
+                if (app_info != null && app_info.get_boolean ("X-GNOME-UsesNotifications")) {
+                    _app_id = app_info.get_id ();
+                    // GLib.DesktopAppInfo.get_id() always include the .desktop suffix.
+                    _app_id = _app_id.substring (0, _app_id.last_index_of (".desktop"));
+                } else {
+                    _app_id = "gala-other";
+                }
+            }
+
+            return _app_id;
+        }
+    }
+
+    public NotificationPriority priority { get; set; default = NORMAL; }
     public HashTable<string, Variant> hints { get; construct; }
     public string[] actions { get; construct; }
     public string app_icon { get; construct; }
-    public string app_id { get; private set; default = OTHER_APP_ID; }
     public string app_name { get; construct; }
     public string body { get; construct set; }
     public string summary { get; construct set; }
@@ -35,11 +36,22 @@ public class Notifications.Notification : GLib.Object {
     public GLib.Icon? badge_icon { get; set; default = null; }
     public MaskedImage? image { get; set; default = null; }
 
+    private string? _app_id = null;
+
     private static Regex entity_regex;
     private static Regex tag_regex;
 
-    public Notification (string app_name, string app_icon, string summary, string body, string[] actions, HashTable<string, Variant> hints) {
+    public Notification (
+        string? app_id,
+        string app_name,
+        string app_icon,
+        string summary,
+        string body,
+        string[] actions,
+        HashTable<string, Variant> hints
+    ) {
         Object (
+            app_info: app_id != null ? new DesktopAppInfo (app_id + ".desktop") : null,
             app_name: app_name,
             app_icon: app_icon,
             summary: summary,
@@ -59,43 +71,6 @@ public class Notifications.Notification : GLib.Object {
     }
 
     construct {
-        unowned Variant? variant = null;
-
-        // GLib.Notification.set_priority ()
-        // convert between freedesktop urgency levels and GLib.NotificationPriority levels
-        // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#urgency-levels
-        if ("urgency" in hints && hints["urgency"].is_of_type (VariantType.BYTE)) {
-            switch (hints["urgency"].get_byte ()) {
-                case 0:
-                    priority = LOW;
-                    break;
-                case 1:
-                    priority = NORMAL;
-                    break;
-                case 2:
-                    priority = URGENT;
-                    break;
-                default:
-                    warning ("unknown urgency value: %i, ignoring", hints["urgency"].get_byte ());
-                    break;
-            }
-        }
-
-        if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
-            app_info = new DesktopAppInfo ("%s.desktop".printf (hints["desktop-entry"].get_string ()));
-
-            if (app_info != null && app_info.get_boolean ("X-GNOME-UsesNotifications")) {
-                var app_info_id = app_info.get_id ();
-                if (app_info_id != null) {
-                    if (app_info_id.has_suffix (".desktop")) {
-                        app_id = app_info_id.substring (0, app_info_id.length - ".desktop".length);
-                    } else {
-                        app_id = app_info_id;
-                    }
-                }
-            }
-        }
-
         // Always "" if sent by GLib.Notification
         if (app_icon == "" && app_info != null) {
             primary_icon = app_info.get_icon ();
@@ -108,6 +83,8 @@ public class Notifications.Notification : GLib.Object {
             // Icon name set directly, such as by Notify.Notification
             primary_icon = new ThemedIcon (app_icon);
         }
+
+        unowned Variant? variant = null;
 
         // GLib.Notification.set_icon ()
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {

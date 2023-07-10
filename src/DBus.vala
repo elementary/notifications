@@ -74,15 +74,22 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
+        NotificationPriority urgency = NORMAL;
+        string? app_id = null;
+
+        if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
+            app_id = hints["desktop-entry"].get_string ();
+        }
+
+        if ("urgency" in hints && hints["urgency"].is_of_type (VariantType.BYTE)) {
+            urgency = priority_from_urgency (hints["urgency"].get_byte ());
+        }
+
         // Silence "Automatic suspend. Suspending soon because of inactivity." notifications
         // These values and hints are taken from gnome-settings-daemon source code
         // See: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-power-manager.c#L356
         // We must check for app_icon == "" to not block low power notifications
-        if ("desktop-entry" in hints && hints["desktop-entry"].get_string () == "gnome-power-panel"
-        && "urgency" in hints && hints["urgency"].get_byte () == 2
-        && app_icon == ""
-        && expire_timeout == 0
-        ) {
+        if (app_id == "gnome-power-panel" && urgency == URGENT && app_icon == "" && expire_timeout == 0) {
             debug ("Blocked GSD notification");
             throw new DBusError.FAILED ("Notification Blocked");
         }
@@ -92,8 +99,11 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
-            if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
+            var notification = new Notification (app_id, app_name, app_icon, summary, body, actions, hints) {
+                priority = urgency
+            };
+
+            if (!settings.get_boolean ("do-not-disturb") || notification.priority == URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
                     settings.path.concat ("applications", "/", notification.app_id, "/")
@@ -182,7 +192,20 @@ public class Notifications.Server : Object {
         CanberraGtk.context_get ().play_full (0, props);
     }
 
-    static unowned string category_to_sound_name (string category) {
+    // convert between freedesktop urgency levels and GLib.NotificationPriority levels
+    // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#urgency-levels
+    private static NotificationPriority priority_from_urgency (uint8 urgency) {
+        switch (urgency) {
+            case 0: return LOW;
+            case 1: return NORMAL;
+            case 2: return URGENT;
+            default:
+                warning ("unknown urgency value: %u, ignoring", urgency);
+                return NORMAL;
+        }
+    }
+
+    private static unowned string category_to_sound_name (string category) {
         unowned string sound;
 
         switch (category) {
