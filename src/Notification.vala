@@ -84,8 +84,15 @@ public class Notifications.Notification : GLib.Object {
         if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
             app_info = new DesktopAppInfo ("%s.desktop".printf (hints["desktop-entry"].get_string ()));
 
-            if (app_info != null && app_info.get_boolean ("X-GNOME-UsesNotification")) {
-                app_id = app_info.get_id ();
+            if (app_info != null && app_info.get_boolean ("X-GNOME-UsesNotifications")) {
+                var app_info_id = app_info.get_id ();
+                if (app_info_id != null) {
+                    if (app_info_id.has_suffix (".desktop")) {
+                        app_id = app_info_id.substring (0, app_info_id.length - ".desktop".length);
+                    } else {
+                        app_id = app_info_id;
+                    }
+                }
             }
         }
 
