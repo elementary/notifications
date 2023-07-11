@@ -87,7 +87,11 @@ public class Notifications.Notification : GLib.Object {
             if (app_info != null && app_info.get_boolean ("X-GNOME-UsesNotifications")) {
                 var app_info_id = app_info.get_id ();
                 if (app_info_id != null) {
-                    app_id = app_info_id.replace (".desktop", "");
+                    if (app_info_id.has_suffix (".desktop")) {
+                        app_id = app_info_id.substring (0, - ".desktop".length)
+                    } else {
+                        app_id = app_info_id;
+                    }
                 }
             }
         }
