@@ -88,7 +88,7 @@ public class Notifications.Notification : GLib.Object {
                 var app_info_id = app_info.get_id ();
                 if (app_info_id != null) {
                     if (app_info_id.has_suffix (".desktop")) {
-                        app_id = app_info_id.substring (0, - ".desktop".length)
+                        app_id = app_info_id.substring (0, app_info_id.length - ".desktop".length);
                     } else {
                         app_id = app_info_id;
                     }
