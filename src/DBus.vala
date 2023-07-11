@@ -24,6 +24,8 @@ public class Notifications.Server : Object {
 
     private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
 
+    private static VariantType variant_type_pixbuf = new VariantType ("(iiibiiay)");
+
     construct {
         settings = new GLib.Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
@@ -111,12 +113,23 @@ public class Notifications.Server : Object {
                 throw new DBusError.INVALID_ARGS ("summary must not be empty");
             }
 
-            var notification = new Notification (app_id, app_icon, summary, body, actions, hints) {
+            var notification = new Notification (app_id, summary, body, actions) {
+                image = parse_image_string (app_icon),
                 priority = urgency
             };
 
             if (id == 0) {
                 id = ++id_counter;
+            }
+
+            var image = search_image (hints);
+            if (image != null) {
+                if (image is LoadableIcon) {
+                    notification.badge = notification.image;
+                    notification.image = image;
+                } else {
+                    notification.badge = image;
+                }
             }
 
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == URGENT) {
@@ -219,6 +232,65 @@ public class Notifications.Server : Object {
                 warning ("unknown urgency value: %u, ignoring", urgency);
                 return NORMAL;
         }
+    }
+
+    // search for a image hint, in priority order.
+    // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#icons-and-images
+    private static Icon? search_image (HashTable<string, Variant> hints) {
+        const string[] IMAGE_HINTS = { "image-data", "image_data", "image-path", "image_path", "icon_data" };
+        Icon? image = null;
+
+        foreach (unowned var hint in IMAGE_HINTS) {
+            if (!hints.contains (hint)) {
+                continue;
+            }
+
+            if (hints[hint].is_of_type (VariantType.STRING)) {
+                image = parse_image_string (hints[hint].get_string ());
+            } else if (hints[hint].is_of_type (variant_type_pixbuf)) {
+                image = parse_image_pixbuf (hints[hint]);
+            }
+
+            if (image != null) {
+                break;
+            }
+
+            warning ("wrong type for hint '%s': %s. ignoring", hint, hints[hint].get_type_string ());
+        }
+
+        return image;
+    }
+
+    private static Gdk.Pixbuf? parse_image_pixbuf (Variant variant)
+    requires (variant.is_of_type (variant_type_pixbuf)) {
+        int width, height, rowstride, bps;
+        bool has_alpha;
+        Bytes data;
+
+        variant.get ("(iiibiiay)", out width, out height, out rowstride, out has_alpha, out bps, null, null);
+        data = variant.get_child_value (6).get_data_as_bytes ();
+
+        return new Gdk.Pixbuf.from_bytes (data, RGB, has_alpha, bps, width, height, rowstride);
+    }
+
+    private static Icon? parse_image_string (string image) {
+        if (Gtk.IconTheme.get_default ().has_icon (image)) {
+            return new ThemedIcon (image);
+        }
+
+        File? file = null;
+
+        if (image.has_prefix ("file:")) {
+            file = File.new_for_uri (image);
+        } else if (image.has_prefix ("/")) {
+            file = File.new_for_path (image);
+        }
+
+        if (file != null && file.query_exists ()) {
+            return new FileIcon (file);
+        }
+
+        return null;
     }
 
     private static unowned string category_to_sound_name (string category) {

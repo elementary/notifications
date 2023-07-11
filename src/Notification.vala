@@ -49,81 +49,39 @@ public class Notifications.Notification : GLib.Object {
         }
     }
 
-    public GLib.Icon? primary_icon { get; set; default = null; }
-    public GLib.Icon? badge_icon { get; set; default = null; }
-    public MaskedImage? image { get; set; default = null; }
+    public Icon image {
+        get {
+            if (_image == null) {
+                return app_info != null ? app_info.get_icon () : fallback_icon;
+            }
 
-    public HashTable<string, Variant> hints { get; construct; }
-    public string[] actions { get; construct; }
-    public string app_icon { get; construct; }
+            return _image;
+        }
 
-    private string? _app_id;
-    private string? _title;
-    private string? _body;
-
-    public Notification (
-        string? app_id,
-        string app_icon,
-        string summary,
-        string body,
-        string[] actions,
-        HashTable<string, Variant> hints
-    ) {
-        Object (
-            app_info: app_id != null ? new DesktopAppInfo (app_id + ".desktop") : null,
-            app_icon: app_icon,
-            title: summary,
-            body: body,
-            actions: actions,
-            hints: hints
-        );
+        set {
+            _image = value;
+        }
     }
 
-    construct {
-        // Always "" if sent by GLib.Notification
-        if (app_icon == "" && app_info != null) {
-            primary_icon = app_info.get_icon ();
-        } else if (app_icon.contains ("/")) {
-            var file = File.new_for_uri (app_icon);
-            if (file.query_exists ()) {
-                primary_icon = new FileIcon (file);
-            }
-        } else {
-            // Icon name set directly, such as by Notify.Notification
-            primary_icon = new ThemedIcon (app_icon);
-        }
+    public Icon? badge { get; set; }
 
-        unowned Variant? variant = null;
+    public string[] actions { get; construct; }
 
-        // GLib.Notification.set_icon ()
-        if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
-            var image_path = variant.get_string ();
+    private Icon _image;
+    private string _app_id;
+    private string _title;
+    private string _body;
 
-            // GLib.Notification also sends icon names via this hint
-            if (Gtk.IconTheme.get_default ().has_icon (image_path) && image_path != app_icon) {
-                badge_icon = new ThemedIcon (image_path);
-            } else if (image_path.has_prefix ("/") || image_path.has_prefix ("file://")) {
-                try {
-                    var pixbuf = new Gdk.Pixbuf.from_file (image_path);
-                    image = new Notifications.MaskedImage (pixbuf);
-                } catch (Error e) {
-                    critical ("Unable to mask image: %s", e.message);
-                }
-            }
-        }
+    // used when no icon was provided
+    private static Icon fallback_icon = new ThemedIcon ("dialog-information");
 
-        // Raw image data sent within a variant
-        if ((variant = hints.lookup ("image-data")) != null || (variant = hints.lookup ("image_data")) != null || (variant = hints.lookup ("icon_data")) != null) {
-            var pixbuf = image_data_variant_to_pixbuf (variant);
-            if (pixbuf != null) {
-                image = new Notifications.MaskedImage (pixbuf);
-            }
-        }
-
-        // Display a generic notification icon if there is no notification image
-        if (image == null && primary_icon == null) {
-            primary_icon = new ThemedIcon ("dialog-information");
-        }
+    public Notification (string? app_id, string summary, string body, string[] actions) {
+        Object (
+            app_info: app_id != null ? new DesktopAppInfo (app_id + ".desktop") : null,
+            title: summary,
+            body: body,
+            actions: actions
+        );
     }
 
     // Copied from gnome-shell, fixes the mess of markup that is sent to us
@@ -158,23 +116,4 @@ public class Notifications.Notification : GLib.Object {
 
         return sanitized;
     }
-
-    private Gdk.Pixbuf? image_data_variant_to_pixbuf (Variant img) {
-        if (img.get_type_string () != "(iiibiiay)") {
-            warning ("Invalid type string: %s", img.get_type_string ());
-            return null;
-        }
-        int width = img.get_child_value (0).get_int32 ();
-        int height = img.get_child_value (1).get_int32 ();
-        int rowstride = img.get_child_value (2).get_int32 ();
-        bool has_alpha = img.get_child_value (3).get_boolean ();
-        int bits_per_sample = img.get_child_value (4).get_int32 ();
-        unowned uint8[] raw = (uint8[]) img.get_child_value (6).get_data ();
-
-        // Build the pixbuf from the unowned buffer, and copy it to maintain our own instance.
-        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.with_unowned_data (raw, Gdk.Colorspace.RGB,
-            has_alpha, bits_per_sample, width, height, rowstride, null);
-        return pixbuf.copy ();
-    }
-
 }

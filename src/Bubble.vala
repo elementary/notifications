@@ -81,31 +81,26 @@ public class Notifications.Bubble : AbstractBubble {
         }
 
         construct {
-            var app_image = new Gtk.Image () {
-                gicon = notification.primary_icon
+            var image_overlay = new Gtk.Overlay () {
+                valign = START
             };
 
-            var image_overlay = new Gtk.Overlay ();
-            image_overlay.valign = Gtk.Align.START;
-
-            if (notification.image != null) {
-                app_image.pixel_size = 24;
-                app_image.halign = app_image.valign = Gtk.Align.END;
-
-                image_overlay.add (notification.image);
-                image_overlay.add_overlay (app_image);
+            if (notification.image is LoadableIcon) {
+                image_overlay.child = new MaskedImage ((LoadableIcon) notification.image);
             } else {
-                app_image.pixel_size = 48;
-                image_overlay.add (app_image);
+                image_overlay.child = new Gtk.Image.from_gicon (notification.image, DIALOG) {
+                    pixel_size = 48
+                };
+            }
 
-                if (notification.badge_icon != null) {
-                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
-                        halign = Gtk.Align.END,
-                        valign = Gtk.Align.END,
-                        pixel_size = 24
-                    };
-                    image_overlay.add_overlay (badge_image);
-                }
+            if (notification.badge != null) {
+                var badge_image = new Gtk.Image.from_gicon (notification.badge, LARGE_TOOLBAR) {
+                    pixel_size = 24,
+                    halign = END,
+                    valign = END
+                };
+
+                image_overlay.add_overlay (badge_image);
             }
 
             var title_label = new Gtk.Label (notification.title) {
