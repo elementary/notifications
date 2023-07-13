@@ -24,6 +24,8 @@ public class Notifications.Server : Object {
 
     private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
 
+    private static VariantType variant_type_pixbuf = new VariantType ("(iiibiiay)");
+
     construct {
         settings = new GLib.Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
@@ -74,26 +76,63 @@ public class Notifications.Server : Object {
         int32 expire_timeout,
         BusName sender
     ) throws DBusError, IOError {
+        NotificationPriority urgency = NORMAL;
+        string? app_id = null;
+
+        if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
+            app_id = hints["desktop-entry"].get_string ();
+        }
+
+        if ("urgency" in hints && hints["urgency"].is_of_type (VariantType.BYTE)) {
+            urgency = priority_from_urgency (hints["urgency"].get_byte ());
+        }
+
         // Silence "Automatic suspend. Suspending soon because of inactivity." notifications
         // These values and hints are taken from gnome-settings-daemon source code
         // See: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-power-manager.c#L356
         // We must check for app_icon == "" to not block low power notifications
-        if ("desktop-entry" in hints && hints["desktop-entry"].get_string () == "gnome-power-panel"
-        && "urgency" in hints && hints["urgency"].get_byte () == 2
-        && app_icon == ""
-        && expire_timeout == 0
-        ) {
+        if (app_id == "gnome-power-panel" && urgency == URGENT && app_icon == "" && expire_timeout == 0) {
             debug ("Blocked GSD notification");
             throw new DBusError.FAILED ("Notification Blocked");
         }
 
-        var id = (replaces_id != 0 ? replaces_id : ++id_counter);
+        var id = replaces_id;
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
-            if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
+            // Only summary is required, so try to set a title when body is empty
+            if (body._strip () == "") {
+                body = summary._strip ();
+                summary = app_name._strip ();
+            } else if (summary._strip () == "") {
+                summary = app_name._strip ();
+            }
+
+            if (body == "" || summary == "" && app_id == null) {
+                throw new DBusError.INVALID_ARGS ("summary must not be empty");
+            }
+
+            var notification = new Notification (app_id, summary, body, actions) {
+                image = parse_image_string (app_icon),
+                priority = urgency
+            };
+
+            if (id == 0) {
+                id = ++id_counter;
+            }
+
+            var image = search_image (hints);
+            if (image != null) {
+                if (image is LoadableIcon) {
+                    notification.badge = notification.image;
+                    notification.image = image;
+                } else {
+                    notification.badge = image;
+                }
+            }
+
+            if (!settings.get_boolean ("do-not-disturb") || notification.priority == URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
                     settings.path.concat ("applications", "/", notification.app_id, "/")
@@ -182,7 +221,79 @@ public class Notifications.Server : Object {
         CanberraGtk.context_get ().play_full (0, props);
     }
 
-    static unowned string category_to_sound_name (string category) {
+    // convert between freedesktop urgency levels and GLib.NotificationPriority levels
+    // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#urgency-levels
+    private static NotificationPriority priority_from_urgency (uint8 urgency) {
+        switch (urgency) {
+            case 0: return LOW;
+            case 1: return NORMAL;
+            case 2: return URGENT;
+            default:
+                warning ("unknown urgency value: %u, ignoring", urgency);
+                return NORMAL;
+        }
+    }
+
+    // search for a image hint, in priority order.
+    // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#icons-and-images
+    private static Icon? search_image (HashTable<string, Variant> hints) {
+        const string[] IMAGE_HINTS = { "image-data", "image_data", "image-path", "image_path", "icon_data" };
+        Icon? image = null;
+
+        foreach (unowned var hint in IMAGE_HINTS) {
+            if (!hints.contains (hint)) {
+                continue;
+            }
+
+            if (hints[hint].is_of_type (VariantType.STRING)) {
+                image = parse_image_string (hints[hint].get_string ());
+            } else if (hints[hint].is_of_type (variant_type_pixbuf)) {
+                image = parse_image_pixbuf (hints[hint]);
+            }
+
+            if (image != null) {
+                break;
+            }
+
+            warning ("wrong type for hint '%s': %s. ignoring", hint, hints[hint].get_type_string ());
+        }
+
+        return image;
+    }
+
+    private static Gdk.Pixbuf? parse_image_pixbuf (Variant variant)
+    requires (variant.is_of_type (variant_type_pixbuf)) {
+        int width, height, rowstride, bps;
+        bool has_alpha;
+        Bytes data;
+
+        variant.get ("(iiibiiay)", out width, out height, out rowstride, out has_alpha, out bps, null, null);
+        data = variant.get_child_value (6).get_data_as_bytes ();
+
+        return new Gdk.Pixbuf.from_bytes (data, RGB, has_alpha, bps, width, height, rowstride);
+    }
+
+    private static Icon? parse_image_string (string image) {
+        if (Gtk.IconTheme.get_default ().has_icon (image)) {
+            return new ThemedIcon (image);
+        }
+
+        File? file = null;
+
+        if (image.has_prefix ("file:")) {
+            file = File.new_for_uri (image);
+        } else if (image.has_prefix ("/")) {
+            file = File.new_for_path (image);
+        }
+
+        if (file != null && file.query_exists ()) {
+            return new FileIcon (file);
+        }
+
+        return null;
+    }
+
+    private static unowned string category_to_sound_name (string category) {
         unowned string sound;
 
         switch (category) {
