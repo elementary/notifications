@@ -1,5 +1,5 @@
 /*
-* Copyright 2019-2022 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2023 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -30,12 +30,10 @@ public class Notifications.Application : Gtk.Application {
     }
 
     protected override bool dbus_register (DBusConnection connection, string object_path) throws Error {
-        var server = new Notifications.Server ();
-
         try {
-            connection.register_object ("/org/freedesktop/Notifications", server);
+            new Notifications.Server (connection);
         } catch (Error e) {
-            warning ("Registring notification server failed: %s", e.message);
+            Error.prefix_literal (out e, "Registring notification server failed: ");
             throw e;
         }
 

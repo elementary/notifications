@@ -22,6 +22,7 @@ executable(
     'src/Bubble.vala',
     'src/Confirmation.vala',
     'src/DBus.vala',
+    'src/FdoActionGroup.vala',
     'src/Notification.vala',
     'src/Widgets/MaskedImage.vala',
     css_gresource,
@@ -30,6 +31,7 @@ executable(
         dependency ('libcanberra-gtk3'),
         dependency ('glib-2.0'),
         dependency ('gobject-2.0'),
+        dependency ('gio-2.0'),
         dependency ('granite', version: '>=5.4.0'),
         dependency ('gtk+-3.0'),
         dependency ('libhandy-1')

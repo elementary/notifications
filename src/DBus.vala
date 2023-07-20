@@ -18,27 +18,52 @@ public class Notifications.Server : Object {
     private const string X_CANONICAL_PRIVATE_SYNCHRONOUS = "x-canonical-private-synchronous";
 
     private uint32 id_counter = 0;
-    private Notifications.Confirmation? confirmation = null;
 
-    private GLib.Settings settings;
+    private unowned DBusConnection connection;
+    private Fdo.ActionGroup action_group;
 
-    private Gee.HashMap<uint32, Notifications.Bubble> bubbles;
+    private Gee.Map<uint32, Bubble> bubbles;
+    private Confirmation? confirmation;
 
-    construct {
-        settings = new GLib.Settings ("io.elementary.notifications");
-        bubbles = new Gee.HashMap<uint32, Notifications.Bubble> ();
+    private Settings settings;
+
+    private uint action_group_id;
+    private uint server_id;
+
+    public Server (DBusConnection connection) throws Error {
+        settings = new Settings ("io.elementary.notifications");
+        bubbles = new Gee.HashMap<uint32, Bubble> ();
+        action_group = new Fdo.ActionGroup (this);
+
+        server_id = connection.register_object ("/org/freedesktop/Notifications", this);
+        action_group_id = connection.export_action_group ("/org/freedesktop/Notifications", action_group);
+        this.connection = connection;
+
+        action_invoked.connect ((id) => close_bubble (id));
+        notification_closed.connect ((id) => close_bubble (id));
+    }
+
+    ~Server () {
+        connection.unexport_action_group (action_group_id);
+        connection.unregister_object (server_id);
+    }
+
+    private void close_bubble (uint32 id) {
+        Bubble bubble;
+
+        if (bubbles.unset (id, out bubble)) {
+            action_group.remove_actions (id);
+            bubble.close ();
+        }
     }
 
     public void close_notification (uint32 id) throws DBusError, IOError {
-        if (bubbles.has_key (id)) {
-            bubbles[id].close ();
-            closed_callback (id, CloseReason.CLOSE_NOTIFICATION_CALL);
-            return;
+        if (!bubbles.has_key (id)) {
+            // according to spec, an empty dbus error should be sent if the notification doesn't exist (anymore)
+            throw new DBusError.FAILED ("");
         }
 
-        // according to spec, an empty dbus error should be sent if the notification
-        // doesn't exist (anymore)
-        throw new DBusError.FAILED ("");
+        notification_closed (id, CloseReason.CLOSE_NOTIFICATION_CALL);
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -92,7 +117,30 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notifications.Notification (app_name, app_icon, summary, body, actions, hints);
+            var notification = new Notification (app_name, app_icon, summary, body, hints);
+            notification.buttons = new GenericArray<Notification.Button?> (actions.length / 2);
+
+            // validate actions
+            for (var i = 0; i < actions.length; i += 2) {
+                if (actions[i] == "") {
+                    continue;
+                }
+
+                var action_name = "fdo." + action_group.add_action (id, actions[i]);
+                if (actions[i] == "default") {
+                    notification.default_action_name = action_name;
+                    continue;
+                }
+
+                var label = actions[i + 1].strip ();
+                if (label == "") {
+                    warning ("action '%s' sent without a label, skipping…", actions[i]);
+                    continue;
+                }
+
+                notification.buttons.add ({ label, action_name });
+            }
+
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
@@ -100,18 +148,12 @@ public class Notifications.Server : Object {
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
-                    if (bubbles.has_key (id) && bubbles[id] != null) {
+                    if (bubbles.has_key (id)) {
                         bubbles[id].notification = notification;
                     } else {
                         bubbles[id] = new Bubble (notification);
-
-                        bubbles[id].action_invoked.connect ((action_key) => {
-                            action_invoked (id, action_key);
-                        });
-
-                        bubbles[id].closed.connect ((reason) => {
-                            closed_callback (id, reason);
-                        });
+                        bubbles[id].insert_action_group ("fdo", action_group);
+                        bubbles[id].closed.connect ((res) => notification_closed (id, res));
                     }
 
                     bubbles[id].present ();
@@ -129,11 +171,6 @@ public class Notifications.Server : Object {
         }
 
         return id;
-    }
-
-    private void closed_callback (uint32 id, uint32 reason) {
-        bubbles.unset (id);
-        notification_closed (id, reason);
     }
 
     private void send_confirmation (string icon_name, HashTable<string, Variant> hints) {
