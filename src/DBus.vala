@@ -22,7 +22,7 @@ public class Notifications.Server : Object {
     private unowned DBusConnection connection;
     private Fdo.ActionGroup action_group;
 
-    private Gee.Map<uint32, Bubble> bubbles;
+    private Gee.Map<uint32, Bubble?> bubbles;
     private Confirmation? confirmation;
 
     private Settings settings;
@@ -32,7 +32,7 @@ public class Notifications.Server : Object {
 
     public Server (DBusConnection connection) throws Error {
         settings = new Settings ("io.elementary.notifications");
-        bubbles = new Gee.HashMap<uint32, Bubble> ();
+        bubbles = new Gee.HashMap<uint32, Bubble?> ();
         action_group = new Fdo.ActionGroup (this);
 
         server_id = connection.register_object ("/org/freedesktop/Notifications", this);
@@ -49,11 +49,14 @@ public class Notifications.Server : Object {
     }
 
     private void close_bubble (uint32 id) {
-        Bubble bubble;
+        Bubble? bubble;
 
         if (bubbles.unset (id, out bubble)) {
+            if (bubble != null) {
+                bubble.close ();
+            }
+
             action_group.remove_actions (id);
-            bubble.close ();
         }
     }
 
@@ -148,11 +151,12 @@ public class Notifications.Server : Object {
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
-                    if (bubbles.has_key (id)) {
+                    if (bubbles.has_key (id) && bubbles[id] != null) {
                         bubbles[id].notification = notification;
                     } else {
                         bubbles[id] = new Bubble (notification);
                         bubbles[id].insert_action_group ("fdo", action_group);
+                        bubbles[id].destroy.connect (() => bubbles[id] = null);
                         bubbles[id].closed.connect ((res) => notification_closed (id, res));
                     }
 
