@@ -146,7 +146,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     private bool timeout_expired () {
-        close ();
+        closed (Notifications.Server.CloseReason.EXPIRED);
         return Source.REMOVE;
     }
 }

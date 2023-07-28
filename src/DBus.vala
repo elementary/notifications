@@ -153,7 +153,14 @@ public class Notifications.Server : Object {
                     } else {
                         bubbles[id] = new Bubble (notification);
                         bubbles[id].insert_action_group ("fdo", action_group);
-                        bubbles[id].closed.connect ((res) => notification_closed (id, res));
+                        bubbles[id].closed.connect ((res) => {
+                            if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
+                                bubbles[id].close ();
+                                return;
+                            }
+
+                            notification_closed (id, res);
+                        });
                     }
 
                     bubbles[id].present ();
