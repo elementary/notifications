@@ -48,10 +48,8 @@ public class Notifications.Server : Object {
         connection.unregister_object (server_id);
     }
 
-    private void close_bubble (uint32 id, bool remove_actions = true) {
-        if (remove_actions) {
-            action_group.remove_actions (id);
-        }
+    private void close_bubble (uint32 id) {
+        action_group.remove_actions (id);
 
         Bubble bubble;
 
@@ -158,7 +156,8 @@ public class Notifications.Server : Object {
                         bubbles[id].insert_action_group ("fdo", action_group);
                         bubbles[id].closed.connect ((res) => {
                             if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
-                                close_bubble (id, false);
+                                bubbles[id].close ();
+                                bubbles.unset (id);
                                 return;
                             }
 
