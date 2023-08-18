@@ -31,9 +31,22 @@
   <update_contact>contact_at_elementary.io</update_contact>
 
   <releases>
-      <release version="7.0.0" date="2023-07-03" urgency="medium">
+    <release version="7.0.1" date="2023-08-17" urgency="medium">
       <description>
         <p>Block GSD "Automatic Suspend" notifications</p>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+      <issues>
+        <issue url="https://github.com/elementary/notifications/issues/208">All notifications' settings belong to the other category</issue>
+        <issue url="https://github.com/elementary/notifications/issues/212">Invisible notification blocking input</issue>
+      </issues>
+    </release>
+
+    <release version="7.0.0" date="2023-07-03" urgency="medium">
+      <description>
         <p>Increase sound and brightness notifications width to match other notifications</p>
         <p>Minor Updates:</p>
         <ul>
@@ -65,6 +78,7 @@
         </ul>
       </description>
     </release>
+
     <release version="6.0.1" date="2022-04-06" urgency="medium">
       <description>
         <p>Minor Updates:</p>
@@ -74,17 +88,7 @@
         </ul>
       </description>
     </release>
-    <release version="6.0.0" date="2021-07-19" urgency="medium">
-      <description>
-        <p>Complete rewrite:</p>
-        <ul>
-          <li>Support the dark style</li>
-          <li>Action buttons</li>
-          <li>Optional badge icons</li>
-          <li>Automatically badge images with app icons</li>
-          <li>Swipe away to dismiss</li>
-        </ul>
-      </description>
-    </release>
+
+    <release version="6.0.0" date="2021-07-19" urgency="medium" />
   </releases>
 </component>
