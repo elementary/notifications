@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-29 08:38+0000\n"
-"PO-Revision-Date: 2023-04-07 17:59+0000\n"
-"Last-Translator: Thierry Flament <thierry.flament@outlook.com>\n"
+"PO-Revision-Date: 2023-08-02 17:08+0000\n"
+"Last-Translator: DutchVipperloid <svenroelof@e.email>\n"
 "Language-Team: Dutch <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.16.4\n"
+"X-Generator: Weblate 4.17\n"
 
 #: data/notifications.appdata.xml.in:9
 msgid "Notifications"
@@ -53,7 +53,7 @@ msgstr "Kleine updates:"
 #: data/notifications.appdata.xml.in:40 data/notifications.appdata.xml.in:52
 #: data/notifications.appdata.xml.in:62 data/notifications.appdata.xml.in:71
 msgid "Updated translations"
-msgstr "Bijgewerkte vertalingen"
+msgstr "Geüpdatete vertalingen"
 
 #: data/notifications.appdata.xml.in:61
 msgid "Fix missing icon when set from icon name"
