@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2019-2022 elementary, Inc. <contact@elementary.io> -->
-<component type="desktop-application">
+<!-- Copyright 2019-2023 elementary, Inc. <contact@elementary.io> -->
+<component>
   <id>io.elementary.notifications</id>
+  <translation type="gettext">io.elementary.notifications</translation>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
-  <translation type="gettext">io.elementary.notifications</translation>
+  <compulsory_for_desktop>Pantheon</compulsory_for_desktop>
 
   <name>Notifications</name>
   <summary>Notification bubbles and sounds for the desktop</summary>
@@ -12,7 +13,6 @@
     <p>A notification server for Pantheon</p>
   </description>
   <icon type="stock">preferences-system-notifications</icon>
-  <compulsory_for_desktop>Pantheon</compulsory_for_desktop>
 
   <content_rating type="oars-1.1" />
 
