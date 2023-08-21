@@ -40,6 +40,7 @@
         </ul>
       </description>
       <issues>
+        <issue url="https://github.com/elementary/notifications/issues/104">Notifications are closed automatically with reason expired</issue>
         <issue url="https://github.com/elementary/notifications/issues/208">All notifications' settings belong to the other category</issue>
         <issue url="https://github.com/elementary/notifications/issues/212">Invisible notification blocking input</issue>
       </issues>
