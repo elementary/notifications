@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-29 08:38+0000\n"
+"POT-Creation-Date: 2023-08-18 17:21+0000\n"
 "PO-Revision-Date: 2022-08-07 23:26+0000\n"
 "Last-Translator: Jung-Kyu Park <bagjunggyu@gmail.com>\n"
 "Language-Team: Korean <https://l10n.elementary.io/projects/desktop/"
@@ -19,70 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.4.2\n"
 
-#: data/notifications.appdata.xml.in:9
+#: data/notifications.metainfo.xml.in:10
 msgid "Notifications"
 msgstr "알림"
 
-#: data/notifications.appdata.xml.in:10
+#: data/notifications.metainfo.xml.in:11
 msgid "Notification bubbles and sounds for the desktop"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:12
+#: data/notifications.metainfo.xml.in:13
 msgid "A notification server for Pantheon"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:29
+#: data/notifications.metainfo.xml.in:29
 msgid "elementary, Inc."
 msgstr "elementary, Inc."
 
-#: data/notifications.appdata.xml.in:36
+#: data/notifications.metainfo.xml.in:36
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:37
+#: data/notifications.metainfo.xml.in:37 data/notifications.metainfo.xml.in:51
+#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:74
+#: data/notifications.metainfo.xml.in:84
+msgid "Minor Updates:"
+msgstr ""
+
+#: data/notifications.metainfo.xml.in:39 data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:67 data/notifications.metainfo.xml.in:77
+#: data/notifications.metainfo.xml.in:87
+msgid "Updated translations"
+msgstr "최신 번역"
+
+#: data/notifications.metainfo.xml.in:50
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:38 data/notifications.appdata.xml.in:50
-#: data/notifications.appdata.xml.in:59 data/notifications.appdata.xml.in:68
-msgid "Minor Updates:"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:40 data/notifications.appdata.xml.in:52
-#: data/notifications.appdata.xml.in:62 data/notifications.appdata.xml.in:71
-msgid "Updated translations"
-msgstr "최신 번역"
-
-#: data/notifications.appdata.xml.in:61
+#: data/notifications.metainfo.xml.in:76
 msgid "Fix missing icon when set from icon name"
 msgstr ""
 
-#: data/notifications.appdata.xml.in:70
+#: data/notifications.metainfo.xml.in:86
 msgid "Performance improvements"
 msgstr "성능 개선"
-
-#: data/notifications.appdata.xml.in:77
-msgid "Complete rewrite:"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:79
-msgid "Support the dark style"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:80
-msgid "Action buttons"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:81
-msgid "Optional badge icons"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:82
-msgid "Automatically badge images with app icons"
-msgstr ""
-
-#: data/notifications.appdata.xml.in:83
-msgid "Swipe away to dismiss"
-msgstr ""
