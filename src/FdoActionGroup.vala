@@ -62,8 +62,8 @@ public sealed class Notifications.Fdo.ActionGroup : Object, GLib.ActionGroup {
     public override bool query_action (
         string action_name,
         out bool enabled,
-        out VariantType parameter_type,
-        out VariantType state_type,
+        out unowned VariantType parameter_type,
+        out unowned VariantType state_type,
         out Variant state_hint,
         out Variant state
     ) {
