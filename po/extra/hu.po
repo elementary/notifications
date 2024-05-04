@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-18 17:21+0000\n"
+"POT-Creation-Date: 2024-05-04 08:30+0000\n"
 "PO-Revision-Date: 2023-07-10 21:07+0000\n"
 "Last-Translator: TomiOhl <ohlslager.tom@gmail.com>\n"
 "Language-Team: Hungarian <https://l10n.elementary.io/projects/desktop/"
@@ -31,27 +31,23 @@ msgstr "Értesítési buborékok és hangok az asztalon"
 msgid "A notification server for Pantheon"
 msgstr "Értesítéskiszolgáló a Pantheonhoz"
 
-#: data/notifications.metainfo.xml.in:29
-msgid "elementary, Inc."
-msgstr "elementary, Inc."
-
-#: data/notifications.metainfo.xml.in:36
+#: data/notifications.metainfo.xml.in:38
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr "A GSD \"Automatikus felfüggesztés\" értesítéseinek letiltása"
 
-#: data/notifications.metainfo.xml.in:37 data/notifications.metainfo.xml.in:51
-#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:74
-#: data/notifications.metainfo.xml.in:84
+#: data/notifications.metainfo.xml.in:39 data/notifications.metainfo.xml.in:54
+#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:77
+#: data/notifications.metainfo.xml.in:87
 msgid "Minor Updates:"
 msgstr "Kisebb frissítések:"
 
-#: data/notifications.metainfo.xml.in:39 data/notifications.metainfo.xml.in:53
-#: data/notifications.metainfo.xml.in:67 data/notifications.metainfo.xml.in:77
-#: data/notifications.metainfo.xml.in:87
+#: data/notifications.metainfo.xml.in:41 data/notifications.metainfo.xml.in:56
+#: data/notifications.metainfo.xml.in:70 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:90
 msgid "Updated translations"
 msgstr "Frissített fordítások"
 
-#: data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:53
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
@@ -59,13 +55,16 @@ msgstr ""
 "A hang-és fényerőállítási értesítések szélessége növelve az egyéb "
 "értesítések szélességére"
 
-#: data/notifications.metainfo.xml.in:76
+#: data/notifications.metainfo.xml.in:79
 msgid "Fix missing icon when set from icon name"
 msgstr "Hiányzó ikon javítva az ikonnévből való megállapítás után"
 
-#: data/notifications.metainfo.xml.in:86
+#: data/notifications.metainfo.xml.in:89
 msgid "Performance improvements"
 msgstr "Teljesítménybeli javítások"
+
+#~ msgid "elementary, Inc."
+#~ msgstr "elementary, Inc."
 
 #~ msgid "Complete rewrite:"
 #~ msgstr "Teljes újraírás:"
