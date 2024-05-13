@@ -33,6 +33,18 @@
   <update_contact>contact_at_elementary.io</update_contact>
 
   <releases>
+    <release version="8.0.0" date="2024-05-13" urgency="medium">
+      <description>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+      <issues>
+        <issue url="https://github.com/elementary/notifications/issues/222">FTBFS with Vala 0.56.16</issue>
+      </issues>
+    </release>
+
     <release version="7.0.1" date="2023-08-21" urgency="medium">
       <description>
         <p>Block GSD "Automatic Suspend" notifications</p>
@@ -82,16 +94,7 @@
       </description>
     </release>
 
-    <release version="6.0.1" date="2022-04-06" urgency="medium">
-      <description>
-        <p>Minor Updates:</p>
-        <ul>
-          <li>Performance improvements</li>
-          <li>Updated translations</li>
-        </ul>
-      </description>
-    </release>
-
+    <release version="6.0.1" date="2022-04-06" urgency="medium" />
     <release version="6.0.0" date="2021-07-19" urgency="medium" />
   </releases>
 </component>
