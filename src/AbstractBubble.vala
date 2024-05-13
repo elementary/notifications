@@ -105,13 +105,15 @@ public class Notifications.AbstractBubble : Gtk.Window {
         close_request.connect (on_close);
     }
 
-    private void on_close () {
+    private bool on_close (Gtk.Window window) {
         revealer.reveal_child = false;
 
         Timeout.add (revealer.transition_duration, () => {
             destroy ();
             return Source.REMOVE;
         });
+
+        return Gdk.EVENT_STOP;
     }
 
     public new void present () {
