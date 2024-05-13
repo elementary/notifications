@@ -38,17 +38,19 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
     }
 
     private Notification _notification;
-    private Gtk.GestureMultiPress press_gesture;
+    private Gtk.GestureClick click_gesture;
 
     public Bubble (Notification notification) {
         Object (notification: notification);
     }
 
     construct {
-        press_gesture = new Gtk.GestureMultiPress (this) {
+        click_gesture = new Gtk.GestureMultiPress () {
             propagation_phase = BUBBLE
         };
-        press_gesture.released.connect (released);
+        click_gesture.released.connect (released);
+
+        add_controller (click_gesture);
     }
 
     private void released () {
@@ -59,7 +61,7 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
                 }
 
                 get_action_group (prefix).activate_action (action_name[prefix.length + 1:], action_target);
-                press_gesture.set_state (CLAIMED);
+                click_gesture.set_state (CLAIMED);
                 return;
             }
 
@@ -77,7 +79,7 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
             });
         }
 
-        press_gesture.set_state (CLAIMED);
+        click_gesture.set_state (CLAIMED);
     }
 
     // Gtk.Actionable impl

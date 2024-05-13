@@ -35,6 +35,7 @@ executable(
         dependency ('gio-2.0'),
         dependency ('granite-7', version: '>=7.0.0'),
         dependency ('gtk4'),
+        dependency ('gtk4-x11'),
         dependency ('libadwaita-1')
     ],
     install : true

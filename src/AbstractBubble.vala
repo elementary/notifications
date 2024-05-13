@@ -103,7 +103,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         motion_controller.leave.connect (pointer_leave);
     }
 
-    protected override bool delete_event (Gdk.EventAny event) {
+    protected override bool delete_event () {
         revealer.reveal_child = false;
 
         Timeout.add (revealer.transition_duration, () => {
