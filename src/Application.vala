@@ -52,7 +52,7 @@ public class Notifications.Application : Gtk.Application {
             gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
         });
 
-        unowned var context = CanberraGtk.context_get ();
+        unowned var context = CanberraGtk4.context_get ();
         context.change_props (
             Canberra.PROP_APPLICATION_NAME, "Notifications",
             Canberra.PROP_APPLICATION_ID, application_id,

@@ -158,6 +158,7 @@ public class Notifications.Server : Object {
                         bubbles[id].insert_action_group ("fdo", action_group);
                         bubbles[id].close_request.connect (() => {
                             bubbles[id] = null;
+                            return Gdk.EVENT_STOP;
                         });
                         bubbles[id].closed.connect ((res) => {
                             if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
@@ -208,6 +209,7 @@ public class Notifications.Server : Object {
             );
             confirmation.close_request.connect (() => {
                 confirmation = null;
+                return Gdk.EVENT_STOP;
             });
         } else {
             confirmation.icon_name = icon_name;
@@ -228,7 +230,7 @@ public class Notifications.Server : Object {
         props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
         props.sets (Canberra.PROP_EVENT_ID, sound_name);
 
-        CanberraGtk.context_get ().play_full (0, props);
+        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     static unowned string category_to_sound_name (string category) {

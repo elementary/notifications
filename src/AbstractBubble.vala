@@ -122,7 +122,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
             timeout_id = 0;
         }
 
-        get_child ().show_all ();
         show ();
 
         if (timeout != 0) {

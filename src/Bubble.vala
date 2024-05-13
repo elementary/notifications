@@ -10,7 +10,7 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
     }
 
     public new Variant action_target {
-        get { return get_action_target_value (); }
+        owned get { return get_action_target_value (); }
         set { set_action_target_value (value); }
     }
 
@@ -24,15 +24,14 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
             timeout = 0;
 
             var contents = new Contents (value);
-            contents.show_all ();
 
             if (value.priority == URGENT) {
-                contents.get_style_context ().add_class ("urgent");
+                contents.add_css_class ("urgent");
             } else {
                 timeout = 4000;
             }
 
-            content_area.add (contents);
+            content_area.add_child (contents);
             content_area.visible_child = contents;
         }
     }
@@ -55,15 +54,16 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
 
     private void released () {
         if (action_name != null) {
-            foreach (unowned var prefix in list_action_prefixes ()) {
-                if (!action_name.has_prefix (prefix)) {
-                    continue;
-                }
+            // FIXME: what the action
+            // foreach (unowned var prefix in list_action_prefixes ()) {
+            //     if (!action_name.has_prefix (prefix)) {
+            //         continue;
+            //     }
 
-                get_action_group (prefix).activate_action (action_name[prefix.length + 1:], action_target);
-                click_gesture.set_state (CLAIMED);
-                return;
-            }
+            //     get_action_group (prefix).activate_action (action_name[prefix.length + 1:], action_target);
+            //     click_gesture.set_state (CLAIMED);
+            //     return;
+            // }
 
             warning ("cannot activate action '%s': no action group match prefix.", action_name);
         }
@@ -117,14 +117,14 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
                 app_image.pixel_size = 24;
                 app_image.halign = app_image.valign = Gtk.Align.END;
 
-                image_overlay.add (notification.image);
+                image_overlay.child = notification.image;
                 image_overlay.add_overlay (app_image);
             } else {
                 app_image.pixel_size = 48;
-                image_overlay.add (app_image);
+                image_overlay.child = app_image;
 
                 if (notification.badge_icon != null) {
-                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
+                    var badge_image = new Gtk.Image.from_gicon (notification.badge_icon) {
                         halign = Gtk.Align.END,
                         valign = Gtk.Align.END,
                         pixel_size = 24
@@ -140,7 +140,7 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
                 width_chars = 33,
                 xalign = 0
             };
-            title_label.get_style_context ().add_class ("title");
+            title_label.add_css_class ("title");
 
             var body_label = new Gtk.Label (notification.body) {
                 ellipsize = Pango.EllipsizeMode.END,
@@ -175,10 +175,10 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
                     halign = Gtk.Align.END,
                     homogeneous = true
                 };
-                action_area.get_style_context ().add_class ("buttonbox");
+                action_area.add_css_class ("buttonbox");
 
                 foreach (var button in notification.buttons) {
-                    action_area.pack_end (new Gtk.Button.with_label (button.label) {
+                    action_area.append (new Gtk.Button.with_label (button.label) {
                         action_name = button.action_name
                     });
                 }
