@@ -45,12 +45,12 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
     }
 
     construct {
-        click_gesture = new Gtk.GestureMultiPress () {
+        click_gesture = new Gtk.GestureClick () {
             propagation_phase = BUBBLE
         };
         click_gesture.released.connect (released);
 
-        add_controller (click_gesture);
+        ((Gtk.Widget) this).add_controller (click_gesture);
     }
 
     private void released () {
@@ -87,7 +87,7 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
         return notification.default_action_name;
     }
 
-    public unowned Variant get_action_target_value () {
+    public unowned Variant? get_action_target_value () {
         return notification.default_action_target;
     }
 

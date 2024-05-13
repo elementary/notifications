@@ -156,7 +156,9 @@ public class Notifications.Server : Object {
                     } else {
                         bubbles[id] = new Bubble (notification);
                         bubbles[id].insert_action_group ("fdo", action_group);
-                        bubbles[id].destroy.connect (() => bubbles[id] = null);
+                        bubbles[id].close_request.connect (() => {
+                            bubbles[id] = null;
+                        });
                         bubbles[id].closed.connect ((res) => {
                             if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
                                 return;
@@ -204,7 +206,7 @@ public class Notifications.Server : Object {
                 icon_name,
                 progress_value
             );
-            confirmation.destroy.connect (() => {
+            confirmation.close_request.connect (() => {
                 confirmation = null;
             });
         } else {
