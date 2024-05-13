@@ -37,7 +37,7 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         image.gicon = mask_pixbuf (pixbuf, scale);
         image.pixel_size = ICON_SIZE;
 
-        add (image);
+        child = image;
         add_overlay (mask);
     }
 
@@ -54,8 +54,9 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, mask_size, mask_size);
         var cr = new Cairo.Context (surface);
 
-        Granite.Drawing.Utilities.cairo_rounded_rectangle (cr, offset_x, offset_y, size, size, mask_offset);
-        cr.clip ();
+        // FIXME: Do it in CSS
+        // Granite.Drawing.Utilities.cairo_rounded_rectangle (cr, offset_x, offset_y, size, size, mask_offset);
+        // cr.clip ();
 
         Gdk.cairo_set_source_pixbuf (cr, input, offset_x, offset_y);
         cr.paint ();
