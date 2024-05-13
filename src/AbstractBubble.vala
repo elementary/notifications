@@ -101,17 +101,17 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
+
+        close_request.connect (on_close);
     }
 
-    protected override bool delete_event () {
+    private void on_close () {
         revealer.reveal_child = false;
 
         Timeout.add (revealer.transition_duration, () => {
             destroy ();
             return Source.REMOVE;
         });
-
-        return Gdk.EVENT_STOP;
     }
 
     public new void present () {
