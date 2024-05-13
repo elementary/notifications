@@ -36,6 +36,10 @@ window,
     padding: 6px;
 }
 
+.notification .draw-area {
+    margin: 16px;
+}
+
 .notification:not(.confirmation) .draw-area image {
     -gtk-icon-style: regular;
 }

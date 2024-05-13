@@ -39,13 +39,12 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
 
         draw_area = new Gtk.Grid () {
-            hexpand = true,
-            margin = 16
+            hexpand = true
         };
         draw_area.get_style_context ().add_class ("draw-area");
         draw_area.add (content_area);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
+        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", LARGE_TOOLBAR) {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START
         };
