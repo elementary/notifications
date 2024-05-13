@@ -25,6 +25,7 @@ window,
         0 1px 2px alpha (#000, 0.16),
         0 2px 3px alpha (#000, 0.23);
     margin: 3px;
+    -gtk-icon-size: 24px;
 }
 
 .close image {
@@ -34,6 +35,10 @@ window,
 
 .notification stack > grid {
     padding: 6px;
+}
+
+.notification.draw-area image {
+    margin: 16px;
 }
 
 .notification:not(.confirmation) .draw-area image {

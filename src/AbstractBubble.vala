@@ -27,7 +27,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     private Gtk.Revealer close_revealer;
     private Gtk.Revealer revealer;
-    private Gtk.Grid draw_area;
+    private Gtk.Box draw_area;
 
     private Gtk.EventControllerMotion motion_controller;
     private uint timeout_id;
@@ -38,14 +38,13 @@ public class Notifications.AbstractBubble : Gtk.Window {
             vhomogeneous = false
         };
 
-        draw_area = new Gtk.Grid () {
-            hexpand = true,
-            margin = 16
+        draw_area = new Gtk.Box (HORIZONTAL, 0) {
+            hexpand = true
         };
         draw_area.add_css_class ("draw-area");
-        draw_area.add (content_area);
+        draw_area.append (content_area);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
+        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic")  {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START
         };
