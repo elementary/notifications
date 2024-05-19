@@ -115,11 +115,11 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
                 app_image.pixel_size = 24;
                 app_image.halign = app_image.valign = Gtk.Align.END;
 
-                image_overlay.add (notification.image);
+                image_overlay.child = notification.image;
                 image_overlay.add_overlay (app_image);
             } else {
                 app_image.pixel_size = 48;
-                image_overlay.add (app_image);
+                image_overlay.child = app_image;
 
                 if (notification.badge_icon != null) {
                     var badge_image = new Gtk.Image.from_gicon (notification.badge_icon, Gtk.IconSize.LARGE_TOOLBAR) {
