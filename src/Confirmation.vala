@@ -55,6 +55,6 @@ public class Notifications.Confirmation : AbstractBubble {
         get_style_context ().add_class ("confirmation");
 
         bind_property ("icon-name", image, "icon-name");
-        bind_property ("progress", progressbar, "fraction");
+        bind_property ("progress", progressbar, "fraction", SYNC_CREATE);
     }
 }
