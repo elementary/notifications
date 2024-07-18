@@ -39,8 +39,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
 
         draw_area = new Gtk.Grid () {
-            hexpand = true,
-            margin = 16
+            hexpand = true
         };
         draw_area.get_style_context ().add_class ("draw-area");
         draw_area.add (content_area);

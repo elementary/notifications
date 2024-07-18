@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-04 08:30+0000\n"
+"POT-Creation-Date: 2024-05-13 16:38+0000\n"
 "PO-Revision-Date: 2023-07-01 08:07+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://l10n.elementary.io/projects/desktop/"
@@ -32,23 +32,23 @@ msgstr "Бульбашки сповіщень та звуки для стіль�
 msgid "A notification server for Pantheon"
 msgstr "Сервер сповіщень для Pantheon"
 
-#: data/notifications.metainfo.xml.in:38
-msgid "Block GSD \"Automatic Suspend\" notifications"
-msgstr "Блокування сповіщень GSD \"Автоматичне призупинення\""
-
-#: data/notifications.metainfo.xml.in:39 data/notifications.metainfo.xml.in:54
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:77
-#: data/notifications.metainfo.xml.in:87
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
+#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:89
 msgid "Minor Updates:"
 msgstr "Незначні оновлення:"
 
-#: data/notifications.metainfo.xml.in:41 data/notifications.metainfo.xml.in:56
-#: data/notifications.metainfo.xml.in:70 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:90
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
+#: data/notifications.metainfo.xml.in:92
 msgid "Updated translations"
 msgstr "Оновлені переклади"
 
-#: data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:50
+msgid "Block GSD \"Automatic Suspend\" notifications"
+msgstr "Блокування сповіщень GSD \"Автоматичне призупинення\""
+
+#: data/notifications.metainfo.xml.in:65
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
@@ -56,13 +56,12 @@ msgstr ""
 "Збільшено ширину сповіщень звуку та яскравості, щоб вони узгоджувалися з "
 "іншими сповіщеннями"
 
-#: data/notifications.metainfo.xml.in:79
+#: data/notifications.metainfo.xml.in:91
 msgid "Fix missing icon when set from icon name"
 msgstr "Виправлено відсутність піктограми, коли встановлено з назви піктограми"
 
-#: data/notifications.metainfo.xml.in:89
-msgid "Performance improvements"
-msgstr "Поліпшення швидкодії"
+#~ msgid "Performance improvements"
+#~ msgstr "Поліпшення швидкодії"
 
 #~ msgid "elementary, Inc."
 #~ msgstr "elementary, Inc."

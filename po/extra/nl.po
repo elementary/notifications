@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-04 08:30+0000\n"
-"PO-Revision-Date: 2023-08-02 17:08+0000\n"
+"POT-Creation-Date: 2024-05-13 16:38+0000\n"
+"PO-Revision-Date: 2024-05-30 20:13+0000\n"
 "Last-Translator: DutchVipperloid <svenroelof@e.email>\n"
 "Language-Team: Dutch <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/nl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.5\n"
 
 #: data/notifications.metainfo.xml.in:10
 msgid "Notifications"
@@ -31,35 +31,34 @@ msgstr "Notificatie-bubbels en geluiden voor het bureaublad"
 msgid "A notification server for Pantheon"
 msgstr "Een notificatie-server voor Pantheon"
 
-#: data/notifications.metainfo.xml.in:38
-msgid "Block GSD \"Automatic Suspend\" notifications"
-msgstr ""
-
-#: data/notifications.metainfo.xml.in:39 data/notifications.metainfo.xml.in:54
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:77
-#: data/notifications.metainfo.xml.in:87
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
+#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:89
 msgid "Minor Updates:"
 msgstr "Kleine updates:"
 
-#: data/notifications.metainfo.xml.in:41 data/notifications.metainfo.xml.in:56
-#: data/notifications.metainfo.xml.in:70 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:90
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
+#: data/notifications.metainfo.xml.in:92
 msgid "Updated translations"
 msgstr "Geüpdatete vertalingen"
 
-#: data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:50
+msgid "Block GSD \"Automatic Suspend\" notifications"
+msgstr "Blokkeer GSD \"automatisch sluimeren\" notificaties"
+
+#: data/notifications.metainfo.xml.in:65
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
 
-#: data/notifications.metainfo.xml.in:79
+#: data/notifications.metainfo.xml.in:91
 msgid "Fix missing icon when set from icon name"
 msgstr "Verbeter missend icoon wanneer ingesteld van icoon naam"
 
-#: data/notifications.metainfo.xml.in:89
-msgid "Performance improvements"
-msgstr "Prestatieverbeteringen"
+#~ msgid "Performance improvements"
+#~ msgstr "Prestatieverbeteringen"
 
 #~ msgid "elementary, Inc."
 #~ msgstr "elementary, Inc."

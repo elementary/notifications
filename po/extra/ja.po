@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-04 08:30+0000\n"
+"POT-Creation-Date: 2024-05-13 16:38+0000\n"
 "PO-Revision-Date: 2024-05-09 14:13+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://l10n.elementary.io/projects/desktop/"
@@ -31,36 +31,35 @@ msgstr "デスクトップに通知バブルを表示しサウンドを再生し
 msgid "A notification server for Pantheon"
 msgstr "Pantheon 向けの通知サーバーです"
 
-#: data/notifications.metainfo.xml.in:38
-msgid "Block GSD \"Automatic Suspend\" notifications"
-msgstr "GSD の \"自動サスペンド\" の通知を無効化"
-
-#: data/notifications.metainfo.xml.in:39 data/notifications.metainfo.xml.in:54
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:77
-#: data/notifications.metainfo.xml.in:87
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
+#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:89
 msgid "Minor Updates:"
 msgstr "そのほかのアップデート:"
 
-#: data/notifications.metainfo.xml.in:41 data/notifications.metainfo.xml.in:56
-#: data/notifications.metainfo.xml.in:70 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:90
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
+#: data/notifications.metainfo.xml.in:92
 msgid "Updated translations"
 msgstr "翻訳の更新"
 
-#: data/notifications.metainfo.xml.in:53
+#: data/notifications.metainfo.xml.in:50
+msgid "Block GSD \"Automatic Suspend\" notifications"
+msgstr "GSD の \"自動サスペンド\" の通知を無効化"
+
+#: data/notifications.metainfo.xml.in:65
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr "音量/輝度変更の通知の幅を、ほかの通知に合わせて広げる修正を追加"
 
-#: data/notifications.metainfo.xml.in:79
+#: data/notifications.metainfo.xml.in:91
 msgid "Fix missing icon when set from icon name"
 msgstr ""
 "アイコン名を指定して通知を送信すると、アイコンが表示されない不具合を修正"
 
-#: data/notifications.metainfo.xml.in:89
-msgid "Performance improvements"
-msgstr "パフォーマンスの改善"
+#~ msgid "Performance improvements"
+#~ msgstr "パフォーマンスの改善"
 
 #~ msgid "elementary, Inc."
 #~ msgstr "elementary, Inc."
