@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 16:38+0000\n"
-"PO-Revision-Date: 2020-01-16 16:30-0800\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-08-07 18:17+0000\n"
+"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Language-Team: English (Canada) <https://l10n.elementary.io/projects/desktop/"
+"notifications-extra/en_CA/>\n"
 "Language: en_CA\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #: data/notifications.metainfo.xml.in:10
 msgid "Notifications"
@@ -39,7 +41,7 @@ msgstr ""
 #: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
 #: data/notifications.metainfo.xml.in:92
 msgid "Updated translations"
-msgstr ""
+msgstr "Updated translations"
 
 #: data/notifications.metainfo.xml.in:50
 msgid "Block GSD \"Automatic Suspend\" notifications"
