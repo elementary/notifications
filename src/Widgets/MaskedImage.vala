@@ -31,10 +31,8 @@ public class Notifications.MaskedImage : Gtk.Overlay {
         var mask = new Gtk.Image.from_resource ("/io/elementary/notifications/image-mask.svg");
         mask.pixel_size = ICON_SIZE;
 
-        var scale = get_style_context ().get_scale ();
-
         var image = new Gtk.Image ();
-        image.gicon = mask_pixbuf (pixbuf, scale);
+        image.gicon = mask_pixbuf (pixbuf, scale_factor);
         image.pixel_size = ICON_SIZE;
 
         child = image;
