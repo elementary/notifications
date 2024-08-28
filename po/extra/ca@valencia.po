@@ -1,27 +1,24 @@
-# English translations for extra package.
-# Copyright (C) 2020 THE extra'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the extra package.
-# Automatically generated, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 16:38+0000\n"
-"PO-Revision-Date: 2024-08-07 18:17+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
-"Language-Team: English (Canada) <https://l10n.elementary.io/projects/desktop/"
-"notifications-extra/en_CA/>\n"
-"Language: en_CA\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
 
 #: data/notifications.metainfo.xml.in:10
 msgid "Notifications"
-msgstr "Notifications"
+msgstr ""
 
 #: data/notifications.metainfo.xml.in:11
 msgid "Notification bubbles and sounds for the desktop"
@@ -41,7 +38,7 @@ msgstr ""
 #: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
 #: data/notifications.metainfo.xml.in:92
 msgid "Updated translations"
-msgstr "Updated translations"
+msgstr ""
 
 #: data/notifications.metainfo.xml.in:50
 msgid "Block GSD \"Automatic Suspend\" notifications"
@@ -56,6 +53,3 @@ msgstr ""
 #: data/notifications.metainfo.xml.in:91
 msgid "Fix missing icon when set from icon name"
 msgstr ""
-
-#~ msgid "elementary, Inc."
-#~ msgstr "elementary, Inc."

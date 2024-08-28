@@ -1,6 +1,6 @@
 project(
     'io.elementary.notifications', 'vala', 'c',
-    version: '7.0.1',
+    version: '8.0.0',
     meson_version : '>= 0.57'
 )
 
