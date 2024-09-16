@@ -27,7 +27,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     private Gtk.Revealer close_revealer;
     private Gtk.Revealer revealer;
-    private Gtk.Grid draw_area;
+    private Gtk.Box draw_area;
 
     private Gtk.EventControllerMotion motion_controller;
     private uint timeout_id;
@@ -38,17 +38,17 @@ public class Notifications.AbstractBubble : Gtk.Window {
             vhomogeneous = false
         };
 
-        draw_area = new Gtk.Grid () {
+        draw_area = new Gtk.Box (HORIZONTAL, 0) {
             hexpand = true
         };
-        draw_area.get_style_context ().add_class ("draw-area");
-        draw_area.add (content_area);
+        draw_area.add_css_class ("draw-area");
+        draw_area.append (content_area);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic", Gtk.IconSize.LARGE_TOOLBAR) {
+        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic")  {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START
         };
-        close_button.get_style_context ().add_class ("close");
+        close_button.add_css_class ("close");
 
         close_revealer = new Gtk.Revealer () {
             reveal_child = false,
@@ -70,24 +70,23 @@ public class Notifications.AbstractBubble : Gtk.Window {
             child = overlay
         };
 
-        var carousel = new Hdy.Carousel () {
+        var carousel = new Adw.Carousel () {
             allow_mouse_drag = true,
             interactive = true,
             halign = Gtk.Align.END,
             hexpand = true
         };
-        carousel.add (new Gtk.Grid ());
-        carousel.add (revealer);
-        carousel.scroll_to (revealer);
+        carousel.append (new Gtk.Grid ());
+        carousel.append (revealer);
+        carousel.scroll_to (revealer, true);
 
         child = carousel;
         default_height = 0;
         default_width = 332;
         resizable = false;
-        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
-        get_style_context ().add_class ("notification");
+        add_css_class ("notification");
         // Prevent stealing focus when an app window is closed
-        set_accept_focus (false);
+        can_focus = false;
         set_titlebar (new Gtk.Grid ());
 
         // we have only one real page, so we don't need to check the index
@@ -95,14 +94,18 @@ public class Notifications.AbstractBubble : Gtk.Window {
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         closed.connect (close);
 
-        motion_controller = new Gtk.EventControllerMotion (carousel) {
+        motion_controller = new Gtk.EventControllerMotion () {
             propagation_phase = TARGET
         };
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
+
+        carousel.add_controller (motion_controller);
+
+        close_request.connect (on_close);
     }
 
-    protected override bool delete_event (Gdk.EventAny event) {
+    private bool on_close (Gtk.Window window) {
         revealer.reveal_child = false;
 
         Timeout.add (revealer.transition_duration, () => {
@@ -119,7 +122,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
             timeout_id = 0;
         }
 
-        get_child ().show_all ();
         show ();
 
         if (timeout != 0) {
