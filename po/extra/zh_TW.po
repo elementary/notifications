@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 16:38+0000\n"
-"PO-Revision-Date: 2024-09-07 17:04+0000\n"
+"PO-Revision-Date: 2024-09-20 09:43+0000\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Chinese (Traditional) <https://l10n.elementary.io/projects/"
 "desktop/notifications-extra/zh_Hant/>\n"
@@ -55,7 +55,7 @@ msgstr "增加音效和亮度通知的寬度來符合其他通知"
 
 #: data/notifications.metainfo.xml.in:91
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "修正傳送通知時指定圖示名稱卻無法顯示圖示的問題"
 
 #~ msgid "elementary, Inc."
 #~ msgstr "elementary, Inc."
