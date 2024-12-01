@@ -64,6 +64,10 @@ window,
     animation: urgent 1.25s ease-in-out;
 }
 
+masked-image {
+    margin: 5px 4px 3px;
+}
+
 @keyframes urgent {
     0% { -gtk-icon-transform: scale(1) rotate(0deg); }
     10% { -gtk-icon-transform: scale(0.8) rotate(30deg); }
