@@ -55,7 +55,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
             transition_type = Gtk.RevealerTransitionType.CROSSFADE,
             halign = Gtk.Align.START,
             valign = Gtk.Align.START,
-            child = close_button
+            child = close_button,
+            overflow = VISIBLE
         };
 
         var overlay = new Gtk.Overlay () {
@@ -122,7 +123,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             timeout_id = 0;
         }
 
-        show ();
+        base.present ();
 
         if (timeout != 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);

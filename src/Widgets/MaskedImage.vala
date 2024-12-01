@@ -18,7 +18,7 @@
 *
 */
 
-public class Notifications.MaskedImage : Gtk.Overlay {
+public class Notifications.MaskedImage : Granite.Bin {
     private const int ICON_SIZE = 48;
 
     public Gdk.Pixbuf pixbuf { get; construct; }
@@ -28,15 +28,11 @@ public class Notifications.MaskedImage : Gtk.Overlay {
     }
 
     construct {
-        var mask = new Gtk.Image.from_resource ("/io/elementary/notifications/image-mask.svg");
-        mask.pixel_size = ICON_SIZE;
-
         var image = new Gtk.Image ();
         image.gicon = mask_pixbuf (pixbuf, scale_factor);
         image.pixel_size = ICON_SIZE;
 
         child = image;
-        add_overlay (mask);
     }
 
     private static Gdk.Pixbuf? mask_pixbuf (Gdk.Pixbuf pixbuf, int scale) {
