@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 16:38+0000\n"
-"PO-Revision-Date: 2020-03-01 15:09+0000\n"
-"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2024-09-20 09:43+0000\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Chinese (Traditional) <https://l10n.elementary.io/projects/"
 "desktop/notifications-extra/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.9.1\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #: data/notifications.metainfo.xml.in:10
 msgid "Notifications"
@@ -25,37 +25,37 @@ msgstr "通知"
 
 #: data/notifications.metainfo.xml.in:11
 msgid "Notification bubbles and sounds for the desktop"
-msgstr ""
+msgstr "桌面用的通知氣泡和音效"
 
 #: data/notifications.metainfo.xml.in:13
 msgid "A notification server for Pantheon"
-msgstr ""
+msgstr "Pantheon 用的通知伺服器"
 
 #: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
 #: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
 #: data/notifications.metainfo.xml.in:89
 msgid "Minor Updates:"
-msgstr ""
+msgstr "小型更新："
 
 #: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
 #: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
 #: data/notifications.metainfo.xml.in:92
 msgid "Updated translations"
-msgstr ""
+msgstr "更新翻譯"
 
 #: data/notifications.metainfo.xml.in:50
 msgid "Block GSD \"Automatic Suspend\" notifications"
-msgstr ""
+msgstr "停用 GSD 的「自動暫停」通知"
 
 #: data/notifications.metainfo.xml.in:65
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
-msgstr ""
+msgstr "增加音效和亮度通知的寬度來符合其他通知"
 
 #: data/notifications.metainfo.xml.in:91
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "修正傳送通知時指定圖示名稱卻無法顯示圖示的問題"
 
 #~ msgid "elementary, Inc."
 #~ msgstr "elementary, Inc."
