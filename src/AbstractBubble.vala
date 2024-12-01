@@ -77,9 +77,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
             halign = Gtk.Align.END,
             hexpand = true
         };
-        carousel.append (new Gtk.Grid ());
         carousel.append (revealer);
-        carousel.scroll_to (revealer, true);
+        carousel.append (new Gtk.Grid ());
 
         child = carousel;
         default_height = 0;
