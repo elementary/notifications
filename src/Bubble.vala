@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
+public class Notifications.Bubble : AbstractBubble {
     public new string action_name {
-        get { return get_action_name (); }
-        set { set_action_name (value); }
+        get { return notification.default_action_name; }
     }
 
-    public new Variant action_target {
-        owned get { return get_action_target_value (); }
-        set { set_action_target_value (value); }
-    }
+    // public new Variant action_target {
+    //     owned get { return get_action_target_value (); }
+    //     set { set_action_target_value (value); }
+    // }
 
     public Notification notification {
         get {
@@ -82,21 +81,20 @@ public class Notifications.Bubble : AbstractBubble, Gtk.Actionable {
         click_gesture.set_state (CLAIMED);
     }
 
-    // Gtk.Actionable impl
-    public unowned string? get_action_name () {
-        return notification.default_action_name;
-    }
+    // public unowned string? get_action_name () {
+    //     return notification.default_action_name;
+    // }
 
-    public unowned Variant? get_action_target_value () {
-        return notification.default_action_target;
-    }
+    // public unowned Variant? get_action_target_value () {
+    //     return notification.default_action_target;
+    // }
 
     // we ignore the set methods because we query the notification model instead.
-    public void set_action_name (string? @value) {
-    }
+    // public void set_action_name (string? @value) {
+    // }
 
-    public void set_action_target_value (Variant? @value) {
-    }
+    // public void set_action_target_value (Variant? @value) {
+    // }
 
     private class Contents : Gtk.Grid {
         public Notifications.Notification notification { get; construct; }
