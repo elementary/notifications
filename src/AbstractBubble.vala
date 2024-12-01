@@ -44,7 +44,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         draw_area.add_css_class ("draw-area");
         draw_area.append (content_area);
 
-        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic")  {
+        var close_button = new Gtk.Button.from_icon_name ("window-close-symbolic") {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START
         };
