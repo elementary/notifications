@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-13 16:38+0000\n"
-"PO-Revision-Date: 2024-05-09 14:13+0000\n"
+"PO-Revision-Date: 2024-12-12 05:36+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://l10n.elementary.io/projects/desktop/"
 "notifications-extra/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5\n"
+"X-Generator: Weblate 5.8.4\n"
 
 #: data/notifications.metainfo.xml.in:10
 msgid "Notifications"
@@ -35,7 +35,7 @@ msgstr "Pantheon 向けの通知サーバーです"
 #: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
 #: data/notifications.metainfo.xml.in:89
 msgid "Minor Updates:"
-msgstr "そのほかのアップデート:"
+msgstr "マイナーアップデート:"
 
 #: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
 #: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
