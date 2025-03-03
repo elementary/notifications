@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema path="/io/elementary/notifications/" id="io.elementary.notifications">
+    <key type="as" name="applications">
+      <default>[]</default>
+      <summary>Applications that have sent notifications. Used in the switchboard</summary>
+    </key>
     <key type="b" name="do-not-disturb">
       <default>false</default>
       <summary>Disable all notifications</summary>
@@ -23,6 +27,10 @@
     <key type="b" name="remember">
       <default>true</default>
       <summary>Show missed notifications in notification center</summary>
+    </key>
+    <key type="b" name="has-app">
+      <default>true</default>
+      <summary>Does a corresponding .desktop entry file exist</summary>
     </key>
   </schema>
 </schemalist>
