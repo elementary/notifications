@@ -122,7 +122,7 @@ public class Notifications.Notification : GLib.Object {
             var image_path = variant.get_string ();
 
             // GLib.Notification also sends icon names via this hint
-            if (Gtk.IconTheme.get_default ().has_icon (image_path) && image_path != app_icon) {
+            if (Gtk.IconTheme.get_for_display (Gdk.Display.get_default ()).has_icon (image_path) && image_path != app_icon) {
                 badge_icon = new ThemedIcon (image_path);
             } else if (image_path.has_prefix ("/") || image_path.has_prefix ("file://")) {
                 try {
