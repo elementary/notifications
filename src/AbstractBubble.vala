@@ -100,6 +100,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
+
+        var a11y_object = get_accessible ();
+        a11y_object.accessible_role = NOTIFICATION;
     }
 
     protected override bool delete_event (Gdk.EventAny event) {
