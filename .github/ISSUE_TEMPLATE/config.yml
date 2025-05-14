@@ -5,3 +5,6 @@ contact_links:
   - name: Report an issue with Notifications Settings
     url: https://github.com/elementary/switchboard-plug-notifications/issues/new/choose/
     about: If your issue is related to System Settings → Notifications
+  - name: Ask a question or get help
+    url: https://elementary.io/support
+    about: Get help with community-provided tech support
