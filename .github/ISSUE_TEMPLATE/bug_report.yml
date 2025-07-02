@@ -49,10 +49,23 @@ body:
 
   - type: dropdown
     attributes:
+      label: OS Architecture
+      description: The architecture of elementary OS you are using
+      options:
+        - amd64 (on most hardwares)
+        - arm64 (on Raspberry Pi, Apple Silicon, etc.)
+        - amd64 and arm64 (I have tested on both)
+        - Other Architecture (unofficial, community-supported)
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
       label: Session Type
       options:
         - Classic Session (X11, This is the default)
         - Secure Session (Wayland)
+        - Classic and Secure Sessions (I have tested in both)
     validations:
       required: true
 
