@@ -32,6 +32,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private Gtk.EventControllerMotion motion_controller;
     private uint timeout_id;
 
+    private Pantheon.Desktop.Shell? desktop_shell;
+    private Pantheon.Desktop.Panel? desktop_panel;
+
     construct {
         content_area = new Gtk.Stack () {
             transition_type = Gtk.StackTransitionType.SLIDE_DOWN,
@@ -101,6 +104,15 @@ public class Notifications.AbstractBubble : Gtk.Window {
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
 
+        realize.connect (() => {
+            if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
+                //  We have to wrap in Idle otherwise the Meta.Window of the WaylandSurface in Gala is still null
+                Idle.add_once (init_wl);
+            } else {
+                init_x ();
+            }
+        });
+
         var a11y_object = get_accessible ();
         a11y_object.accessible_role = NOTIFICATION;
     }
@@ -150,5 +162,49 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private bool timeout_expired () {
         closed (Notifications.Server.CloseReason.EXPIRED);
         return Source.REMOVE;
+    }
+
+    private void init_x () {
+        var display = Gdk.Display.get_default ();
+        if (display is Gdk.X11.Display) {
+            unowned var xdisplay = ((Gdk.X11.Display) display).get_xdisplay ();
+
+            var window = ((Gdk.X11.Window) get_window ()).get_xid ();
+            var prop = xdisplay.intern_atom ("_MUTTER_HINTS", false);
+            var value = "blur=16,16,16,16,9";
+
+            xdisplay.change_property (window, prop, X.XA_STRING, 8, 0, (uchar[]) value, value.length);
+        }
+    }
+
+    private static Wl.RegistryListener registry_listener;
+    private void init_wl () {
+        registry_listener.global = registry_handle_global;
+        unowned var display = Gdk.Display.get_default ();
+        if (display is Gdk.Wayland.Display) {
+            unowned var wl_display = ((Gdk.Wayland.Display) display).get_wl_display ();
+            var wl_registry = wl_display.get_registry ();
+            wl_registry.add_listener (
+                registry_listener,
+                this
+            );
+
+            if (wl_display.roundtrip () < 0) {
+                return;
+            }
+        }
+    }
+
+        public void registry_handle_global (Wl.Registry wl_registry, uint32 name, string @interface, uint32 version) {
+        if (@interface == "io_elementary_pantheon_shell_v1") {
+            desktop_shell = wl_registry.bind<Pantheon.Desktop.Shell> (name, ref Pantheon.Desktop.Shell.iface, uint32.min (version, 1));
+            unowned var window = get_window ();
+            if (window is Gdk.Wayland.Window) {
+                unowned var wl_surface = ((Gdk.Wayland.Window) window).get_wl_surface ();
+                desktop_panel = desktop_shell.get_panel (wl_surface);
+                // TODO: Use same approach for radius as dock
+                desktop_panel.add_blur (16, 16, 16, 16, 9);
+            }
+        }
     }
 }

@@ -16,6 +16,11 @@ css_gresource = gnome.compile_resources(
     source_dir: 'data'
 )
 
+subdir('protocol')
+subdir('data')
+subdir('demo')
+subdir('po')
+
 executable(
     meson.project_name(),
     'src/AbstractBubble.vala',
@@ -28,20 +33,20 @@ executable(
     'src/Widgets/MaskedImage.vala',
     css_gresource,
     dependencies: [
-        dependency ('libcanberra'),
-        dependency ('libcanberra-gtk3'),
-        dependency ('glib-2.0'),
-        dependency ('gobject-2.0'),
-        dependency ('gio-2.0'),
-        dependency ('granite', version: '>=5.4.0'),
-        dependency ('gtk+-3.0'),
-        dependency ('libhandy-1')
+        dependency('libcanberra'),
+        dependency('libcanberra-gtk3'),
+        dependency('glib-2.0'),
+        dependency('gobject-2.0'),
+        dependency('gio-2.0'),
+        dependency('granite', version: '>=5.4.0'),
+        dependency('gdk-wayland-3.0'),
+        dependency('gdk-x11-3.0'),
+        dependency('gtk+-3.0'),
+        dependency('libhandy-1'),
+        dependency('wayland-client'),
+        pantheon_desktop_shell_dep
     ],
     install : true
 )
-
-subdir('data')
-subdir('demo')
-subdir('po')
 
 gnome.post_install(glib_compile_schemas: true)
