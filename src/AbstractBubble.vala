@@ -25,7 +25,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     protected Gtk.Stack content_area;
 
-    private Hdy.Carousel carousel;
     private Gtk.Revealer close_revealer;
     private Gtk.Revealer revealer;
     private Gtk.Grid draw_area;
@@ -33,6 +32,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private Gtk.EventControllerMotion motion_controller;
     private uint timeout_id;
 
+    private double current_swipe_progress = 1.0;
     private Pantheon.Desktop.Shell? desktop_shell;
     private Pantheon.Desktop.Panel? desktop_panel;
 
@@ -74,7 +74,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             child = overlay
         };
 
-        carousel = new Hdy.Carousel () {
+        var carousel = new Hdy.Carousel () {
             allow_mouse_drag = true,
             interactive = true,
             halign = Gtk.Align.END,
@@ -99,12 +99,13 @@ public class Notifications.AbstractBubble : Gtk.Window {
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         closed.connect (close);
 
-        carousel.notify["position"].connect (() => {
+        carousel.get_swipe_tracker ().update_swipe.connect ((progress) => {
+            current_swipe_progress = progress;
+
             if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
                 int left, right;
                 get_blur_margins (out left, out right);
 
-                // TODO: Use same approach for radius as dock
                 desktop_panel.add_blur (left, right, 16, 16, 9);
             } else {
                 init_x ();
@@ -178,9 +179,10 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     private void get_blur_margins (out int left, out int right) {
-        var distance = carousel.position * width_request;
-        left = (int) (16 + distance).clamp (0, width_request);
-        right = (int) (16 - distance).clamp (0, width_request);
+        var width = get_allocated_width ();
+        var distance = (1 - current_swipe_progress) * width;
+        left = (int) (16 + distance).clamp (0, width);
+        right = (int) (16 - distance).clamp (0, width);
     }
 
     private void init_x () {
@@ -225,7 +227,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
             if (window is Gdk.Wayland.Window) {
                 unowned var wl_surface = ((Gdk.Wayland.Window) window).get_wl_surface ();
                 desktop_panel = desktop_shell.get_panel (wl_surface);
-                // TODO: Use same approach for radius as dock
                 desktop_panel.add_blur (16, 16, 16, 16, 9);
             }
         }
