@@ -25,6 +25,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     protected Gtk.Stack content_area;
 
+    private Hdy.Carousel carousel;
     private Gtk.Revealer close_revealer;
     private Gtk.Revealer revealer;
     private Gtk.Grid draw_area;
@@ -73,7 +74,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             child = overlay
         };
 
-        var carousel = new Hdy.Carousel () {
+        carousel = new Hdy.Carousel () {
             allow_mouse_drag = true,
             interactive = true,
             halign = Gtk.Align.END,
@@ -97,6 +98,18 @@ public class Notifications.AbstractBubble : Gtk.Window {
         carousel.page_changed.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         closed.connect (close);
+
+        carousel.notify["position"].connect (() => {
+            if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
+                int left, right;
+                get_blur_margins (out left, out right);
+
+                // TODO: Use same approach for radius as dock
+                desktop_panel.add_blur (left, right, 16, 16, 9);
+            } else {
+                init_x ();
+            }
+        });
 
         motion_controller = new Gtk.EventControllerMotion (carousel) {
             propagation_phase = TARGET
@@ -164,6 +177,12 @@ public class Notifications.AbstractBubble : Gtk.Window {
         return Source.REMOVE;
     }
 
+    private void get_blur_margins (out int left, out int right) {
+        var distance = carousel.position * width_request;
+        left = (int) (16 + distance).clamp (0, width_request);
+        right = (int) (16 - distance).clamp (0, width_request);
+    }
+
     private void init_x () {
         var display = Gdk.Display.get_default ();
         if (display is Gdk.X11.Display) {
@@ -171,7 +190,11 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
             var window = ((Gdk.X11.Window) get_window ()).get_xid ();
             var prop = xdisplay.intern_atom ("_MUTTER_HINTS", false);
-            var value = "blur=16,16,16,16,9";
+
+            int left, right;
+            get_blur_margins (out left, out right);
+
+            var value = "blur=%d,%d,16,16,9".printf (left, right);
 
             xdisplay.change_property (window, prop, X.XA_STRING, 8, 0, (uchar[]) value, value.length);
         }
@@ -195,7 +218,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         }
     }
 
-        public void registry_handle_global (Wl.Registry wl_registry, uint32 name, string @interface, uint32 version) {
+    public void registry_handle_global (Wl.Registry wl_registry, uint32 name, string @interface, uint32 version) {
         if (@interface == "io_elementary_pantheon_shell_v1") {
             desktop_shell = wl_registry.bind<Pantheon.Desktop.Shell> (name, ref Pantheon.Desktop.Shell.iface, uint32.min (version, 1));
             unowned var window = get_window ();
