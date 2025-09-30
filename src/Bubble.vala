@@ -8,10 +8,9 @@ public class Notifications.Bubble : AbstractBubble {
         get { return notification.default_action_name; }
     }
 
-    // public new Variant action_target {
-    //     owned get { return get_action_target_value (); }
-    //     set { set_action_target_value (value); }
-    // }
+    public new Variant action_target {
+       get { return notification.default_action_target; }
+    }
 
     public Notification notification {
         get {
@@ -53,16 +52,10 @@ public class Notifications.Bubble : AbstractBubble {
 
     private void released () {
         if (action_name != null) {
-            // FIXME: what the action
-            // foreach (unowned var prefix in list_action_prefixes ()) {
-            //     if (!action_name.has_prefix (prefix)) {
-            //         continue;
-            //     }
-
-            //     get_action_group (prefix).activate_action (action_name[prefix.length + 1:], action_target);
-            //     click_gesture.set_state (CLAIMED);
-            //     return;
-            // }
+            if (activate_action_variant (action_name, action_target)) {
+                click_gesture.set_state (CLAIMED);
+                return;
+            };
 
             warning ("cannot activate action '%s': no action group match prefix.", action_name);
         }
@@ -80,21 +73,6 @@ public class Notifications.Bubble : AbstractBubble {
 
         click_gesture.set_state (CLAIMED);
     }
-
-    // public unowned string? get_action_name () {
-    //     return notification.default_action_name;
-    // }
-
-    // public unowned Variant? get_action_target_value () {
-    //     return notification.default_action_target;
-    // }
-
-    // we ignore the set methods because we query the notification model instead.
-    // public void set_action_name (string? @value) {
-    // }
-
-    // public void set_action_target_value (Variant? @value) {
-    // }
 
     private class Contents : Gtk.Grid {
         public Notifications.Notification notification { get; construct; }
