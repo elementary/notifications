@@ -103,6 +103,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
         carousel.add_controller (motion_controller);
 
         close_request.connect (on_close);
+
+        accessible_role = BANNER;
     }
 
     private bool on_close (Gtk.Window window) {
