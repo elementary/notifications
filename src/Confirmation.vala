@@ -38,7 +38,7 @@ public class Notifications.Confirmation : AbstractBubble {
 
         var progressbar = new Gtk.ProgressBar () {
             hexpand = true,
-            valign = Gtk.Align.CENTER,
+            valign = CENTER,
             margin_end = 6,
             width_request = 258
         };

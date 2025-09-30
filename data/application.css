@@ -32,7 +32,7 @@ window,
     -gtk-icon-shadow: 0 1px 1px alpha(#000, 0.6);
 }
 
-.notification stack > grid {
+.notification stack > * {
     padding: 6px;
 }
 
