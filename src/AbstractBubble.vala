@@ -77,8 +77,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
             halign = Gtk.Align.END,
             hexpand = true
         };
-        carousel.append (revealer);
         carousel.append (new Gtk.Grid ());
+        carousel.append (revealer);
+        carousel.scroll_to (revealer, false);
 
         child = carousel;
         default_height = 0;
@@ -89,8 +90,11 @@ public class Notifications.AbstractBubble : Gtk.Window {
         can_focus = false;
         set_titlebar (new Gtk.Grid ());
 
-        // we have only one real page, so we don't need to check the index
-        carousel.page_changed.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
+        carousel.page_changed.connect ((index) => {
+            if (index == 0) {
+                closed (Notifications.Server.CloseReason.DISMISSED);
+            }
+        });
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
         closed.connect (close);
 
