@@ -4,14 +4,6 @@
  */
 
 public class Notifications.Bubble : AbstractBubble {
-    public new string action_name {
-        get { return notification.default_action_name; }
-    }
-
-    public new Variant action_target {
-       get { return notification.default_action_target; }
-    }
-
     public Notification notification {
         get {
             return _notification;
@@ -51,13 +43,13 @@ public class Notifications.Bubble : AbstractBubble {
     }
 
     private void released () {
-        if (action_name != null) {
-            if (activate_action_variant (action_name, action_target)) {
+        if (notification.default_action_name != null) {
+            if (activate_action_variant (notification.default_action_name, notification.default_action_target)) {
                 click_gesture.set_state (CLAIMED);
                 return;
             };
 
-            warning ("cannot activate action '%s': no action group match prefix.", action_name);
+            warning ("cannot activate action '%s': no action group match prefix.", notification.default_action_name);
         }
 
         if (notification.app_info != null) {
