@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/io/elementary/notifications">
-    <file alias="application.css" compressed="true">application.css</file>
-    <file alias="image-mask.svg" compressed="true">image-mask.svg</file>
+    <file alias="Application.css" compressed="true">application.css</file>
   </gresource>
 </gresources>
