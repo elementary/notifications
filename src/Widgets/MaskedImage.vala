@@ -37,9 +37,8 @@ public class Notifications.MaskedImage : Granite.Bin {
             pixel_size = ICON_SIZE
         };
 
-        add_css_class (Granite.STYLE_CLASS_CARD);
-        add_css_class (Granite.STYLE_CLASS_CHECKERBOARD);
-        add_css_class (Granite.STYLE_CLASS_ROUNDED);
+        add_css_class (Granite.CssClass.CARD);
+        add_css_class (Granite.CssClass.CHECKERBOARD);
         overflow = HIDDEN;
 
         child = image;
