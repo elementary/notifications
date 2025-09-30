@@ -183,10 +183,6 @@ public class Notifications.Bubble : AbstractBubble {
 
                 attach (action_area, 0, 2, 2);
             }
-
-            var a11y_object = get_accessible ();
-            a11y_object.accessible_name = title_label.label;
-            a11y_object.accessible_description = body_label.label;
         }
     }
 }
