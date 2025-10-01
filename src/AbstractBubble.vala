@@ -148,14 +148,14 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         base.present ();
 
-        if (!IdleMonitor.get_default ().is_idle) {
+        if (!IdleMonitor.get_default ().is_idle && timeout != 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);
         }
     }
 
     private void check_idle_status () {
-        if (!IdleMonitor.get_default ().is_idle && timeout_id == 0) {
-            Timeout.add (timeout, timeout_expired);
+        if (!IdleMonitor.get_default ().is_idle && timeout_id == 0 && timeout != 0) {
+            timeout_id = Timeout.add (timeout, timeout_expired);
         }
     }
 
@@ -171,7 +171,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private void pointer_leave () {
         close_revealer.reveal_child = false;
 
-        if (timeout == 0) {
+        if (timeout_id == 0 && timeout != 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);
         }
     }
