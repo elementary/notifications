@@ -25,7 +25,7 @@ public class MainWindow : Gtk.ApplicationWindow {
     private Gtk.Entry body_entry;
     private Gtk.Entry icon_entry;
     private Gtk.Entry id_entry;
-    private Gtk.ComboBoxText priority_combobox;
+    private Gtk.DropDown priority_dropdown;
     private Gtk.SpinButton action_spinbutton;
 
     public MainWindow (Gtk.Application application) {
@@ -60,51 +60,56 @@ public class MainWindow : Gtk.ApplicationWindow {
 
         var priority_label = new Gtk.Label ("Priority:");
 
-        priority_combobox = new Gtk.ComboBoxText () {
-            hexpand = true
+        string[] priorities = {
+            "Low",
+            "Normal",
+            "High",
+            "Urgent",
         };
-        priority_combobox.append_text ("Low");
-        priority_combobox.append_text ("Normal");
-        priority_combobox.append_text ("High");
-        priority_combobox.append_text ("Urgent");
-        priority_combobox.set_active (1);
+        priority_dropdown = new Gtk.DropDown.from_strings (priorities) {
+            hexpand = true,
+            selected = 1
+        };
 
         var action_label = new Gtk.Label ("Actions:");
 
         action_spinbutton = new Gtk.SpinButton.with_range (0, 3, 1);
 
         var send_button = new Gtk.Button.with_label ("Send Notification") {
-            can_default = true,
             halign = Gtk.Align.END,
             margin_top = 12
         };
-        send_button.get_style_context ().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION);
+        send_button.add_css_class (Granite.CssClass.SUGGESTED);
 
         var grid = new Gtk.Grid () {
             valign = Gtk.Align.CENTER,
             column_spacing = 12,
             row_spacing = 12,
-            margin = 12
+            margin_top = 12,
+            margin_bottom = 12,
+            margin_start = 12,
+            margin_end = 12
         };
         grid.attach (title_entry, 0, 0, 2);
         grid.attach (body_entry, 0, 1, 2);
         grid.attach (id_entry, 0, 2, 2);
         grid.attach (icon_entry, 0, 3, 2);
         grid.attach (priority_label, 0, 4);
-        grid.attach (priority_combobox, 1, 4);
+        grid.attach (priority_dropdown, 1, 4);
         grid.attach (action_label, 0, 5);
         grid.attach (action_spinbutton, 1, 5);
         grid.attach (send_button, 0, 6, 2);
 
-        var toast = new Granite.Widgets.Toast ("");
+        var toast = new Granite.Toast ("");
 
-        var overlay = new Gtk.Overlay ();
-        overlay.add (grid);
+        var overlay = new Gtk.Overlay () {
+            child = grid
+        };
         overlay.add_overlay (toast);
 
-        add (overlay);
+        child = overlay;
 
-        send_button.has_default = true;
+        send_button.grab_focus ();
         send_button.clicked.connect (send_notification);
 
         var toast_action = new SimpleAction ("toast", VariantType.STRING);
@@ -119,7 +124,7 @@ public class MainWindow : Gtk.ApplicationWindow {
 
     private void send_notification () {
         NotificationPriority priority;
-        switch (priority_combobox.active) {
+        switch (priority_dropdown.selected) {
             case 3:
                 priority = NotificationPriority.URGENT;
                 break;
