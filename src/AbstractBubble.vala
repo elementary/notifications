@@ -19,17 +19,17 @@
 */
 
 public class Notifications.AbstractBubble : Gtk.Window {
-    public signal void closed (uint32 reason);
+    public signal void closed (uint32 reason) {
+        close ();
+    }
 
     public uint32 timeout { get; set; }
 
     protected Gtk.Stack content_area;
 
     private Gtk.Revealer close_revealer;
-    private Gtk.Revealer revealer;
     private Gtk.Box draw_area;
 
-    private Gtk.EventControllerMotion motion_controller;
     private uint timeout_id;
 
     private double current_swipe_progress = 1.0;
@@ -69,25 +69,14 @@ public class Notifications.AbstractBubble : Gtk.Window {
         };
         overlay.add_overlay (close_revealer);
 
-        revealer = new Gtk.Revealer () {
-            reveal_child = true,
-            transition_duration = 195,
-            transition_type = Gtk.RevealerTransitionType.CROSSFADE,
-            child = overlay
-        };
-
         var carousel = new Adw.Carousel () {
-            allow_mouse_drag = true,
-            interactive = true,
-            halign = Gtk.Align.END,
             hexpand = true
         };
         carousel.append (new Gtk.Grid ());
-        carousel.append (revealer);
-        carousel.scroll_to (revealer, false);
+        carousel.append (overlay);
+        carousel.scroll_to (overlay, false);
 
         child = carousel;
-        default_height = 0;
         default_width = 332;
         resizable = false;
         add_css_class ("notification");
@@ -101,17 +90,11 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
         close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
-        closed.connect (close);
 
-        motion_controller = new Gtk.EventControllerMotion () {
-            propagation_phase = TARGET
-        };
+        var motion_controller = new Gtk.EventControllerMotion ();
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
-
         carousel.add_controller (motion_controller);
-
-        close_request.connect (on_close);
 
         child.realize.connect (() => {
             if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
@@ -134,17 +117,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
                 init_x ();
             }
         });
-    }
-
-    private bool on_close (Gtk.Window window) {
-        revealer.reveal_child = false;
-
-        Timeout.add (revealer.transition_duration, () => {
-            destroy ();
-            return Source.REMOVE;
-        });
-
-        return Gdk.EVENT_PROPAGATE;
     }
 
     public new void present () {

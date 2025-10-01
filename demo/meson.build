@@ -3,8 +3,8 @@ executable(
     'Application.vala',
     'MainWindow.vala',
     dependencies : [
-        dependency ('granite'),
-        dependency ('gtk+-3.0'),
+        dependency ('granite-7', version: '>=7.7.0'),
+        dependency ('gtk4'),
     ],
     install : true
 )
