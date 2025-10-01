@@ -158,7 +158,7 @@ public class Notifications.Server : Object {
                         bubbles[id].insert_action_group ("fdo", action_group);
                         bubbles[id].close_request.connect (() => {
                             bubbles[id] = null;
-                            return Gdk.EVENT_STOP;
+                            return Gdk.EVENT_PROPAGATE;
                         });
                         bubbles[id].closed.connect ((res) => {
                             if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
@@ -209,7 +209,7 @@ public class Notifications.Server : Object {
             );
             confirmation.close_request.connect (() => {
                 confirmation = null;
-                return Gdk.EVENT_STOP;
+                return Gdk.EVENT_PROPAGATE;
             });
         } else {
             confirmation.icon_name = icon_name;
