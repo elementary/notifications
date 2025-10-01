@@ -144,6 +144,12 @@ public class Notifications.Server : Object {
                 notification.buttons.add ({ label, action_name });
             }
 
+            var apps = settings.get_strv("applications");
+            if (!(notification.app_id in apps)) {
+                apps += notification.app_id;
+                settings.set_strv("applications", apps);
+            }
+
             if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
