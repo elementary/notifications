@@ -27,10 +27,23 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     protected Gtk.Stack content_area;
 
+    private static Settings? transparency_settings;
+
     private Gtk.Revealer close_revealer;
     private Gtk.Box draw_area;
 
     private uint timeout_id;
+
+    private double current_swipe_progress = 1.0;
+    private Pantheon.Desktop.Shell? desktop_shell;
+    private Pantheon.Desktop.Panel? desktop_panel;
+
+    static construct {
+        var transparency_schema = SettingsSchemaSource.get_default ().lookup ("io.elementary.desktop.wingpanel", true);
+        if (transparency_schema != null && transparency_schema.has_key ("use-transparency")) {
+            transparency_settings = new Settings ("io.elementary.desktop.wingpanel");
+        }
+    }
 
     construct {
         content_area = new Gtk.Stack () {
@@ -90,6 +103,39 @@ public class Notifications.AbstractBubble : Gtk.Window {
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
         carousel.add_controller (motion_controller);
+
+        child.realize.connect (() => {
+            if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
+                //  We have to wrap in Idle otherwise the Meta.Window of the WaylandSurface in Gala is still null
+                Idle.add_once (init_wl);
+            } else {
+                init_x ();
+            }
+        });
+
+        carousel.notify["position"].connect (() => {
+            current_swipe_progress = carousel.position;
+
+            if (desktop_panel != null) {
+                int left, right;
+                get_blur_margins (out left, out right);
+
+                desktop_panel.add_blur (left, right, 16, 16, 9);
+            } else if (Gdk.Display.get_default () is Gdk.X11.Display) {
+                init_x ();
+            }
+        });
+
+        transparency_settings.changed["use-transparency"].connect (update_transparency);
+        update_transparency ();
+    }
+
+    private void update_transparency () requires (transparency_settings != null) {
+        if (transparency_settings.get_boolean ("use-transparency")) {
+            remove_css_class ("reduce-transparency");
+        } else {
+            add_css_class ("reduce-transparency");
+        }
     }
 
     public new void present () {
@@ -125,5 +171,60 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private bool timeout_expired () {
         closed (Notifications.Server.CloseReason.EXPIRED);
         return Source.REMOVE;
+    }
+
+
+    private void get_blur_margins (out int left, out int right) {
+        var width = get_width ();
+        var distance = (1 - current_swipe_progress) * width;
+        left = (int) (16 + distance).clamp (0, width);
+        right = (int) (16 - distance).clamp (0, width);
+    }
+
+    private void init_x () {
+        var display = Gdk.Display.get_default ();
+        if (display is Gdk.X11.Display) {
+            unowned var xdisplay = ((Gdk.X11.Display) display).get_xdisplay ();
+
+            var window = ((Gdk.X11.Surface) get_surface ()).get_xid ();
+            var prop = xdisplay.intern_atom ("_MUTTER_HINTS", false);
+
+            int left, right;
+            get_blur_margins (out left, out right);
+
+            var value = "blur=%d,%d,16,16,9".printf (left, right);
+
+            xdisplay.change_property (window, prop, X.XA_STRING, 8, 0, (uchar[]) value, value.length);
+        }
+    }
+
+    private static Wl.RegistryListener registry_listener;
+    private void init_wl () {
+        registry_listener.global = registry_handle_global;
+        unowned var display = Gdk.Display.get_default ();
+        if (display is Gdk.Wayland.Display) {
+            unowned var wl_display = ((Gdk.Wayland.Display) display).get_wl_display ();
+            var wl_registry = wl_display.get_registry ();
+            wl_registry.add_listener (
+                registry_listener,
+                this
+            );
+
+            if (wl_display.roundtrip () < 0) {
+                return;
+            }
+        }
+    }
+
+    public void registry_handle_global (Wl.Registry wl_registry, uint32 name, string @interface, uint32 version) {
+        if (@interface == "io_elementary_pantheon_shell_v1") {
+            desktop_shell = wl_registry.bind<Pantheon.Desktop.Shell> (name, ref Pantheon.Desktop.Shell.iface, uint32.min (version, 1));
+            unowned var surface = get_surface ();
+            if (surface is Gdk.Wayland.Surface) {
+                unowned var wl_surface = ((Gdk.Wayland.Surface) surface).get_wl_surface ();
+                desktop_panel = desktop_shell.get_panel (wl_surface);
+                desktop_panel.add_blur (16, 16, 16, 16, 9);
+            }
+        }
     }
 }

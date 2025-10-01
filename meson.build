@@ -15,6 +15,8 @@ css_gresource = gnome.compile_resources(
     source_dir: 'data'
 )
 
+subdir('protocol')
+
 executable(
     meson.project_name(),
     'src/AbstractBubble.vala',
@@ -34,8 +36,12 @@ executable(
         dependency ('gio-2.0'),
         dependency ('granite-7', version: '>=7.7.0'),
         dependency ('gtk4'),
+        dependency('gtk4-wayland'),
+        dependency('gtk4-x11'),
         dependency ('gtk4-x11'),
-        dependency ('libadwaita-1')
+        dependency ('libadwaita-1'),
+        dependency('wayland-client'),
+        pantheon_desktop_shell_dep
     ],
     install : true
 )

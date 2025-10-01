@@ -44,6 +44,12 @@ window,
 
 .notification .draw-area {
     margin: 16px;
+    background: alpha(@base_color, 0.8);
+}
+
+.notification.reduce-transparency .draw-area {
+    margin: 16px;
+    background: @base_color;
 }
 
 .notification:not(.confirmation) .draw-area image {
