@@ -128,6 +128,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         transparency_settings.changed["use-transparency"].connect (update_transparency);
         update_transparency ();
+
+        IdleMonitor.get_default ().notify["is-idle"].connect (check_idle_status);
     }
 
     private void update_transparency () requires (transparency_settings != null) {
@@ -146,8 +148,14 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         base.present ();
 
-        if (timeout != 0) {
+        if (!IdleMonitor.get_default ().is_idle) {
             timeout_id = Timeout.add (timeout, timeout_expired);
+        }
+    }
+
+    private void check_idle_status () {
+        if (!IdleMonitor.get_default ().is_idle && timeout_id == 0) {
+            Timeout.add (timeout, timeout_expired);
         }
     }
 
@@ -163,7 +171,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private void pointer_leave () {
         close_revealer.reveal_child = false;
 
-        if (timeout != 0) {
+        if (timeout == 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);
         }
     }
