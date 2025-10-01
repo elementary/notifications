@@ -108,8 +108,8 @@ public class MainWindow : Gtk.ApplicationWindow {
         overlay.add_overlay (toast);
 
         child = overlay;
+        default_widget = send_button;
 
-        send_button.grab_focus ();
         send_button.clicked.connect (send_notification);
 
         var toast_action = new SimpleAction ("toast", VariantType.STRING);
