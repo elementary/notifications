@@ -27,6 +27,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     protected Gtk.Stack content_area;
 
+    private static Settings? transparency_settings;
+
     private Gtk.Revealer close_revealer;
     private Gtk.Box draw_area;
 
@@ -36,6 +38,12 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private Pantheon.Desktop.Shell? desktop_shell;
     private Pantheon.Desktop.Panel? desktop_panel;
 
+    static construct {
+        var transparency_schema = SettingsSchemaSource.get_default ().lookup ("io.elementary.desktop.wingpanel", true);
+        if (transparency_schema != null && transparency_schema.has_key ("use-transparency")) {
+            transparency_settings = new Settings ("io.elementary.desktop.wingpanel");
+        }
+    }
 
     construct {
         content_area = new Gtk.Stack () {
@@ -117,6 +125,17 @@ public class Notifications.AbstractBubble : Gtk.Window {
                 init_x ();
             }
         });
+
+        transparency_settings.changed["use-transparency"].connect (update_transparency);
+        update_transparency ();
+    }
+
+    private void update_transparency () requires (transparency_settings != null) {
+        if (transparency_settings.get_boolean ("use-transparency")) {
+            remove_css_class ("reduce-transparency");
+        } else {
+            add_css_class ("reduce-transparency");
+        }
     }
 
     public new void present () {
