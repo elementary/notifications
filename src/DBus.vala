@@ -238,8 +238,10 @@ public class Notifications.Server : Object {
 
         switch (category) {
             case "call":
-            case "call.ended":
                 sound = "dialog-information";
+                break;
+            case "call.ended":
+                sound = "phone-hangup";
                 break;
             case "call.incoming":
                 sound = "phone-incoming-call";
