@@ -38,6 +38,7 @@ public class Notifications.Notification : GLib.Object {
     public Variant default_action_target { get; set; }
 
     public GenericArray<Button?> buttons { get; set; }
+    public bool action_icons { get; set; default = false; }
 
     private static Regex entity_regex;
     private static Regex tag_regex;
