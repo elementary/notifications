@@ -89,7 +89,7 @@ public class Notifications.Server : Object {
         name = "io.elementary.notifications";
         vendor = "elementaryOS";
         version = "0.1";
-        spec_version = "1.2";
+        spec_version = "1.3";
     }
 
     public new uint32 notify (
@@ -243,6 +243,18 @@ public class Notifications.Server : Object {
         unowned string sound;
 
         switch (category) {
+            case "call":
+                sound = "dialog-information";
+                break;
+            case "call.ended":
+                sound = "phone-hangup";
+                break;
+            case "call.incoming":
+                sound = "phone-incoming-call";
+                break;
+            case "call.unanswered":
+                sound = "phone-outgoing-busy";
+                break;
             case "device.added":
                 sound = "device-added";
                 break;
