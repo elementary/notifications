@@ -239,10 +239,13 @@ public class Notifications.Server : Object {
         switch (category) {
             case "call":
             case "call.ended":
-            case "call.incoming":
-            case "call.unanswered":
-                // We probably should use "phone-incoming-call" but it sounds awful in freedesktop theme
                 sound = "dialog-information";
+                break;
+            case "call.incoming":
+                sound = "phone-incoming-call";
+                break;
+            case "call.unanswered":
+                sound = "phone-outgoing-busy";
                 break;
             case "device.added":
                 sound = "device-added";
