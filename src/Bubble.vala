@@ -145,10 +145,27 @@ public class Notifications.Bubble : AbstractBubble {
                 };
                 action_area.add_css_class ("buttonbox");
 
-                foreach (var button in notification.buttons) {
-                    action_area.append (new Gtk.Button.with_label (button.label) {
-                        action_name = button.action_name
-                    });
+                if (!notification.action_icons) {
+                    action_area.add_css_class ("text-buttons");
+                }
+
+                foreach (var action in notification.buttons) {
+                    var button = new Gtk.Button () {
+                        action_name = action.action_name
+                    };
+
+                    if (notification.action_icons) {
+                        var action_name_split = action.action_name.split (".");
+
+                        button.child = new Gtk.Image.from_icon_name (action_name_split[action_name_split.length - 1]) {
+                            icon_size = LARGE
+                        };
+                        button.add_css_class (Granite.CssClass.CIRCULAR);
+                    } else {
+                        button.child = new Gtk.Label (action.label);
+                    }
+
+                    action_area.append (button);
                 }
 
                 attach (action_area, 0, 2, 2);
