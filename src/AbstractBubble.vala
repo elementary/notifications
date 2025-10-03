@@ -109,7 +109,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
                 //  We have to wrap in Idle otherwise the Meta.Window of the WaylandSurface in Gala is still null
                 Idle.add_once (init_wl);
             } else {
-                init_x ();
+                x11_make_notification ();
+                x11_update_mutter_hints ();
             }
         });
 
@@ -122,7 +123,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
                 desktop_panel.add_blur (left, right, 16, 16, 9);
             } else if (Gdk.Display.get_default () is Gdk.X11.Display) {
-                init_x ();
+                x11_update_mutter_hints ();
             }
         });
 
@@ -181,7 +182,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         right = (int) (16 - distance).clamp (0, width);
     }
 
-    private void init_x () {
+    private void x11_update_mutter_hints () {
         var display = Gdk.Display.get_default ();
         if (display is Gdk.X11.Display) {
             unowned var xdisplay = ((Gdk.X11.Display) display).get_xdisplay ();
@@ -195,6 +196,23 @@ public class Notifications.AbstractBubble : Gtk.Window {
             var value = "blur=%d,%d,16,16,9".printf (left, right);
 
             xdisplay.change_property (window, prop, X.XA_STRING, 8, 0, (uchar[]) value, value.length);
+        }
+    }
+
+    private void x11_make_notification () {
+        unowned var display = Gdk.Display.get_default ();
+        if (display is Gdk.X11.Display) {
+            unowned var xdisplay = ((Gdk.X11.Display) display).get_xdisplay ();
+
+            var window = ((Gdk.X11.Surface) get_surface ()).get_xid ();
+
+            var atom = xdisplay.intern_atom ("_NET_WM_WINDOW_TYPE", false);
+            var notification_atom = xdisplay.intern_atom ("_NET_WM_WINDOW_TYPE_NOTIFICATION", false);
+
+            // (X.Atom) 4 is XA_ATOM
+            // 32 is format
+            // 0 means replace
+            xdisplay.change_property (window, atom, (X.Atom) 4, 32, 0, (uchar[]) notification_atom, 1);
         }
     }
 
