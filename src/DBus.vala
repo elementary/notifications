@@ -88,7 +88,7 @@ public class Notifications.Server : Object {
         name = "io.elementary.notifications";
         vendor = "elementaryOS";
         version = "0.1";
-        spec_version = "1.2";
+        spec_version = "1.3";
     }
 
     public new uint32 notify (
@@ -237,6 +237,13 @@ public class Notifications.Server : Object {
         unowned string sound;
 
         switch (category) {
+            case "call":
+            case "call.ended":
+            case "call.incoming":
+            case "call.unanswered":
+                // We probably should use "phone-incoming-call" but it sounds awful in freedesktop theme
+                sound = "dialog-information";
+                break;
             case "device.added":
                 sound = "device-added";
                 break;
