@@ -174,7 +174,7 @@ public class Notifications.Server : Object {
                 }
 
                 var suppress_sound = (
-                    "suppress-sound" in hints && 
+                    "suppress-sound" in hints &&
                     hints["suppress-sound"].is_of_type (GLib.VariantType.BOOLEAN) &&
                     hints["suppress-sound"].get_boolean ()
                 );
@@ -249,7 +249,7 @@ public class Notifications.Server : Object {
             props.sets (Canberra.PROP_MEDIA_FILENAME, sound_name);
         } else {
             props.sets (Canberra.PROP_EVENT_ID, sound_name);
-        }        
+        }
 
         CanberraGtk4.context_get ().play_full (0, props);
     }
