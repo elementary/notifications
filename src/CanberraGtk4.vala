@@ -19,6 +19,8 @@ namespace CanberraGtk4 {
             return null;
         }
 
+        proplist.sets (Canberra.PROP_CANBERRA_XDG_THEME_NAME, Gtk.Settings.get_default ().gtk_sound_theme_name);
+
         unowned var name = GLib.Environment.get_application_name ();
         if (name != null) {
             proplist.sets (Canberra.PROP_APPLICATION_NAME, name);
