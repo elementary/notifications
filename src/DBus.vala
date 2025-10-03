@@ -74,6 +74,7 @@ public class Notifications.Server : Object {
             "actions",
             "body",
             "body-markup",
+            "sound",
             X_CANONICAL_PRIVATE_SYNCHRONOUS
         };
     }
@@ -172,13 +173,28 @@ public class Notifications.Server : Object {
                     bubbles[id].present ();
                 }
 
-                if (app_settings.get_boolean ("sounds")) {
-                    var sound = notification.priority != URGENT ? "dialog-information" : "dialog-warning";
-                    if ("category" in hints && hints["category"].is_of_type (VariantType.STRING)) {
+                var suppress_sound = (
+                    "suppress-sound" in hints && 
+                    hints["suppress-sound"].is_of_type (GLib.VariantType.BOOLEAN) &&
+                    hints["suppress-sound"].get_boolean ()
+                );
+
+                if (app_settings.get_boolean ("sounds") && !suppress_sound) {
+                    string sound;
+                    var is_filename = false;
+
+                    if ("sound-file" in hints && hints["sound-file"].is_of_type (GLib.VariantType.STRING)) {
+                        sound = hints["sound-file"].get_string ();
+                        is_filename = true;
+                    } else if ("sound-name" in hints && hints["sound-name"].is_of_type (GLib.VariantType.STRING)) {
+                        sound = hints["sound-namefile"].get_string ();
+                    } else if ("category" in hints && hints["category"].is_of_type (VariantType.STRING)) {
                         sound = category_to_sound_name (hints["category"].get_string ());
+                    } else {
+                        sound = notification.priority != URGENT ? "dialog-information" : "dialog-warning";
                     }
 
-                    send_sound (sound);
+                    send_sound (sound, is_filename);
                 }
             }
         }
@@ -219,7 +235,7 @@ public class Notifications.Server : Object {
         confirmation.present ();
     }
 
-    private void send_sound (string sound_name) {
+    private void send_sound (string sound_name, bool is_filename = false) {
         if (sound_name == "") {
             return;
         }
@@ -228,7 +244,12 @@ public class Notifications.Server : Object {
         Canberra.Proplist.create (out props);
 
         props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, sound_name);
+
+        if (is_filename) {
+            props.sets (Canberra.PROP_MEDIA_FILENAME, sound_name);
+        } else {
+            props.sets (Canberra.PROP_EVENT_ID, sound_name);
+        }        
 
         CanberraGtk4.context_get ().play_full (0, props);
     }
