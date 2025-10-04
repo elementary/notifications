@@ -33,7 +33,7 @@ public class Notifications.Application : Gtk.Application {
         try {
             new Notifications.Server (connection);
         } catch (Error e) {
-            Error.prefix_literal (out e, "Registring notification server failed: ");
+            Error.prefix_literal (out e, "Registering notification server failed: ");
             throw e;
         }
 
@@ -76,6 +76,8 @@ public class Notifications.Application : Gtk.Application {
                 name_lost ();
             }
         );
+
+        IdleMonitor.get_default (); // Start listening to MutterIdleMonitor
     }
 
     public static int main (string[] args) {
