@@ -56,20 +56,13 @@ window,
     -gtk-icon-style: regular;
 }
 
-.notification .buttonbox {
+buttonbox {
     margin-top: 12px;
 }
 
-.notification .buttonbox button {
+buttonbox button {
     min-width: 65px;
-}
-
-.notification:dir(ltr) .buttonbox button + button {
-    margin-left: 6px;
-}
-
-.notification:dir(rtl) .buttonbox button + button {
-    margin-right: 6px;
+    margin: 0;
 }
 
 .urgent image {
