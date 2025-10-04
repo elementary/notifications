@@ -47,78 +47,32 @@ public class Notifications.ButtonsContainer : Gtk.Widget {
             },
             (widget, width, height, baseline) => {
                 var row_y = 0, row_height = 0, row_used_width = 0;
-                var row = new GLib.List<Gtk.Widget> ();
+                var row = new GLib.List<unowned Gtk.Widget> ();
 
                 for (unowned var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
                     if (!child.visible) {
                         continue;
                     }
 
-                    int child_min_w, child_nat_w, child_min_h, child_nat_h;
-                    child.measure (HORIZONTAL, -1, out child_min_w, out child_nat_w, null, null);
-                    child.measure (VERTICAL, -1, out child_min_h, out child_nat_h, null, null);
+                    int child_nat_w, child_nat_h;
+                    child.measure (HORIZONTAL, -1, null, out child_nat_w, null, null);
+                    child.measure (VERTICAL, -1, null, out child_nat_h, null, null);
 
-                    if (row.length () > 0 && row_used_width + child_nat_w > width) {
-                        var total_row_width = 0;
-                        foreach (var row_child in row) {
-                            int nat_w;
-                            row_child.measure (HORIZONTAL, -1, null, out nat_w, null, null);
-                            total_row_width += nat_w <= width ? nat_w : width;
-                        }
-                        total_row_width += SPACING * ((int) row.length() - 1);
-
-                        // Set starting x so the row is right-aligned
-                        var row_x = width - total_row_width;
-
-                        // Allocate children left-to-right
-                        foreach (var row_child in row) {
-                            int nat_w, nat_h;
-                            row_child.measure (HORIZONTAL, -1, null, out nat_w, null, null);
-                            row_child.measure (VERTICAL, -1, null, out nat_h, null, null);
-
-                            var w = nat_w <= total_row_width ? nat_w : total_row_width;
-
-                            row_child.allocate (w, nat_h, baseline, new Gsk.Transform ().translate({ row_x, row_y }));
-
-                            row_x += w + SPACING;
-                        }
+                    if (row_used_width + child_nat_w + SPACING * (row.length () - 1) > width) {
+                        allocate_row (row, width, row_y, baseline);
 
                         row_y += row_height + SPACING;
                         row_height = 0;
                         row_used_width = 0;
-                        row = new GLib.List<Gtk.Widget> ();
+                        row = new GLib.List<unowned Gtk.Widget> ();
                     }
 
                     row.append (child);
-                    row_used_width += child_nat_w;
+                    row_used_width += child_nat_w + SPACING;
                     row_height = int.max (row_height, child_nat_h);
                 }
 
-                if (row.length () > 0) {
-                    var total_row_width = 0;
-                    foreach (var row_child in row) {
-                        int nat_w;
-                        row_child.measure (HORIZONTAL, -1, null, out nat_w, null, null);
-                        total_row_width += nat_w <= width ? nat_w : width;
-                    }
-                    total_row_width += SPACING * ((int) row.length() - 1);
-
-                    // Set starting x so the row is right-aligned
-                    var row_x = width - total_row_width;
-
-                    // Allocate children left-to-right
-                    foreach (var row_child in row) {
-                        int nat_w, nat_h;
-                        row_child.measure (HORIZONTAL, -1, null, out nat_w, null, null);
-                        row_child.measure (VERTICAL, -1, null, out nat_h, null, null);
-
-                        var w = nat_w <= width ? nat_w : width;
-
-                        row_child.allocate(w, nat_h, baseline, new Gsk.Transform().translate({ row_x, row_y }));
-
-                        row_x += w + SPACING;
-                    }
-                }
+                allocate_row (row, width, row_y, baseline);
             }
         );
     }
@@ -162,5 +116,31 @@ public class Notifications.ButtonsContainer : Gtk.Widget {
         total_height += row_height;
 
         return total_height;
+    }
+
+    private static void allocate_row (GLib.List<unowned Gtk.Widget> row, int width, int row_y, int baseline) {
+        var total_row_width = 0;
+        foreach (var row_child in row) {
+            int nat_w;
+            row_child.measure (HORIZONTAL, -1, null, out nat_w, null, null);
+            total_row_width += nat_w <= width ? nat_w : width;
+        }
+        total_row_width += SPACING * ((int) row.length () - 1);
+
+        // Set starting x so the row is right-aligned
+        var row_x = width - total_row_width;
+
+        // Allocate children left-to-right
+        foreach (var row_child in row) {
+            int nat_w, nat_h;
+            row_child.measure (HORIZONTAL, -1, null, out nat_w, null, null);
+            row_child.measure (VERTICAL, -1, null, out nat_h, null, null);
+
+            var w = nat_w <= total_row_width ? nat_w : total_row_width;
+
+            row_child.allocate (w, nat_h, baseline, new Gsk.Transform ().translate ({ row_x, row_y }));
+
+            row_x += w + SPACING;
+        }
     }
 }
