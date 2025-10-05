@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2019-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -84,7 +84,6 @@ public class Notifications.Server : Object {
         out string version,
         out string spec_version
     ) throws DBusError, IOError {
-
         name = "io.elementary.notifications";
         vendor = "elementaryOS";
         version = "0.1";
@@ -120,8 +119,34 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notification (app_name, app_icon, summary, body, hints);
-            notification.buttons = new GenericArray<Notification.Button?> (actions.length / 2);
+            DesktopAppInfo? app_info = null;
+            if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
+                app_info = new DesktopAppInfo ("%s.desktop".printf (hints["desktop-entry"].get_string ()));
+            }
+
+            var notification = new Notification (app_name, app_icon, summary, body, app_info, hints) {
+                buttons = new GenericArray<Notification.Button?> (actions.length / 2)
+            };
+
+            // GLib.Notification.set_priority ()
+            // convert between freedesktop urgency levels and GLib.NotificationPriority levels
+            // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#urgency-levels
+            if ("urgency" in hints && hints["urgency"].is_of_type (VariantType.BYTE)) {
+                switch (hints["urgency"].get_byte ()) {
+                    case 0:
+                        notification.priority = LOW;
+                        break;
+                    case 1:
+                        notification.priority = NORMAL;
+                        break;
+                    case 2:
+                        notification.priority = URGENT;
+                        break;
+                    default:
+                        warning ("unknown urgency value: %i, ignoring", hints["urgency"].get_byte ());
+                        break;
+                }
+            }
 
             // validate actions
             for (var i = 0; i < actions.length; i += 2) {
