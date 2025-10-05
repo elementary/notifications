@@ -14,7 +14,7 @@ public class Notifications.Notification : Object {
     public HashTable<string, Variant> hints { get; construct; }
 
     public GLib.NotificationPriority priority { get; set; default = NORMAL; }
-    
+
     public string app_id { get; private set; default = OTHER_APP_ID; }
 
     public GLib.Icon? primary_icon { get; set; default = null; }
