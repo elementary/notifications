@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 16:38+0000\n"
+"POT-Creation-Date: 2025-10-05 17:49+0000\n"
 "PO-Revision-Date: 2024-09-20 09:43+0000\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Chinese (Traditional) <https://l10n.elementary.io/projects/"
@@ -31,31 +31,32 @@ msgstr "桌面用的通知氣泡和音效"
 msgid "A notification server for Pantheon"
 msgstr "Pantheon 用的通知伺服器"
 
-#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
-#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:89
+#: data/notifications.metainfo.xml.in:30
+msgid "elementary, Inc."
+msgstr "elementary, Inc."
+
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:63 data/notifications.metainfo.xml.in:78
+#: data/notifications.metainfo.xml.in:92 data/notifications.metainfo.xml.in:101
 msgid "Minor Updates:"
 msgstr "小型更新："
 
-#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
-#: data/notifications.metainfo.xml.in:92
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:52
+#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:94 data/notifications.metainfo.xml.in:104
 msgid "Updated translations"
 msgstr "更新翻譯"
 
-#: data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr "停用 GSD 的「自動暫停」通知"
 
-#: data/notifications.metainfo.xml.in:65
+#: data/notifications.metainfo.xml.in:77
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr "增加音效和亮度通知的寬度來符合其他通知"
 
-#: data/notifications.metainfo.xml.in:91
+#: data/notifications.metainfo.xml.in:103
 msgid "Fix missing icon when set from icon name"
 msgstr "修正傳送通知時指定圖示名稱卻無法顯示圖示的問題"
-
-#~ msgid "elementary, Inc."
-#~ msgstr "elementary, Inc."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 16:38+0000\n"
+"POT-Creation-Date: 2025-10-05 17:49+0000\n"
 "PO-Revision-Date: 2021-09-26 21:30+0000\n"
 "Last-Translator: carnage-mode <beta-stage@tutanota.com>\n"
 "Language-Team: Amharic <https://l10n.elementary.io/projects/desktop/"
@@ -31,31 +31,32 @@ msgstr ""
 msgid "A notification server for Pantheon"
 msgstr ""
 
-#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
-#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:89
+#: data/notifications.metainfo.xml.in:30
+msgid "elementary, Inc."
+msgstr "elementary, Inc."
+
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:63 data/notifications.metainfo.xml.in:78
+#: data/notifications.metainfo.xml.in:92 data/notifications.metainfo.xml.in:101
 msgid "Minor Updates:"
 msgstr ""
 
-#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
-#: data/notifications.metainfo.xml.in:92
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:52
+#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:94 data/notifications.metainfo.xml.in:104
 msgid "Updated translations"
 msgstr ""
 
-#: data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr ""
 
-#: data/notifications.metainfo.xml.in:65
+#: data/notifications.metainfo.xml.in:77
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
 
-#: data/notifications.metainfo.xml.in:91
+#: data/notifications.metainfo.xml.in:103
 msgid "Fix missing icon when set from icon name"
 msgstr ""
-
-#~ msgid "elementary, Inc."
-#~ msgstr "elementary, Inc."

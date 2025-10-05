@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 16:38+0000\n"
+"POT-Creation-Date: 2025-10-05 17:49+0000\n"
 "PO-Revision-Date: 2024-08-17 00:16+0000\n"
 "Last-Translator: José Rafael <jrafaeldesantana@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.elementary.io/projects/"
@@ -31,32 +31,33 @@ msgstr "Notificação em bolhas e sons para o ambiente de trabalho"
 msgid "A notification server for Pantheon"
 msgstr "Um servidor de notificações para o Pantheon"
 
-#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
-#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:89
+#: data/notifications.metainfo.xml.in:30
+msgid "elementary, Inc."
+msgstr "elementary, Inc."
+
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:63 data/notifications.metainfo.xml.in:78
+#: data/notifications.metainfo.xml.in:92 data/notifications.metainfo.xml.in:101
 msgid "Minor Updates:"
 msgstr "Pequenas atualizações:"
 
-#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
-#: data/notifications.metainfo.xml.in:92
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:52
+#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:94 data/notifications.metainfo.xml.in:104
 msgid "Updated translations"
 msgstr "Traduções atualizadas"
 
-#: data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr "Bloqueio das notificações de \"Suspensão automática\" do GSD"
 
-#: data/notifications.metainfo.xml.in:65
+#: data/notifications.metainfo.xml.in:77
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
 "Melhorias no som e a largura do brilho para combinar com outras notificações"
 
-#: data/notifications.metainfo.xml.in:91
+#: data/notifications.metainfo.xml.in:103
 msgid "Fix missing icon when set from icon name"
 msgstr "Correção do ícone faltante quando definido a partir do nome do ícone"
-
-#~ msgid "elementary, Inc."
-#~ msgstr "elementary, Inc."

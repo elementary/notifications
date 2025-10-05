@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 16:38+0000\n"
+"POT-Creation-Date: 2025-10-05 17:49+0000\n"
 "PO-Revision-Date: 2025-03-01 16:01+0000\n"
 "Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://l10n.elementary.io/projects/desktop/"
@@ -31,38 +31,39 @@ msgstr "デスクトップに通知バブルを表示しサウンドを再生し
 msgid "A notification server for Pantheon"
 msgstr "Pantheon 向けの通知サーバーです"
 
-#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
-#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:89
+#: data/notifications.metainfo.xml.in:30
+msgid "elementary, Inc."
+msgstr "elementary, Inc."
+
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:63 data/notifications.metainfo.xml.in:78
+#: data/notifications.metainfo.xml.in:92 data/notifications.metainfo.xml.in:101
 msgid "Minor Updates:"
 msgstr "マイナーアップデート:"
 
-#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
-#: data/notifications.metainfo.xml.in:92
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:52
+#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:94 data/notifications.metainfo.xml.in:104
 msgid "Updated translations"
 msgstr "翻訳の更新"
 
-#: data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr "GSD の \"自動サスペンド\" の通知を無効化"
 
-#: data/notifications.metainfo.xml.in:65
+#: data/notifications.metainfo.xml.in:77
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr "音量/輝度変更の通知の幅を、他の通知に合わせて広げる修正を追加"
 
-#: data/notifications.metainfo.xml.in:91
+#: data/notifications.metainfo.xml.in:103
 msgid "Fix missing icon when set from icon name"
 msgstr ""
 "アイコン名を指定して通知を送信すると、アイコンが表示されない不具合を修正"
 
 #~ msgid "Performance improvements"
 #~ msgstr "パフォーマンスの改善"
-
-#~ msgid "elementary, Inc."
-#~ msgstr "elementary, Inc."
 
 #~ msgid "Complete rewrite:"
 #~ msgstr "完全なコードの書き直し:"

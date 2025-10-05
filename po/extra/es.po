@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-13 16:38+0000\n"
+"POT-Creation-Date: 2025-10-05 17:49+0000\n"
 "PO-Revision-Date: 2024-06-05 03:13+0000\n"
 "Last-Translator: Italo Felipe Capasso Ballesteros <edwood.grant@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.elementary.io/projects/desktop/"
@@ -31,25 +31,29 @@ msgstr "Burbujas y sonidos de notificaciones para el escritorio"
 msgid "A notification server for Pantheon"
 msgstr "Un servidor de notificaciones para Pantheon"
 
-#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:51
-#: data/notifications.metainfo.xml.in:66 data/notifications.metainfo.xml.in:80
-#: data/notifications.metainfo.xml.in:89
+#: data/notifications.metainfo.xml.in:30
+msgid "elementary, Inc."
+msgstr "elementary, Inc."
+
+#: data/notifications.metainfo.xml.in:38 data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:63 data/notifications.metainfo.xml.in:78
+#: data/notifications.metainfo.xml.in:92 data/notifications.metainfo.xml.in:101
 msgid "Minor Updates:"
 msgstr "Actualizaciones menores:"
 
-#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:53
-#: data/notifications.metainfo.xml.in:68 data/notifications.metainfo.xml.in:82
-#: data/notifications.metainfo.xml.in:92
+#: data/notifications.metainfo.xml.in:40 data/notifications.metainfo.xml.in:52
+#: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:80
+#: data/notifications.metainfo.xml.in:94 data/notifications.metainfo.xml.in:104
 msgid "Updated translations"
 msgstr "Traducciones actualizadas"
 
-#: data/notifications.metainfo.xml.in:50
+#: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
 msgstr ""
-"Ahora se bloquean las notificaciones de «suspensión automática» de GSD ("
-"notificaciones del servidor de GNOME)"
+"Ahora se bloquean las notificaciones de «suspensión automática» de GSD "
+"(notificaciones del servidor de GNOME)"
 
-#: data/notifications.metainfo.xml.in:65
+#: data/notifications.metainfo.xml.in:77
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
@@ -57,14 +61,11 @@ msgstr ""
 "Se ha incrementado el ancho de las notificaciones de sonido y brillo para "
 "que coincidan con otras notificaciones"
 
-#: data/notifications.metainfo.xml.in:91
+#: data/notifications.metainfo.xml.in:103
 msgid "Fix missing icon when set from icon name"
 msgstr ""
 "Se ha corregido que falte el icono de la notificación cuando se asigna desde "
 "un nombre de icono"
-
-#~ msgid "elementary, Inc."
-#~ msgstr "elementary, Inc."
 
 #~ msgid "Complete rewrite:"
 #~ msgstr "Reescritura completa:"
