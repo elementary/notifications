@@ -19,6 +19,8 @@
 */
 
 public class Notifications.Application : Gtk.Application {
+    public static Settings settings = new Settings ("io.elementary.notifications");
+
     private static Granite.Settings granite_settings;
     private static Gtk.Settings gtk_settings;
 
@@ -33,7 +35,7 @@ public class Notifications.Application : Gtk.Application {
         try {
             new Notifications.Server (connection);
         } catch (Error e) {
-            Error.prefix_literal (out e, "Registring notification server failed: ");
+            Error.prefix_literal (out e, "Registering notification server failed: ");
             throw e;
         }
 
@@ -72,7 +74,7 @@ public class Notifications.Application : Gtk.Application {
             dbus_flags,
             () => hold (),
             (conn, name) => {
-                critical ("Could not aquire bus: %s", name);
+                critical ("Could not acquire bus: %s", name);
                 name_lost ();
             }
         );
