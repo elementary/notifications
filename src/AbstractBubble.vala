@@ -19,7 +19,13 @@
 */
 
 public class Notifications.AbstractBubble : Gtk.Window {
-    public signal void closed (uint32 reason) {
+    public enum CloseReason {
+        EXPIRED,
+        DISMISSED,
+        UNDEFINED
+    }
+
+    public signal void closed (CloseReason reason) {
         close ();
     }
 
@@ -94,10 +100,10 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         carousel.page_changed.connect ((index) => {
             if (index == 0) {
-                closed (Notifications.Server.CloseReason.DISMISSED);
+                closed (DISMISSED);
             }
         });
-        close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
+        close_button.clicked.connect (() => closed (DISMISSED));
 
         var motion_controller = new Gtk.EventControllerMotion ();
         motion_controller.enter.connect (pointer_enter);
@@ -170,10 +176,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     private bool timeout_expired () {
-        closed (Notifications.Server.CloseReason.EXPIRED);
+        closed (EXPIRED);
         return Source.REMOVE;
     }
-
 
     private void get_blur_margins (out int left, out int right) {
         var width = get_width ();

@@ -56,7 +56,7 @@ public class Notifications.Bubble : AbstractBubble {
             notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
                 try {
                     ((AppInfo) obj).launch_uris_async.end (res);
-                    closed (Server.CloseReason.UNDEFINED);
+                    closed (UNDEFINED);
                 } catch (Error e) {
                     warning ("Unable to launch app: %s", e.message);
                 }

@@ -95,7 +95,7 @@ public sealed class Notifications.Fdo.ActionGroup : Object, GLib.ActionGroup {
             uint32 id;
 
             while (iter.next ("u", out id)) {
-                server.notification_closed (id, Server.CloseReason.DISMISSED);
+                server.notification_closed (id, Server.FdoCloseReason.DISMISSED);
             }
 
             return;

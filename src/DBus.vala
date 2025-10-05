@@ -5,7 +5,7 @@
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
-    public enum CloseReason {
+    public enum FdoCloseReason {
         EXPIRED = 1,
         DISMISSED = 2,
         CLOSE_NOTIFICATION_CALL = 3,
@@ -25,13 +25,10 @@ public class Notifications.Server : Object {
     private Gee.Map<uint32, Bubble?> bubbles;
     private Confirmation? confirmation;
 
-    private Settings settings;
-
     private uint action_group_id;
     private uint server_id;
 
     public Server (DBusConnection connection) throws Error {
-        settings = new Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Bubble?> ();
         action_group = new Fdo.ActionGroup (this);
 
@@ -66,7 +63,7 @@ public class Notifications.Server : Object {
             throw new DBusError.FAILED ("");
         }
 
-        notification_closed (id, CloseReason.CLOSE_NOTIFICATION_CALL);
+        notification_closed (id, FdoCloseReason.CLOSE_NOTIFICATION_CALL);
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -144,10 +141,10 @@ public class Notifications.Server : Object {
                 notification.buttons.add ({ label, action_name });
             }
 
-            if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
+            if (!Application.settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
-                    settings.path.concat ("applications", "/", notification.app_id, "/")
+                    Application.settings.path.concat ("applications", "/", notification.app_id, "/")
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
@@ -161,7 +158,7 @@ public class Notifications.Server : Object {
                             return Gdk.EVENT_PROPAGATE;
                         });
                         bubbles[id].closed.connect ((res) => {
-                            if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
+                            if (res == EXPIRED && app_settings.get_boolean ("remember")) {
                                 return;
                             }
 

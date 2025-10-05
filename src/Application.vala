@@ -1,5 +1,5 @@
 /*
-* Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2025 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -19,6 +19,8 @@
 */
 
 public class Notifications.Application : Gtk.Application {
+    public static Settings settings = new Settings ("io.elementary.notifications");
+
     private static Granite.Settings granite_settings;
     private static Gtk.Settings gtk_settings;
 
@@ -32,6 +34,7 @@ public class Notifications.Application : Gtk.Application {
     protected override bool dbus_register (DBusConnection connection, string object_path) throws Error {
         try {
             new Notifications.Server (connection);
+            new Notifications.PortalProxy (connection);
         } catch (Error e) {
             Error.prefix_literal (out e, "Registring notification server failed: ");
             throw e;
@@ -72,7 +75,18 @@ public class Notifications.Application : Gtk.Application {
             dbus_flags,
             () => hold (),
             (conn, name) => {
-                critical ("Could not aquire bus: %s", name);
+                critical ("Could not acquire bus: %s", name);
+                name_lost ();
+            }
+        );
+
+        Bus.own_name_on_connection (
+            get_dbus_connection (),
+            "io.elementary.notifications.PortalProxy",
+            dbus_flags,
+            () => hold (),
+            (conn, name) => {
+                critical ("Could not acquire bus: %s", name);
                 name_lost ();
             }
         );
