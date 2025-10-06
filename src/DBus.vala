@@ -25,13 +25,10 @@ public class Notifications.Server : Object {
     private Gee.Map<uint32, Bubble?> bubbles;
     private Confirmation? confirmation;
 
-    private Settings settings;
-
     private uint action_group_id;
     private uint server_id;
 
     public Server (DBusConnection connection) throws Error {
-        settings = new Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Bubble?> ();
         action_group = new Fdo.ActionGroup (this);
 
@@ -144,10 +141,10 @@ public class Notifications.Server : Object {
                 notification.buttons.add ({ label, action_name });
             }
 
-            if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
+            if (!Application.settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
-                    settings.path.concat ("applications", "/", notification.app_id, "/")
+                    Application.settings.path.concat ("applications", "/", notification.app_id, "/")
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
