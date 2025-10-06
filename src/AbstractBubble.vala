@@ -1,5 +1,5 @@
 /*
-* Copyright 2020 elementary, Inc. (https://elementary.io)
+* Copyright 2020-2025 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -18,8 +18,18 @@
 *
 */
 
+public enum Notifications.CloseReason {
+    EXPIRED = 1,
+    DISMISSED = 2,
+    /**
+     * This value is unique for org.freedesktop.Notifications server interface and must not be used elsewhere.
+     */
+    CLOSE_NOTIFICATION_CALL = 3,
+    UNDEFINED = 4
+}
+
 public class Notifications.AbstractBubble : Gtk.Window {
-    public signal void closed (uint32 reason) {
+    public signal void closed (CloseReason reason) {
         close ();
     }
 
@@ -31,6 +41,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     private Gtk.Revealer close_revealer;
     private Gtk.Box draw_area;
+    private Gtk.Overlay overlay;
 
     private uint timeout_id;
 
@@ -72,7 +83,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             overflow = VISIBLE
         };
 
-        var overlay = new Gtk.Overlay () {
+        overlay = new Gtk.Overlay () {
             child = draw_area
         };
         overlay.add_overlay (close_revealer);
@@ -92,12 +103,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
         can_focus = false;
         set_titlebar (new Gtk.Grid ());
 
-        carousel.page_changed.connect ((index) => {
-            if (index == 0) {
-                closed (Notifications.Server.CloseReason.DISMISSED);
-            }
-        });
-        close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
+        carousel.page_changed.connect (on_page_changed);
+        close_button.clicked.connect (() => closed (CloseReason.DISMISSED));
 
         var motion_controller = new Gtk.EventControllerMotion ();
         motion_controller.enter.connect (pointer_enter);
@@ -114,18 +121,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             }
         });
 
-        carousel.notify["position"].connect (() => {
-            current_swipe_progress = carousel.position;
-
-            if (desktop_panel != null) {
-                int left, right;
-                get_blur_margins (out left, out right);
-
-                desktop_panel.add_blur (left, right, 16, 16, 9);
-            } else if (Gdk.Display.get_default () is Gdk.X11.Display) {
-                x11_update_mutter_hints ();
-            }
-        });
+        carousel.notify["position"].connect (update_swipe_progress);
 
         transparency_settings.changed["use-transparency"].connect (update_transparency);
         update_transparency ();
@@ -136,6 +132,27 @@ public class Notifications.AbstractBubble : Gtk.Window {
             remove_css_class ("reduce-transparency");
         } else {
             add_css_class ("reduce-transparency");
+        }
+    }
+
+    private void on_page_changed (Adw.Carousel carousel, uint index) {
+        if (carousel.get_nth_page (index) != overlay) {
+            closed (CloseReason.DISMISSED);
+        }
+    }
+
+    private void update_swipe_progress (Object obj, ParamSpec pspec) {
+        var carousel = (Adw.Carousel) obj;
+
+        current_swipe_progress = carousel.position;
+
+        if (desktop_panel != null) {
+            int left, right;
+            get_blur_margins (out left, out right);
+
+            desktop_panel.add_blur (left, right, 16, 16, 9);
+        } else if (Gdk.Display.get_default () is Gdk.X11.Display) {
+            x11_update_mutter_hints ();
         }
     }
 
@@ -170,10 +187,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     private bool timeout_expired () {
-        closed (Notifications.Server.CloseReason.EXPIRED);
+        closed (CloseReason.EXPIRED);
         return Source.REMOVE;
     }
-
 
     private void get_blur_margins (out int left, out int right) {
         var width = get_width ();
