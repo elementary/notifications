@@ -1,17 +1,10 @@
 /*
- * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2019-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
-    public enum CloseReason {
-        EXPIRED = 1,
-        DISMISSED = 2,
-        CLOSE_NOTIFICATION_CALL = 3,
-        UNDEFINED = 4
-    }
-
     public signal void action_invoked (uint32 id, string action_key);
     public signal void notification_closed (uint32 id, uint32 reason);
 

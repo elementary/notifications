@@ -18,8 +18,18 @@
 *
 */
 
+public enum Notifications.CloseReason {
+    EXPIRED = 1,
+    DISMISSED = 2,
+    /**
+     * This value is unique for org.freedesktop.Notifications server interface and must not be used elsewhere.
+     */
+    CLOSE_NOTIFICATION_CALL = 3,
+    UNDEFINED = 4
+}
+
 public class Notifications.AbstractBubble : Gtk.Window {
-    public signal void closed (uint32 reason) {
+    public signal void closed (CloseReason reason) {
         close ();
     }
 
@@ -94,7 +104,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         set_titlebar (new Gtk.Grid ());
 
         carousel.page_changed.connect (on_page_changed);
-        close_button.clicked.connect (() => closed (Notifications.Server.CloseReason.DISMISSED));
+        close_button.clicked.connect (() => closed (CloseReason.DISMISSED));
 
         var motion_controller = new Gtk.EventControllerMotion ();
         motion_controller.enter.connect (pointer_enter);
@@ -127,7 +137,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     private void on_page_changed (Adw.Carousel carousel, uint index) {
         if (carousel.get_nth_page (index) != overlay) {
-            closed (Notifications.Server.CloseReason.DISMISSED);
+            closed (CloseReason.DISMISSED);
         }
     }
 
@@ -177,10 +187,9 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     private bool timeout_expired () {
-        closed (Notifications.Server.CloseReason.EXPIRED);
+        closed (CloseReason.EXPIRED);
         return Source.REMOVE;
     }
-
 
     private void get_blur_margins (out int left, out int right) {
         var width = get_width ();
