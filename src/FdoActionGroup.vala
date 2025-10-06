@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2023-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
  * Author: Gustavo Marques <pushstarttocontinue@outlook.com>
@@ -95,7 +95,7 @@ public sealed class Notifications.Fdo.ActionGroup : Object, GLib.ActionGroup {
             uint32 id;
 
             while (iter.next ("u", out id)) {
-                server.notification_closed (id, Server.CloseReason.DISMISSED);
+                server.notification_closed (id, CloseReason.DISMISSED);
             }
 
             return;
@@ -120,7 +120,7 @@ public sealed class Notifications.Fdo.ActionGroup : Object, GLib.ActionGroup {
     /* GLib says that we are only meant to override list_actions and query_actions,
     * however, the gio bindings only have query_action marked as virtual.
     *
-    * FIXME: remove everthing below when we have valac 0.58 as minimal version.
+    * FIXME: remove everything below when we have valac 0.58 as minimal version.
     */
     public bool has_action (string action_name) {
         return action_name in (Gee.Collection<string>) actions;
