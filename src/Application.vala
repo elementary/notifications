@@ -70,6 +70,16 @@ public class Notifications.Application : Gtk.Application {
         );
     }
 
+    public static void play_sound (string sound_name) {
+        Canberra.Proplist props;
+        Canberra.Proplist.create (out props);
+
+        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+        props.sets (Canberra.PROP_EVENT_ID, sound_name);
+
+        CanberraGtk4.context_get ().play_full (0, props);
+    }
+
     public static int main (string[] args) {
         var app = new Application ();
         return app.run (args);
