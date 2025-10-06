@@ -24,7 +24,7 @@ public class Notifications.Application : Gtk.Application {
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
-            flags: ApplicationFlags.IS_SERVICE
+            flags: ApplicationFlags.IS_SERVICE | ApplicationFlags.ALLOW_REPLACEMENT
         );
     }
 
@@ -54,10 +54,15 @@ public class Notifications.Application : Gtk.Application {
 
         context.open ();
 
+        var dbus_flags = BusNameOwnerFlags.DO_NOT_QUEUE | BusNameOwnerFlags.ALLOW_REPLACEMENT;
+        if (ApplicationFlags.REPLACE in flags) {
+            dbus_flags |= BusNameOwnerFlags.REPLACE;
+        }
+
         Bus.own_name_on_connection (
             get_dbus_connection (),
             "org.freedesktop.Notifications",
-            DO_NOT_QUEUE,
+            dbus_flags,
             () => hold (),
             (conn, name) => {
                 critical ("Could not acquire bus: %s", name);
@@ -68,23 +73,13 @@ public class Notifications.Application : Gtk.Application {
         Bus.own_name_on_connection (
             get_dbus_connection (),
             "io.elementary.notifications.PortalProxy",
-            DO_NOT_QUEUE,
+            dbus_flags,
             () => hold (),
             (conn, name) => {
                 critical ("Could not acquire bus: %s", name);
                 name_lost ();
             }
         );
-    }
-
-    public static void play_sound (string sound_name) {
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, sound_name);
-
-        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     public static void play_sound (string sound_name) {
