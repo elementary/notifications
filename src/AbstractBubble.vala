@@ -184,7 +184,6 @@ public class Notifications.AbstractBubble : Gtk.Window {
         return Source.REMOVE;
     }
 
-
     private void get_blur_margins (out int left, out int right) {
         var width = get_width ();
         var distance = (1 - current_swipe_progress) * width;
