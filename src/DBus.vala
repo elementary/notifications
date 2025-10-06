@@ -178,7 +178,7 @@ public class Notifications.Server : Object {
                         sound = category_to_sound_name (hints["category"].get_string ());
                     }
 
-                    send_sound (sound);
+                    Application.play_sound (sound);
                 }
             }
         }
@@ -199,7 +199,7 @@ public class Notifications.Server : Object {
         // consistency it should. So we make it emit the default one.
         var confirmation_type = hints.lookup (X_CANONICAL_PRIVATE_SYNCHRONOUS).get_string ();
         if (confirmation_type == "indicator-sound") {
-            send_sound ("audio-volume-change");
+            Application.play_sound ("audio-volume-change");
         }
 
         if (confirmation == null) {
@@ -217,20 +217,6 @@ public class Notifications.Server : Object {
         }
 
         confirmation.present ();
-    }
-
-    private void send_sound (string sound_name) {
-        if (sound_name == "") {
-            return;
-        }
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, sound_name);
-
-        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     static unowned string category_to_sound_name (string category) {
