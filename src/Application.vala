@@ -25,7 +25,7 @@ public class Notifications.Application : Gtk.Application {
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
-            flags: ApplicationFlags.IS_SERVICE | ApplicationFlags.ALLOW_REPLACEMENT
+            flags: ApplicationFlags.IS_SERVICE
         );
     }
 
@@ -61,15 +61,10 @@ public class Notifications.Application : Gtk.Application {
 
         context.open ();
 
-        var dbus_flags = BusNameOwnerFlags.DO_NOT_QUEUE | BusNameOwnerFlags.ALLOW_REPLACEMENT;
-        if (ApplicationFlags.REPLACE in flags) {
-            dbus_flags |= BusNameOwnerFlags.REPLACE;
-        }
-
         Bus.own_name_on_connection (
             get_dbus_connection (),
             "org.freedesktop.Notifications",
-            dbus_flags,
+            DO_NOT_QUEUE,
             () => hold (),
             (conn, name) => {
                 critical ("Could not aquire bus: %s", name);
