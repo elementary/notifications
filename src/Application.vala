@@ -1,5 +1,5 @@
 /*
-* Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2025 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -19,9 +19,6 @@
 */
 
 public class Notifications.Application : Gtk.Application {
-    private static Granite.Settings granite_settings;
-    private static Gtk.Settings gtk_settings;
-
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
@@ -44,13 +41,6 @@ public class Notifications.Application : Gtk.Application {
         base.startup ();
 
         Granite.init ();
-
-        granite_settings = Granite.Settings.get_default ();
-        gtk_settings = Gtk.Settings.get_default ();
-        gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-        granite_settings.notify["prefers-color-scheme"].connect (() => {
-            gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-        });
 
         unowned var context = CanberraGtk4.context_get ();
         context.change_props (
