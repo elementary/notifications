@@ -95,7 +95,7 @@ public sealed class Notifications.Fdo.ActionGroup : Object, GLib.ActionGroup {
             uint32 id;
 
             while (iter.next ("u", out id)) {
-                server.notification_closed (id, Server.FdoCloseReason.DISMISSED);
+                server.notification_closed (id, CloseReason.DISMISSED);
             }
 
             return;
@@ -120,7 +120,7 @@ public sealed class Notifications.Fdo.ActionGroup : Object, GLib.ActionGroup {
     /* GLib says that we are only meant to override list_actions and query_actions,
     * however, the gio bindings only have query_action marked as virtual.
     *
-    * FIXME: remove everthing below when we have valac 0.58 as minimal version.
+    * FIXME: remove everything below when we have valac 0.58 as minimal version.
     */
     public bool has_action (string action_name) {
         return action_name in (Gee.Collection<string>) actions;

@@ -1,17 +1,10 @@
 /*
- * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2019-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
-    public enum FdoCloseReason {
-        EXPIRED = 1,
-        DISMISSED = 2,
-        CLOSE_NOTIFICATION_CALL = 3,
-        UNDEFINED = 4
-    }
-
     public signal void action_invoked (uint32 id, string action_key);
     public signal void notification_closed (uint32 id, uint32 reason);
 
@@ -63,7 +56,7 @@ public class Notifications.Server : Object {
             throw new DBusError.FAILED ("");
         }
 
-        notification_closed (id, FdoCloseReason.CLOSE_NOTIFICATION_CALL);
+        notification_closed (id, CloseReason.CLOSE_NOTIFICATION_CALL);
     }
 
     public string [] get_capabilities () throws DBusError, IOError {
@@ -175,7 +168,7 @@ public class Notifications.Server : Object {
                         sound = category_to_sound_name (hints["category"].get_string ());
                     }
 
-                    send_sound (sound);
+                    Application.play_sound (sound);
                 }
             }
         }
@@ -196,7 +189,7 @@ public class Notifications.Server : Object {
         // consistency it should. So we make it emit the default one.
         var confirmation_type = hints.lookup (X_CANONICAL_PRIVATE_SYNCHRONOUS).get_string ();
         if (confirmation_type == "indicator-sound") {
-            send_sound ("audio-volume-change");
+            Application.play_sound ("audio-volume-change");
         }
 
         if (confirmation == null) {
@@ -214,20 +207,6 @@ public class Notifications.Server : Object {
         }
 
         confirmation.present ();
-    }
-
-    private void send_sound (string sound_name) {
-        if (sound_name == "") {
-            return;
-        }
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, sound_name);
-
-        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     static unowned string category_to_sound_name (string category) {

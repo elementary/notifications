@@ -1,5 +1,5 @@
 /*
-* Copyright 2020 elementary, Inc. (https://elementary.io)
+* Copyright 2020-2025 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -18,13 +18,17 @@
 *
 */
 
-public class Notifications.AbstractBubble : Gtk.Window {
-    public enum CloseReason {
-        EXPIRED,
-        DISMISSED,
-        UNDEFINED
-    }
+public enum Notifications.CloseReason {
+    EXPIRED = 1,
+    DISMISSED = 2,
+    /**
+     * This value is unique for org.freedesktop.Notifications server interface and must not be used elsewhere.
+     */
+    CLOSE_NOTIFICATION_CALL = 3,
+    UNDEFINED = 4
+}
 
+public class Notifications.AbstractBubble : Gtk.Window {
     public signal void closed (CloseReason reason) {
         close ();
     }
@@ -100,10 +104,10 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         carousel.page_changed.connect ((index) => {
             if (index == 0) {
-                closed (DISMISSED);
+                closed (CloseReason.DISMISSED);
             }
         });
-        close_button.clicked.connect (() => closed (DISMISSED));
+        close_button.clicked.connect (() => closed (CloseReason.DISMISSED));
 
         var motion_controller = new Gtk.EventControllerMotion ();
         motion_controller.enter.connect (pointer_enter);
@@ -176,7 +180,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
     }
 
     private bool timeout_expired () {
-        closed (EXPIRED);
+        closed (CloseReason.EXPIRED);
         return Source.REMOVE;
     }
 

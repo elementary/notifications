@@ -21,13 +21,10 @@
 public class Notifications.Application : Gtk.Application {
     public static Settings settings = new Settings ("io.elementary.notifications");
 
-    private static Granite.Settings granite_settings;
-    private static Gtk.Settings gtk_settings;
-
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
-            flags: ApplicationFlags.IS_SERVICE | ApplicationFlags.ALLOW_REPLACEMENT
+            flags: ApplicationFlags.IS_SERVICE
         );
     }
 
@@ -36,7 +33,7 @@ public class Notifications.Application : Gtk.Application {
             new Notifications.Server (connection);
             new Notifications.PortalProxy (connection);
         } catch (Error e) {
-            Error.prefix_literal (out e, "Registring notification server failed: ");
+            Error.prefix_literal (out e, "Registering notification server failed: ");
             throw e;
         }
 
@@ -48,13 +45,6 @@ public class Notifications.Application : Gtk.Application {
 
         Granite.init ();
 
-        granite_settings = Granite.Settings.get_default ();
-        gtk_settings = Gtk.Settings.get_default ();
-        gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-        granite_settings.notify["prefers-color-scheme"].connect (() => {
-            gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-        });
-
         unowned var context = CanberraGtk4.context_get ();
         context.change_props (
             Canberra.PROP_APPLICATION_NAME, "Notifications",
@@ -64,15 +54,10 @@ public class Notifications.Application : Gtk.Application {
 
         context.open ();
 
-        var dbus_flags = BusNameOwnerFlags.DO_NOT_QUEUE | BusNameOwnerFlags.ALLOW_REPLACEMENT;
-        if (ApplicationFlags.REPLACE in flags) {
-            dbus_flags |= BusNameOwnerFlags.REPLACE;
-        }
-
         Bus.own_name_on_connection (
             get_dbus_connection (),
             "org.freedesktop.Notifications",
-            dbus_flags,
+            DO_NOT_QUEUE,
             () => hold (),
             (conn, name) => {
                 critical ("Could not acquire bus: %s", name);
@@ -83,13 +68,23 @@ public class Notifications.Application : Gtk.Application {
         Bus.own_name_on_connection (
             get_dbus_connection (),
             "io.elementary.notifications.PortalProxy",
-            dbus_flags,
+            DO_NOT_QUEUE,
             () => hold (),
             (conn, name) => {
                 critical ("Could not acquire bus: %s", name);
                 name_lost ();
             }
         );
+    }
+
+    public static void play_sound (string sound_name) {
+        Canberra.Proplist props;
+        Canberra.Proplist.create (out props);
+
+        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+        props.sets (Canberra.PROP_EVENT_ID, sound_name);
+
+        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     public static int main (string[] args) {

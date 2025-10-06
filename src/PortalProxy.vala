@@ -1,4 +1,7 @@
-// Copyright
+/*
+ * Copyright 2025 elementary, Inc. (https://elementary.io)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 
 // TEST CALL FOR DSPY:
@@ -86,7 +89,7 @@ public class Notifications.PortalProxy : Object {
             if (app_settings.get_boolean ("sounds")) {
                 var sound = notification.priority != URGENT ? "dialog-information" : "dialog-warning";
 
-                send_sound (sound);
+                Application.play_sound (sound);
             }
         }
     }
@@ -99,19 +102,5 @@ public class Notifications.PortalProxy : Object {
         }
 
         bubbles[full_id].close ();
-    }
-
-    private void send_sound (string sound_name) {
-        if (sound_name == "") {
-            return;
-        }
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, sound_name);
-
-        CanberraGtk4.context_get ().play_full (0, props);
     }
 }
