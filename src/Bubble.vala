@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2019-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -56,7 +56,7 @@ public class Notifications.Bubble : AbstractBubble {
             notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
                 try {
                     ((AppInfo) obj).launch_uris_async.end (res);
-                    closed (UNDEFINED);
+                    closed (CloseReason.UNDEFINED);
                 } catch (Error e) {
                     warning ("Unable to launch app: %s", e.message);
                 }
