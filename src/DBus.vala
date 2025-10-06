@@ -151,7 +151,7 @@ public class Notifications.Server : Object {
                             return Gdk.EVENT_PROPAGATE;
                         });
                         bubbles[id].closed.connect ((res) => {
-                            if (res == EXPIRED && app_settings.get_boolean ("remember")) {
+                            if (res == CloseReason.EXPIRED && app_settings.get_boolean ("remember")) {
                                 return;
                             }
 
