@@ -19,6 +19,8 @@
 */
 
 public class Notifications.Application : Gtk.Application {
+    public static Settings settings = new Settings ("io.elementary.notifications");
+
     public Application () {
         Object (
             application_id: "io.elementary.notifications",
@@ -30,7 +32,7 @@ public class Notifications.Application : Gtk.Application {
         try {
             new Notifications.Server (connection);
         } catch (Error e) {
-            Error.prefix_literal (out e, "Registring notification server failed: ");
+            Error.prefix_literal (out e, "Registering notification server failed: ");
             throw e;
         }
 
@@ -62,10 +64,20 @@ public class Notifications.Application : Gtk.Application {
             dbus_flags,
             () => hold (),
             (conn, name) => {
-                critical ("Could not aquire bus: %s", name);
+                critical ("Could not acquire bus: %s", name);
                 name_lost ();
             }
         );
+    }
+
+    public static void play_sound (string sound_name) {
+        Canberra.Proplist props;
+        Canberra.Proplist.create (out props);
+
+        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+        props.sets (Canberra.PROP_EVENT_ID, sound_name);
+
+        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     public static int main (string[] args) {
