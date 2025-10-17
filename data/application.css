@@ -64,7 +64,7 @@ window,
     margin-top: 12px;
 }
 
-.notification .buttonbox button {
+.notification .buttonbox.text-buttons button {
     min-width: 65px;
 }
 
