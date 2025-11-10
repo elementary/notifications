@@ -139,15 +139,14 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
 
             if (notification.buttons.length > 0) {
-                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                    halign = Gtk.Align.END,
-                    homogeneous = true
-                };
-                action_area.add_css_class ("buttonbox");
+                var action_area = new ButtonsContainer ();
 
                 foreach (var button in notification.buttons) {
-                    action_area.append (new Gtk.Button.with_label (button.label) {
-                        action_name = button.action_name
+                    action_area.append (new Gtk.Button () {
+                        action_name = button.action_name,
+                        child = new Gtk.Label (button.label) {
+                            ellipsize = END
+                        }
                     });
                 }
 
