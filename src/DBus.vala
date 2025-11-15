@@ -61,6 +61,7 @@ public class Notifications.Server : Object {
 
     public string [] get_capabilities () throws DBusError, IOError {
         return {
+            "action-icons",
             "actions",
             "body",
             "body-markup",
@@ -110,8 +111,13 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notification (app_name, app_icon, summary, body, hints);
-            notification.buttons = new GenericArray<Notification.Button?> (actions.length / 2);
+            var notification = new Notification (app_name, app_icon, summary, body, hints) {
+                buttons = new GenericArray<Notification.Button?> (actions.length / 2)
+            };
+
+            if ("action-icons" in hints && hints["action-icons"].is_of_type (VariantType.BOOLEAN)) {
+                notification.action_icons = hints["action-icons"].get_boolean ();
+            }
 
             // validate actions
             for (var i = 0; i < actions.length; i += 2) {
