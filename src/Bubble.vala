@@ -23,6 +23,17 @@ public class Notifications.Bubble : AbstractBubble {
 
             content_area.add_child (contents);
             content_area.visible_child = contents;
+
+            map.connect (() => {
+                ((Gtk.Window) get_root ()).announce (
+                    /// TRANSLATORS: first argument is an app name, the second and third arguments are notification summary and body
+                    _("Notification from %s: %s %s").printf (
+                        notification.app_name,
+                        notification.summary,
+                        notification.body
+                    ), HIGH
+                );
+            });
         }
     }
 

@@ -112,6 +112,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
         motion_controller.leave.connect (pointer_leave);
         carousel.add_controller (motion_controller);
 
+        accessible_role = ALERT;
+
         child.realize.connect (() => {
             if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
                 //  We have to wrap in Idle otherwise the Meta.Window of the WaylandSurface in Gala is still null
