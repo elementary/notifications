@@ -26,6 +26,7 @@ public class Notifications.Bubble : AbstractBubble {
 
             map.connect (() => {
                 ((Gtk.Window) get_root ()).announce (
+                    /// TRANSLATORS: first argument is an app name, the second and third arguments are notification summary and body
                     _("Notification from %s: %s %s").printf (
                         notification.app_name,
                         notification.summary,
