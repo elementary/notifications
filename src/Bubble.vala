@@ -74,9 +74,7 @@ public class Notifications.Bubble : AbstractBubble {
         }
 
         construct {
-            var app_image = new Gtk.Image () {
-                gicon = notification.primary_icon
-            };
+            var app_image = new Gtk.Image.from_gicon (notification.primary_icon);
 
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;

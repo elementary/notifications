@@ -104,18 +104,7 @@ public class Notifications.Notification : GLib.Object {
             }
         }
 
-        // Always "" if sent by GLib.Notification
-        if (app_icon == "" && app_info != null) {
-            primary_icon = app_info.get_icon ();
-        } else if (app_icon.contains ("/")) {
-            var file = File.new_for_uri (app_icon);
-            if (file.query_exists ()) {
-                primary_icon = new FileIcon (file);
-            }
-        } else {
-            // Icon name set directly, such as by Notify.Notification
-            primary_icon = new ThemedIcon (app_icon);
-        }
+        primary_icon = find_icon ();
 
         // GLib.Notification.set_icon ()
         if ((variant = hints.lookup ("image-path")) != null || (variant = hints.lookup ("image_path")) != null) {
@@ -142,11 +131,6 @@ public class Notifications.Notification : GLib.Object {
             }
         }
 
-        // Display a generic notification icon if there is no notification image
-        if (image == null && primary_icon == null) {
-            primary_icon = new ThemedIcon ("dialog-information");
-        }
-
         // Always "" if sent by GLib.Notification
         if (app_name == "" && app_info != null) {
             app_name = app_info.get_display_name ();
@@ -160,6 +144,29 @@ public class Notifications.Notification : GLib.Object {
             body = fix_markup (body);
             summary = fix_markup (summary);
         }
+    }
+
+    private GLib.Icon find_icon () {
+        var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
+
+        // Always "" if sent by GLib.Notification
+        if (app_icon == "" && app_info != null && icon_theme.has_gicon (app_info.get_icon ())) {
+            return app_info.get_icon ();
+        }
+ 
+        if (app_icon.contains ("/")) {
+            var file = File.new_for_uri (app_icon);
+            if (file.query_exists ()) {
+                return new FileIcon (file);
+            }
+        }
+
+        // Icon name set directly, such as by Notify.Notification
+        if (app_icon != "" && icon_theme.has_icon (app_icon)) {
+            return new ThemedIcon (app_icon);
+        }
+
+        return new ThemedIcon ("application-default-icon");
     }
 
     /**
