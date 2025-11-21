@@ -153,7 +153,7 @@ public class Notifications.Notification : GLib.Object {
         if (app_icon == "" && app_info != null && icon_theme.has_gicon (app_info.get_icon ())) {
             return app_info.get_icon ();
         }
- 
+
         if (app_icon.contains ("/")) {
             var file = File.new_for_uri (app_icon);
             if (file.query_exists ()) {
