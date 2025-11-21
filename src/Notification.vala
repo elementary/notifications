@@ -30,7 +30,7 @@ public class Notifications.Notification : GLib.Object {
     public string body { get; construct set; }
     public string summary { get; construct set; }
 
-    public GLib.Icon? primary_icon { get; set; default = null; }
+    public GLib.Icon primary_icon { get; private set; }
     public GLib.Icon? badge_icon { get; set; default = null; }
     public MaskedImage? image { get; set; default = null; }
 
