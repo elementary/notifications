@@ -26,6 +26,7 @@ executable(
     'src/Confirmation.vala',
     'src/DBus.vala',
     'src/FdoActionGroup.vala',
+    'src/IdleMonitor.vala',
     'src/Notification.vala',
     'src/Widgets/MaskedImage.vala',
     css_gresource,
