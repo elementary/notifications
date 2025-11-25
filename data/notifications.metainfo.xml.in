@@ -33,6 +33,31 @@
   <update_contact>contact_at_elementary.io</update_contact>
 
   <releases>
+    <release version="8.1.2" date="2025-11-18" urgency="medium">
+      <description>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+      <issues>
+        <issue url="https://github.com/elementary/notifications/issues/279">Notification Focus Settings</issue>
+      </issues>
+    </release>
+
+    <release version="8.1.1" date="2025-11-07" urgency="medium">
+      <description>
+        <p>Minor Updates:</p>
+        <ul>
+          <li>Updated translations</li>
+        </ul>
+      </description>
+      <issues>
+        <issue url="https://github.com/elementary/notifications/issues/155">Port Notifications to GTK4</issue>
+        <issue url="https://github.com/elementary/notifications/issues/263">Notifications are using Fd.o sound theme</issue>
+      </issues>
+    </release>
+
     <release version="8.1.0" date="2025-05-21" urgency="medium">
       <description>
         <p>Minor Updates:</p>
