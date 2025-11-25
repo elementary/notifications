@@ -17,7 +17,7 @@ public class Notifications.Notification : Object {
 
     public string app_id { get; private set; default = OTHER_APP_ID; }
 
-    public GLib.Icon? primary_icon { get; set; default = null; }
+    public GLib.Icon primary_icon { get; private set; }
     public GLib.Icon? badge_icon { get; set; default = null; }
     public MaskedImage? image { get; set; default = null; }
 
@@ -66,18 +66,7 @@ public class Notifications.Notification : Object {
             }
         }
 
-        // Always "" if sent by GLib.Notification
-        if (app_icon == "" && app_info != null) {
-            primary_icon = app_info.get_icon ();
-        } else if (app_icon.contains ("/")) {
-            var file = File.new_for_uri (app_icon);
-            if (file.query_exists ()) {
-                primary_icon = new FileIcon (file);
-            }
-        } else {
-            // Icon name set directly, such as by Notify.Notification
-            primary_icon = new ThemedIcon (app_icon);
-        }
+        primary_icon = find_icon ();
 
         unowned Variant? variant = null;
 
@@ -106,11 +95,6 @@ public class Notifications.Notification : Object {
             }
         }
 
-        // Display a generic notification icon if there is no notification image
-        if (image == null && primary_icon == null) {
-            primary_icon = new ThemedIcon ("dialog-information");
-        }
-
         // Always "" if sent by GLib.Notification
         if (app_name == "" && app_info != null) {
             app_name = app_info.get_display_name ();
@@ -124,6 +108,30 @@ public class Notifications.Notification : Object {
             body = fix_markup (body);
             summary = fix_markup (summary);
         }
+    }
+
+    private GLib.Icon find_icon () {
+        var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
+
+        var gicon = app_info?.get_icon ();
+        // Always "" if sent by GLib.Notification
+        if (app_icon == "" && gicon != null && icon_theme.has_gicon (gicon)) {
+            return gicon;
+        }
+
+        if (app_icon.contains ("/")) {
+            var file = File.new_for_uri (app_icon);
+            if (file.query_exists ()) {
+                return new FileIcon (file);
+            }
+        }
+
+        // Icon name set directly, such as by Notify.Notification
+        if (app_icon != "" && icon_theme.has_icon (app_icon)) {
+            return new ThemedIcon (app_icon);
+        }
+
+        return new ThemedIcon ("application-default-icon");
     }
 
     /**
