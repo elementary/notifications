@@ -40,6 +40,10 @@
           <li>Updated translations</li>
         </ul>
       </description>
+      <issues>
+        <issue url="https://github.com/elementary/notifications/issues/279">Notification Focus Settings</issue>
+        <issue url="https://github.com/elementary/notifications/issues/284">Missing, notification banner icon</issue>
+      </issues>
     </release>
 
     <release version="8.1.1" date="2025-11-07" urgency="medium">
