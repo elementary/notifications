@@ -149,9 +149,10 @@ public class Notifications.Notification : GLib.Object {
     private GLib.Icon find_icon () {
         var icon_theme = Gtk.IconTheme.get_for_display (Gdk.Display.get_default ());
 
+        var gicon = app_info?.get_icon ();
         // Always "" if sent by GLib.Notification
-        if (app_icon == "" && app_info != null && icon_theme.has_gicon (app_info.get_icon ())) {
-            return app_info.get_icon ();
+        if (app_icon == "" && gicon != null && icon_theme.has_gicon (gicon)) {
+            return gicon;
         }
 
         if (app_icon.contains ("/")) {
