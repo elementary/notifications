@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-05 17:49+0000\n"
-"PO-Revision-Date: 2025-10-06 17:55+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-12-04 11:55+0000\n"
+"Last-Translator: lenify <lenify@tutanota.com>\n"
 "Language-Team: Belarusian <https://l10n.elementaryos.org/projects/desktop/"
 "notifications-extra/be/>\n"
 "Language: be\n"
@@ -50,14 +50,16 @@ msgstr "Абноўлены пераклады"
 
 #: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
-msgstr ""
+msgstr "Блакіроўка апавяшчэнняў GSD аб аўтаматычнай блакіроўцы"
 
 #: data/notifications.metainfo.xml.in:77
 msgid ""
 "Increase sound and brightness notifications width to match other "
 "notifications"
 msgstr ""
+"Павелічэнне шырыні для апавяшчэнняў гуку і яркасці да памеру іншых "
+"апавяшчэнняў"
 
 #: data/notifications.metainfo.xml.in:103
 msgid "Fix missing icon when set from icon name"
-msgstr ""
+msgstr "Выпраўленне значка, які адсутнічаў пры выстаўленні з назвы"
