@@ -1,17 +1,10 @@
 /*
- * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2019-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 [DBus (name = "org.freedesktop.Notifications")]
 public class Notifications.Server : Object {
-    public enum CloseReason {
-        EXPIRED = 1,
-        DISMISSED = 2,
-        CLOSE_NOTIFICATION_CALL = 3,
-        UNDEFINED = 4
-    }
-
     public signal void action_invoked (uint32 id, string action_key);
     public signal void notification_closed (uint32 id, uint32 reason);
 
@@ -25,13 +18,10 @@ public class Notifications.Server : Object {
     private Gee.Map<uint32, Bubble?> bubbles;
     private Confirmation? confirmation;
 
-    private Settings settings;
-
     private uint action_group_id;
     private uint server_id;
 
     public Server (DBusConnection connection) throws Error {
-        settings = new Settings ("io.elementary.notifications");
         bubbles = new Gee.HashMap<uint32, Bubble?> ();
         action_group = new Fdo.ActionGroup (this);
 
@@ -84,7 +74,6 @@ public class Notifications.Server : Object {
         out string version,
         out string spec_version
     ) throws DBusError, IOError {
-
         name = "io.elementary.notifications";
         vendor = "elementaryOS";
         version = "0.1";
@@ -120,8 +109,34 @@ public class Notifications.Server : Object {
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
             send_confirmation (app_icon, hints);
         } else {
-            var notification = new Notification (app_name, app_icon, summary, body, hints);
-            notification.buttons = new GenericArray<Notification.Button?> (actions.length / 2);
+            DesktopAppInfo? app_info = null;
+            if ("desktop-entry" in hints && hints["desktop-entry"].is_of_type (VariantType.STRING)) {
+                app_info = new DesktopAppInfo ("%s.desktop".printf (hints["desktop-entry"].get_string ()));
+            }
+
+            var notification = new Notification (app_name, app_icon, summary, body, app_info, hints) {
+                buttons = new GenericArray<Notification.Button?> (actions.length / 2)
+            };
+
+            // GLib.Notification.set_priority ()
+            // convert between freedesktop urgency levels and GLib.NotificationPriority levels
+            // See: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#urgency-levels
+            if ("urgency" in hints && hints["urgency"].is_of_type (VariantType.BYTE)) {
+                switch (hints["urgency"].get_byte ()) {
+                    case 0:
+                        notification.priority = LOW;
+                        break;
+                    case 1:
+                        notification.priority = NORMAL;
+                        break;
+                    case 2:
+                        notification.priority = URGENT;
+                        break;
+                    default:
+                        warning ("unknown urgency value: %i, ignoring", hints["urgency"].get_byte ());
+                        break;
+                }
+            }
 
             // validate actions
             for (var i = 0; i < actions.length; i += 2) {
@@ -144,10 +159,10 @@ public class Notifications.Server : Object {
                 notification.buttons.add ({ label, action_name });
             }
 
-            if (!settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
+            if (!Application.settings.get_boolean ("do-not-disturb") || notification.priority == GLib.NotificationPriority.URGENT) {
                 var app_settings = new Settings.with_path (
                     "io.elementary.notifications.applications",
-                    settings.path.concat ("applications", "/", notification.app_id, "/")
+                    Application.settings.path.concat ("applications", "/", notification.app_id, "/")
                 );
 
                 if (app_settings.get_boolean ("bubbles")) {
@@ -178,7 +193,7 @@ public class Notifications.Server : Object {
                         sound = category_to_sound_name (hints["category"].get_string ());
                     }
 
-                    send_sound (sound);
+                    Application.play_sound (sound);
                 }
             }
         }
@@ -199,7 +214,7 @@ public class Notifications.Server : Object {
         // consistency it should. So we make it emit the default one.
         var confirmation_type = hints.lookup (X_CANONICAL_PRIVATE_SYNCHRONOUS).get_string ();
         if (confirmation_type == "indicator-sound") {
-            send_sound ("audio-volume-change");
+            Application.play_sound ("audio-volume-change");
         }
 
         if (confirmation == null) {
@@ -217,20 +232,6 @@ public class Notifications.Server : Object {
         }
 
         confirmation.present ();
-    }
-
-    private void send_sound (string sound_name) {
-        if (sound_name == "") {
-            return;
-        }
-
-        Canberra.Proplist props;
-        Canberra.Proplist.create (out props);
-
-        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
-        props.sets (Canberra.PROP_EVENT_ID, sound_name);
-
-        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     static unowned string category_to_sound_name (string category) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+ * Copyright 2019-2025 elementary, Inc. (https://elementary.io)
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -23,6 +23,17 @@ public class Notifications.Bubble : AbstractBubble {
 
             content_area.add_child (contents);
             content_area.visible_child = contents;
+
+            map.connect (() => {
+                ((Gtk.Window) get_root ()).announce (
+                    /// TRANSLATORS: first argument is an app name, the second and third arguments are notification summary and body
+                    _("Notification from %s: %s %s").printf (
+                        notification.app_name,
+                        notification.summary,
+                        notification.body
+                    ), HIGH
+                );
+            });
         }
     }
 
@@ -56,7 +67,7 @@ public class Notifications.Bubble : AbstractBubble {
             notification.app_info.launch_uris_async.begin (null, null, null, (obj, res) => {
                 try {
                     ((AppInfo) obj).launch_uris_async.end (res);
-                    closed (Server.CloseReason.UNDEFINED);
+                    closed (CloseReason.UNDEFINED);
                 } catch (Error e) {
                     warning ("Unable to launch app: %s", e.message);
                 }
@@ -74,9 +85,7 @@ public class Notifications.Bubble : AbstractBubble {
         }
 
         construct {
-            var app_image = new Gtk.Image () {
-                gicon = notification.primary_icon
-            };
+            var app_image = new Gtk.Image.from_gicon (notification.primary_icon);
 
             var image_overlay = new Gtk.Overlay ();
             image_overlay.valign = Gtk.Align.START;

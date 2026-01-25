@@ -1,5 +1,5 @@
 /*
-* Copyright 2019-2023 elementary, Inc. (https://elementary.io)
+* Copyright 2019-2025 elementary, Inc. (https://elementary.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -19,8 +19,7 @@
 */
 
 public class Notifications.Application : Gtk.Application {
-    private static Granite.Settings granite_settings;
-    private static Gtk.Settings gtk_settings;
+    public static Settings settings = new Settings ("io.elementary.notifications");
 
     public Application () {
         Object (
@@ -33,7 +32,7 @@ public class Notifications.Application : Gtk.Application {
         try {
             new Notifications.Server (connection);
         } catch (Error e) {
-            Error.prefix_literal (out e, "Registring notification server failed: ");
+            Error.prefix_literal (out e, "Registering notification server failed: ");
             throw e;
         }
 
@@ -44,13 +43,6 @@ public class Notifications.Application : Gtk.Application {
         base.startup ();
 
         Granite.init ();
-
-        granite_settings = Granite.Settings.get_default ();
-        gtk_settings = Gtk.Settings.get_default ();
-        gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-        granite_settings.notify["prefers-color-scheme"].connect (() => {
-            gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
-        });
 
         unowned var context = CanberraGtk4.context_get ();
         context.change_props (
@@ -72,10 +64,20 @@ public class Notifications.Application : Gtk.Application {
             dbus_flags,
             () => hold (),
             (conn, name) => {
-                critical ("Could not aquire bus: %s", name);
+                critical ("Could not acquire bus: %s", name);
                 name_lost ();
             }
         );
+    }
+
+    public static void play_sound (string sound_name) {
+        Canberra.Proplist props;
+        Canberra.Proplist.create (out props);
+
+        props.sets (Canberra.PROP_CANBERRA_CACHE_CONTROL, "volatile");
+        props.sets (Canberra.PROP_EVENT_ID, sound_name);
+
+        CanberraGtk4.context_get ().play_full (0, props);
     }
 
     public static int main (string[] args) {
