@@ -101,6 +101,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
         add_css_class ("notification");
         // Prevent stealing focus when an app window is closed
         can_focus = false;
+        focusable = false;
         set_titlebar (new Gtk.Grid ());
 
         carousel.page_changed.connect (on_page_changed);
@@ -110,6 +111,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
         motion_controller.enter.connect (pointer_enter);
         motion_controller.leave.connect (pointer_leave);
         carousel.add_controller (motion_controller);
+
+        accessible_role = ALERT;
 
         child.realize.connect (() => {
             if (Gdk.Display.get_default () is Gdk.Wayland.Display) {
@@ -162,7 +165,12 @@ public class Notifications.AbstractBubble : Gtk.Window {
             timeout_id = 0;
         }
 
-        base.present ();
+        if (Gdk.Display.get_default () is Gdk.X11.Display) {
+            // Avoid present on X11 because it focuses the window 
+            base.show ();
+        } else {
+            base.present ();
+        }
 
         if (timeout != 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);
@@ -218,10 +226,12 @@ public class Notifications.AbstractBubble : Gtk.Window {
     private void x11_make_notification () {
         unowned var display = Gdk.Display.get_default ();
         if (display is Gdk.X11.Display) {
+            unowned var x11_surface = (Gdk.X11.Surface) get_surface ();
+            var window = (x11_surface).get_xid ();
+            x11_surface.set_skip_pager_hint (true);
+            x11_surface.set_skip_taskbar_hint (true);
+
             unowned var xdisplay = ((Gdk.X11.Display) display).get_xdisplay ();
-
-            var window = ((Gdk.X11.Surface) get_surface ()).get_xid ();
-
             var atom = xdisplay.intern_atom ("_NET_WM_WINDOW_TYPE", false);
             var notification_atom = xdisplay.intern_atom ("_NET_WM_WINDOW_TYPE_NOTIFICATION", false);
 
