@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: extra\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-05 17:49+0000\n"
-"PO-Revision-Date: 2025-10-06 17:55+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-04 02:32+0000\n"
+"Last-Translator: Buni <ben.gordon@posteo.de>\n"
 "Language-Team: Scots <https://l10n.elementaryos.org/projects/desktop/"
 "notifications-extra/sco/>\n"
 "Language: sco\n"
@@ -45,7 +45,7 @@ msgstr ""
 #: data/notifications.metainfo.xml.in:65 data/notifications.metainfo.xml.in:80
 #: data/notifications.metainfo.xml.in:94 data/notifications.metainfo.xml.in:104
 msgid "Updated translations"
-msgstr "Rewerkt translaitions"
+msgstr "Rewrocht translaitions"
 
 #: data/notifications.metainfo.xml.in:62
 msgid "Block GSD \"Automatic Suspend\" notifications"
