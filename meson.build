@@ -22,6 +22,7 @@ executable(
     'src/AbstractBubble.vala',
     'src/Application.vala',
     'src/Bubble.vala',
+    'src/ButtonsContainer.vala',
     'src/CanberraGtk4.vala',
     'src/Confirmation.vala',
     'src/DBus.vala',
