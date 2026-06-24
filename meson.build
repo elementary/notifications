@@ -27,6 +27,7 @@ executable(
     'src/DBus.vala',
     'src/FdoActionGroup.vala',
     'src/Notification.vala',
+    'src/PortalProxy.vala',
     'src/Widgets/MaskedImage.vala',
     css_gresource,
     dependencies: [
