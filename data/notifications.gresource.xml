@@ -3,4 +3,21 @@
   <gresource prefix="/io/elementary/notifications">
     <file alias="Application.css" compressed="true">application.css</file>
   </gresource>
+  <gresource prefix="/io/elementary/notifications/icons">
+    <file alias="48x48/status/audio-input-microphone-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/microphone.svg</file>
+    <file alias="48x48/status/microphone-sensitivity-muted-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/muted.svg</file>
+
+    <file alias="48x48@2/status/audio-input-microphone-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/microphone.svg</file>
+    <file alias="48x48@2/status/microphone-sensitivity-muted-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/muted.svg</file>
+
+    <file alias="48x48/status/audio-volume-high-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-high-symbolic.svg</file>
+    <file alias="48x48/status/audio-volume-low-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-high-symbolic.svg</file>
+    <file alias="48x48/status/audio-volume-medium-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-high-symbolic.svg</file>
+    <file alias="48x48/status/audio-volume-muted-blocking-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-muted-blocking-symbolic.svg</file>
+
+    <file alias="48x48@2/status/audio-volume-high-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-high-symbolic.svg</file>
+    <file alias="48x48@2/status/audio-volume-low-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-high-symbolic.svg</file>
+    <file alias="48x48@2/status/audio-volume-medium-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-high-symbolic.svg</file>
+    <file alias="48x48@2/status/audio-volume-muted-blocking-symbolic.svg" compressed="true" preprocess="xml-stripblanks">icons/audio-volume-muted-blocking-symbolic.svg</file>
+  </gresource>
 </gresources>
