@@ -1,0 +1,47 @@
+<svg
+        xmlns='http://www.w3.org/2000/svg'
+        xmlns:svg='http://www.w3.org/2000/svg'
+        id='svg6'
+        width='48'
+        height='48'>
+  <path
+          id='path947-3'
+          opacity='1'
+          fill='url(#gpa:foreground) rgb(0,0,0)'
+          fill-opacity='0.5'
+          fill-rule='nonzero'
+          stroke='none'
+          stroke-opacity='1'
+          stroke-width='0.992'
+          stroke-linecap='square'
+          stroke-linejoin='miter'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          stroke-dashoffset='0'
+          marker-start='none'
+          marker-mid='none'
+          marker-end='none'
+          d='M 26.5 13 C 26.0635 13, 25.6721 13.1848, 25.3984 13.4805 L 19 19 L 18.4141 19 L 28 28.5859 L 28 14.5 C 28 13.669, 27.331 13, 26.5 13 Z M 15.5 19 C 14.669 19, 14 19.669, 14 20.5 L 14 27.5 C 14 28.331, 14.669 29, 15.5 29 L 19 29 L 25.4082 34.5293 C 25.6814 34.8191, 26.0685 35, 26.5 35 C 27.331 35, 28 34.331, 28 33.5 L 28 31.4141 L 15.5859 19 L 15.5 19 Z'
+          class='foreground foreground-fill'>
+  </path>
+  <path
+          id='path2'
+          opacity='1'
+          fill='url(#gpa:foreground) rgb(0,0,0)'
+          fill-opacity='1'
+          fill-rule='nonzero'
+          stroke='none'
+          stroke-opacity='1'
+          stroke-width='0.992'
+          stroke-linecap='square'
+          stroke-linejoin='miter'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          stroke-dashoffset='0'
+          marker-start='none'
+          marker-mid='none'
+          marker-end='none'
+          d='M 13.0391 11.625 C 12.8432 11.4291, 12.5279 11.4291, 12.332 11.625 L 11.625 12.332 C 11.4291 12.5279, 11.4291 12.8432, 11.625 13.0391 L 34.9609 36.375 C 35.1568 36.5709, 35.4721 36.5709, 35.668 36.375 L 36.375 35.668 C 36.5709 35.4721, 36.5709 35.1568, 36.375 34.9609 Z'
+          class='foreground foreground-fill'>
+  </path>
+</svg>

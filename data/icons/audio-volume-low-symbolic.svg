@@ -1,0 +1,23 @@
+<svg
+        xmlns='http://www.w3.org/2000/svg'
+        xmlns:svg='http://www.w3.org/2000/svg'
+        id='svg6'
+        width='48'
+        height='48'>
+  <path
+          id='path947-3'
+          fill='url(#gpa:foreground) rgb(0,0,0)'
+          fill-opacity='1'
+          fill-rule='nonzero'
+          stroke='none'
+          stroke-opacity='1'
+          stroke-width='4'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          stroke-dashoffset='0'
+          d='M 25.5 13 C 25.0635 13, 24.6721 13.1848, 24.3984 13.4805 L 18 19 L 14.5 19 C 13.669 19, 13 19.669, 13 20.5 L 13 27.5 C 13 28.331, 13.669 29, 14.5 29 L 18 29 L 24.4082 34.5293 C 24.6814 34.8191, 25.0685 35, 25.5 35 C 26.331 35, 27 34.331, 27 33.5 L 27 14.5 C 27 13.669, 26.331 13, 25.5 13 Z M 31.6641 16 A 1.5 1.5 0 0 0 30.1641 17.5 A 1.5 1.5 0 0 0 30.332 18.1797 L 30.3242 18.1836 A 10.9917 10.9917 0 0 1 31.9922 24 A 10.9917 10.9917 0 0 1 30.3242 29.8164 L 30.332 29.8203 A 1.5 1.5 0 0 0 30.1641 30.5 A 1.5 1.5 0 0 0 31.6641 32 A 1.5 1.5 0 0 0 32.8672 31.4023 L 32.8789 31.4101 A 14 14 0 0 0 35 24 A 14 14 0 0 0 32.8789 16.5898 L 32.8672 16.5976 A 1.5 1.5 0 0 0 31.6641 16 Z'
+          class='foreground foreground-fill'>
+  </path>
+</svg>

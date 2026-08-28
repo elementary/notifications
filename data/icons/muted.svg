@@ -1,0 +1,46 @@
+<svg
+        xmlns='http://www.w3.org/2000/svg'
+        xmlns:svg='http://www.w3.org/2000/svg'
+        id='svg136'
+        width='48'
+        height='48'>
+  <path
+          id='path132'
+          opacity='1'
+          fill='url(#gpa:foreground) rgb(0,0,0)'
+          fill-opacity='0.5'
+          fill-rule='nonzero'
+          stroke='none'
+          stroke-opacity='1'
+          stroke-width='0.992'
+          stroke-linecap='square'
+          stroke-linejoin='miter'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          stroke-dashoffset='0'
+          marker-start='none'
+          marker-mid='none'
+          marker-end='none'
+          d='M 24 8 C 21.23 8, 19 10.1987, 19 12.9297 L 19 19.5859 L 28.1855 28.7715 C 28.6993 27.9969, 29 27.0706, 29 26.0723 L 29 12.9297 C 29 10.1997, 26.77 8.00195, 24 8.00195 L 24 8 Z M 13 19 L 13 21 L 15 21 L 15 26 C 15 30.295, 17.988 33.842, 22 34.75 L 22 38 L 20 38 L 20 40 L 28 40 L 28 38 L 26 38 L 26 34.75 C 27.3421 34.4462, 28.5641 33.8412, 29.6035 33.0176 L 28.1914 31.6055 C 27.0237 32.4785, 25.5767 33, 24 33 C 20.122 33, 17 29.879, 17 26 L 17 20.4141 L 15.5859 19 L 13 19 Z M 31 19 L 31 26 C 31 27.5768, 30.4783 29.0238, 29.6055 30.1914 L 31.0273 31.6133 C 32.2611 30.0807, 33 28.1334, 33 26 L 33 21 L 35 21 L 35 19 L 31 19 Z M 19 22.4141 L 19 26.0723 C 19 28.8023, 21.23 31.002, 24 31.002 C 25.0255 31.002, 25.9759 30.6996, 26.7676 30.1816 L 19 22.4141 Z'
+          class='foreground foreground-fill'>
+  </path>
+  <path
+          id='path2'
+          fill='url(#gpa:foreground) rgb(0,0,0)'
+          fill-opacity='1'
+          fill-rule='nonzero'
+          stroke='none'
+          stroke-opacity='1'
+          stroke-width='0.992'
+          stroke-linecap='square'
+          stroke-linejoin='miter'
+          stroke-miterlimit='4'
+          stroke-dasharray='none'
+          stroke-dashoffset='0'
+          marker-start='none'
+          marker-mid='none'
+          marker-end='none'
+          d='M 13.0391 11.625 C 12.8432 11.4291, 12.5279 11.4291, 12.332 11.625 L 11.625 12.332 C 11.4291 12.5279, 11.4291 12.8432, 11.625 13.0391 L 34.9609 36.375 C 35.1568 36.5709, 35.4721 36.5709, 35.668 36.375 L 36.375 35.668 C 36.5709 35.4721, 36.5709 35.1568, 36.375 34.9609 Z'
+          class='foreground foreground-fill'>
+  </path>
+</svg>
