@@ -1,3 +1,18 @@
+icon_sizes = ['32', '48']
+
+foreach i : icon_sizes
+    install_data(
+        join_paths('icons', 'app', i + '.svg'),
+        install_dir: join_paths(get_option('datadir'), 'icons', 'hicolor', i + 'x' + i, 'apps'),
+        rename: meson.project_name() + '.svg'
+    )
+    install_data(
+        join_paths('icons', 'app', i + '.svg'),
+        install_dir: join_paths(get_option('datadir'), 'icons', 'hicolor', i + 'x' + i + '@2', 'apps'),
+        rename: meson.project_name() + '.svg'
+    )
+endforeach
+
 install_data(
     'notifications.gschema.xml',
     rename: meson.project_name() + '.gschema.xml',

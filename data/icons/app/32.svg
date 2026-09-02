@@ -4,12 +4,34 @@
    height="32"
    width="32"
    version="1.1"
+   sodipodi:docname="32.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="16"
+     inkscape:cx="16.59375"
+     inkscape:cy="18"
+     inkscape:window-width="2560"
+     inkscape:window-height="1373"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4715" />
   <defs
      id="defs4717">
     <linearGradient
@@ -81,15 +103,15 @@
       <stop
          id="stop898"
          offset="0"
-         style="stop-color:#b6802e;stop-opacity:1" />
+         style="stop-color:#d48e15;stop-opacity:1" />
       <stop
-         style="stop-color:#804b00;stop-opacity:1"
+         style="stop-color:#ad5f00;stop-opacity:1"
          offset="0.66741091"
          id="stop1634" />
       <stop
          id="stop900"
          offset="1"
-         style="stop-color:#3d211b;stop-opacity:1" />
+         style="stop-color:#804b00;stop-opacity:1" />
     </linearGradient>
     <linearGradient
        id="linearGradient4011-2-96">
@@ -234,7 +256,8 @@
   <path
      id="path68-1-6-5"
      style="opacity:0.6;vector-effect:none;fill:none;fill-opacity:1;stroke:url(#linearGradient1418-2);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal"
-     d="M 15.528322,4.5076349 C 12.741696,4.6302599 9.68155,5.609242 8.084962,8.0486505 7.229582,9.3821988 7.599461,11.025019 7.288835,12.504686 6.966762,15.103253 6.490064,17.742418 5.158543,20.037476 4.9850926,20.403372 4.2881869,21.403633 4.5802881,21.116068 6.0809355,19.638727 9.6244857,18.59375 16,18.5 c 6.375514,-0.09375 9.71893,1.298602 11.16128,2.131343 0.528118,0.304909 -0.60072,-1.06146 -0.829442,-1.620033 C 24.930719,16.021601 24.636554,12.666438 24.441582,9.415198 23.941487,7.0257383 21.586635,5.6102865 19.401369,4.9705255 18.146254,4.6069852 16.832987,4.4638913 15.528322,4.5076349 Z" />
+     d="M 15.528322,4.5076349 C 12.741696,4.6302599 9.68155,5.609242 8.084962,8.0486505 7.229582,9.3821988 7.599461,11.025019 7.288835,12.504686 6.966762,15.103253 6.490064,17.742418 5.158543,20.037476 4.9850926,20.403372 4.2881869,21.403633 4.5802881,21.116068 6.0809355,19.638727 9.6244857,18.59375 16,18.5 c 6.375514,-0.09375 9.68768,1.470477 11.22378,2.225093 0,0 -0.66322,-1.15521 -0.891942,-1.713783 C 24.930719,16.021601 24.636554,12.666438 24.441582,9.415198 23.941487,7.0257383 21.586635,5.6102865 19.401369,4.9705255 18.146254,4.6069852 16.832987,4.4638913 15.528322,4.5076349 Z"
+     sodipodi:nodetypes="ccccssscccc" />
   <ellipse
      ry="5.5"
      rx="13.5"
@@ -253,7 +276,7 @@
   <path
      id="path66-3-1-6"
      d="m 11.562602,20.398132 c 0,2.268583 1.986691,4.107634 4.437398,4.107634 2.450707,0 4.437398,-1.839051 4.437398,-4.107634"
-     style="opacity:0.5;vector-effect:none;fill:none;fill-opacity:1;stroke:#57392d;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal" />
+     style="opacity:0.3;vector-effect:none;fill:none;fill-opacity:1;stroke:#804b00;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal" />
   <path
      id="path68-6-5-4-2"
      d="M 11.724354,20.449221 C 6.790834,21.116462 3.5053,22.858038 3.5,24.808737 3.5,27.37374 9.09644,29.453083 15.999999,29.453083 22.90356,29.453083 28.5,27.37374 28.5,24.808737 28.4929,22.858905 25.208773,21.118311 20.277768,20.451036"

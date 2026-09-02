@@ -131,7 +131,7 @@ public class Notifications.Notification : Object {
             return new ThemedIcon (app_icon);
         }
 
-        return new ThemedIcon ("application-default-icon");
+        return new ThemedIcon ("io.elementary.notifications");
     }
 
     /**

@@ -12,7 +12,6 @@
   <description>
     <p>A notification server for Pantheon</p>
   </description>
-  <icon type="stock">preferences-system-notifications</icon>
 
   <content_rating type="oars-1.1" />
 

@@ -2,6 +2,6 @@
 Name=Notifications Demo
 Comment=A demo to test the notification server
 Exec=io.elementary.notifications.demo
-Icon=preferences-system-notifications
+Icon=io.elementary.notifications
 Type=Application
 NoDisplay=true
