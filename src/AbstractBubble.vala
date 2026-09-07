@@ -37,6 +37,8 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
     protected Gtk.Stack content_area;
 
+    private Adw.TimedAnimation fade;
+    private Adw.TimedAnimation reveal;
     private static Settings? transparency_settings;
 
     private Gtk.Revealer close_revealer;
@@ -128,6 +130,35 @@ public class Notifications.AbstractBubble : Gtk.Window {
 
         transparency_settings.changed["use-transparency"].connect (update_transparency);
         update_transparency ();
+
+        fade = new Adw.TimedAnimation (
+            this, 0, 1,
+            Granite.TRANSITION_DURATION_OPEN,
+            new Adw.PropertyAnimationTarget (this, "opacity")
+        ) {
+            easing = EASE_IN_OUT_QUAD
+        };
+
+        var reveal_target = new Adw.CallbackAnimationTarget ((val) => {
+            var height = get_height ();
+            var width = get_width ();
+
+            var end_x = (float) (width - (val * width));
+            var center_y = (float) (height - (val * height)) / 2;
+
+            overlay.allocate (
+                width, height, -1,
+                new Gsk.Transform ().translate (Graphene.Point ().init (end_x, center_y))
+            );
+        });
+
+        reveal = new Adw.TimedAnimation (
+            this, 0.9, 1,
+            Granite.TRANSITION_DURATION_OPEN * 3,
+            reveal_target
+        ) {
+            easing = EASE_OUT_ELASTIC
+        };
     }
 
     private void update_transparency () requires (transparency_settings != null) {
@@ -171,6 +202,13 @@ public class Notifications.AbstractBubble : Gtk.Window {
         } else {
             base.present ();
         }
+
+        fade.skip ();
+        reveal.skip ();
+        // Avoid a stutter at the beginning
+        opacity = 0;
+        fade.play ();
+        reveal.play ();
 
         if (timeout != 0) {
             timeout_id = Timeout.add (timeout, timeout_expired);
