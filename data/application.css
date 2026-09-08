@@ -12,7 +12,7 @@ window,
     border-radius: 100%;
     background: var(--BLACK_500);
     box-shadow:
-        inset 0 0 0 1px color-mix(in srgb, white 20%, transparent),
+        inset 0 0 0 1px color-mix(in srgb, white 2%, transparent),
         inset 0 1px 0 0 color-mix(in srgb, white 7%, transparent),
         inset 0 -1px 0 0 color-mix(in srgb, white 01%, transparent),
         0 0 0 1px color-mix(in srgb, black 7%, transparent),
@@ -49,6 +49,14 @@ window,
         0 1px 3px color-mix(in srgb, black 20%, transparent),
         0 3px 9px color-mix(in srgb, black 30%, transparent);
     margin: 16px;
+}
+
+.notification .draw-area label.title {
+    font-weight: 700;
+}
+
+.notification .draw-area label.title image {
+    color: color-mix(in srgb, var(--fg-color) 78%, transparent);
 }
 
 .notification.reduce-transparency .draw-area {
