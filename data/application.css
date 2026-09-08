@@ -6,7 +6,7 @@ window,
     padding: 0;
 }
 
-.close {
+button.osd {
    border-radius: 100%;
    background: @BLACK_500;
    box-shadow:
