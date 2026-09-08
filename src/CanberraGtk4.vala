@@ -36,15 +36,6 @@ namespace CanberraGtk4 {
         }
 
         unowned var display = Gdk.Display.get_default ();
-        if (display is Gdk.X11.Display) {
-            unowned var display_name = display.get_name ();
-            if (display_name != null) {
-                proplist.sets (Canberra.PROP_WINDOW_X11_SCREEN, display_name);
-            }
-
-            var screen = "%i".printf (((Gdk.X11.Display) display).get_screen ().get_screen_number ());
-            proplist.sets (Canberra.PROP_WINDOW_X11_SCREEN, screen);
-        }
 
         context.change_props_full (proplist);
 

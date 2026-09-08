@@ -37,8 +37,6 @@ executable(
         dependency ('granite-7', version: '>=7.7.0'),
         dependency ('gtk4'),
         dependency('gtk4-wayland'),
-        dependency('gtk4-x11'),
-        dependency ('gtk4-x11'),
         dependency ('libadwaita-1'),
         dependency('wayland-client'),
         pantheon_desktop_shell_dep
