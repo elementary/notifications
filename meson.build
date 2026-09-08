@@ -35,7 +35,7 @@ executable(
         dependency ('gobject-2.0'),
         dependency ('gio-2.0'),
         dependency ('granite-7', version: '>=7.7.0'),
-        dependency ('gtk4'),
+        dependency ('gtk4', version: '>=4.20'),
         dependency('gtk4-wayland'),
         dependency('gtk4-x11'),
         dependency ('gtk4-x11'),
