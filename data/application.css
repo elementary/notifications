@@ -51,6 +51,14 @@ window,
     margin: 16px;
 }
 
+.notification .draw-area label.title {
+    font-weight: 700;
+}
+
+.notification .draw-area label.title image {
+    color: color-mix(in srgb, var(@fg_color) 78%, transparent);
+}
+
 .notification.reduce-transparency .draw-area {
     margin: 16px;
     background: @base_color;
