@@ -6,9 +6,7 @@ window,
     padding: 0;
 }
 
-.close {
-    padding: 3px;
-    border: none;
+button.osd {
     border-radius: 100%;
     background: @BLACK_500;
     box-shadow:
@@ -19,12 +17,8 @@ window,
         0 1px 2px color-mix(in srgb, black 16%, transparent),
         0 2px 3px color-mix(in srgb, black 23%, transparent);
     margin: 3px;
-    -gtk-icon-size: 24px;
-}
-
-.close image {
-    color: #fff;
     -gtk-icon-shadow: 0 1px 1px color-mix(in srgb, black 6%, transparent);
+    -gtk-icon-size: 24px;
 }
 
 .notification stack > box,
