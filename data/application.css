@@ -6,25 +6,19 @@ window,
     padding: 0;
 }
 
-.close {
-    padding: 3px;
-    border: none;
+button.osd {
     border-radius: 100%;
     background: var(--BLACK_500);
     box-shadow:
         inset 0 0 0 1px color-mix(in srgb, white 2%, transparent),
         inset 0 1px 0 0 color-mix(in srgb, white 7%, transparent),
-        inset 0 -1px 0 0 color-mix(in srgb, white 01%, transparent),
+        inset 0 -1px 0 0 color-mix(in srgb, white 1%, transparent),
         0 0 0 1px color-mix(in srgb, black 7%, transparent),
         0 1px 2px color-mix(in srgb, black 16%, transparent),
         0 2px 3px color-mix(in srgb, black 23%, transparent);
     margin: 3px;
+    -gtk-icon-shadow: 0 1px 1px color-mix(in srgb, black 6%, transparent);
     -gtk-icon-size: 24px;
-}
-
-.close image {
-    color: #fff;
-    -gtk-icon-shadow: 0 1px 1px alpha(black, 0.6);
 }
 
 .notification stack > box,
