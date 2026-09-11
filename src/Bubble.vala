@@ -15,9 +15,7 @@ public class Notifications.Bubble : AbstractBubble {
 
             var contents = new Contents (value);
 
-            if (value.priority == URGENT) {
-                contents.add_css_class ("urgent");
-            } else {
+            if (value.priority != URGENT) {
                 timeout = 4000;
             }
 
@@ -161,6 +159,11 @@ public class Notifications.Bubble : AbstractBubble {
                 }
 
                 attach (action_area, 0, 2, 2);
+            }
+
+            if (notification.priority == URGENT) {
+                add_css_class ("urgent");
+                title_label.add_css_class (Granite.CssClass.ERROR);
             }
         }
     }

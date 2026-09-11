@@ -72,7 +72,7 @@ public class Notifications.AbstractBubble : Gtk.Window {
             halign = Gtk.Align.START,
             valign = Gtk.Align.START
         };
-        close_button.add_css_class ("close");
+        close_button.add_css_class (Granite.STYLE_CLASS_OSD);
 
         close_revealer = new Gtk.Revealer () {
             reveal_child = false,
