@@ -146,7 +146,7 @@ public class Notifications.Bubble : AbstractBubble {
             attach (body_label, 1, 1);
 
             if (notification.buttons.length > 0) {
-                var action_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                var action_area = new Granite.Box (HORIZONTAL, HALF) {
                     halign = Gtk.Align.END,
                     homogeneous = true
                 };
