@@ -31,6 +31,7 @@ public class Notifications.Application : Gtk.Application {
     protected override bool dbus_register (DBusConnection connection, string object_path) throws Error {
         try {
             new Notifications.Server (connection);
+            new Notifications.PortalProxy (connection);
         } catch (Error e) {
             Error.prefix_literal (out e, "Registering notification server failed: ");
             throw e;
@@ -61,6 +62,17 @@ public class Notifications.Application : Gtk.Application {
         Bus.own_name_on_connection (
             get_dbus_connection (),
             "org.freedesktop.Notifications",
+            dbus_flags,
+            () => hold (),
+            (conn, name) => {
+                critical ("Could not acquire bus: %s", name);
+                name_lost ();
+            }
+        );
+
+        Bus.own_name_on_connection (
+            get_dbus_connection (),
+            "io.elementary.notifications.PortalProxy",
             dbus_flags,
             () => hold (),
             (conn, name) => {
