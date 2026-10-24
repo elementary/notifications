@@ -107,6 +107,10 @@ public class Notifications.Server : Object {
         var id = (replaces_id != 0 ? replaces_id : ++id_counter);
 
         if (hints.contains (X_CANONICAL_PRIVATE_SYNCHRONOUS)) {
+            if (app_icon == "") {
+                app_icon = summary;
+            }
+
             send_confirmation (app_icon, hints);
         } else {
             DesktopAppInfo? app_info = null;
