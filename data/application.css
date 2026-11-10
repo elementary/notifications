@@ -49,8 +49,9 @@ button.osd {
     font-weight: 700;
 }
 
-.notification .draw-area label.title image {
-    color: color-mix(in srgb, var(@fg_color) 78%, transparent);
+.notification .draw-area image {
+    color: color-mix(in srgb, @fg_color 80%, @base_color);
+    -gtk-icon-size: 48px;
 }
 
 .notification.reduce-transparency .draw-area {
@@ -60,6 +61,14 @@ button.osd {
 
 .notification:not(.confirmation) .draw-area image {
     -gtk-icon-style: regular;
+}
+
+.notification.confirmation .draw-area image {
+    -gtk-icon-style: symbolic;
+}
+
+.notification.confirmation .draw-area symbol {
+    -gtk-icon-weight: 400;
 }
 
 .notification .buttonbox {

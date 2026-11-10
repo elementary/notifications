@@ -28,6 +28,7 @@ executable(
     'src/FdoActionGroup.vala',
     'src/Notification.vala',
     'src/Widgets/MaskedImage.vala',
+    'src/Widgets/Symbol.vala',
     css_gresource,
     dependencies: [
         dependency ('libcanberra'),
