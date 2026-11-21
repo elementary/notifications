@@ -68,6 +68,8 @@ public class Notifications.Application : Gtk.Application {
                 name_lost ();
             }
         );
+
+        IdleMonitor.get_default (); // Start listening to MutterIdleMonitor
     }
 
     public static void play_sound (string sound_name) {
